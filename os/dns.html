@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DNS--域名系统</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<h2><img src="../../pic/it/os/dns.png" alt="" width="40" height="50">&nbsp;&nbsp;Domain Name System</h2>
+	<p>DNS协议在设计之初是以明文形式传输，支持TCP和UDP两种传输协议，并且在实际使用过程中主要以传输协议主要以UDP为主。</p>
+	<hr>
+
+	<tabel>
+		<tr>
+			<th>域名</th>
+			<th>详细说明</th>
+		</tr>
+		<tr>
+			<td>顶级(二级)域名</td>
+			<td>
+				<ul>
+					<li>gov 政府</li>
+					<li>com 公司</li>
+					<li>org 组织</li>
+				</ul>
+			</td>
+		</tr>
+	</tabel>
+
+	<h3>第一章 DNS服务器</h3>
+	<p>域名与IP地址之间的解析</p>
+
+	<ul>概念
+		<li>FQDN完整主机名：Fully Qualified Domain Name</li>
+		<li>.根节点服务器</li>
+		<li></li>
+	</ul>
+
+	<h4>&sect;1.1 named.conf配置文件</h4>
+
+	<p>备注：<br>
+	DNS端口--53</p>
+
+	<table>
+		<tr>
+			<th>记录分类</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>A记录</td>
+			<td>IP地址</td>
+		</tr>
+		<tr>
+			<td>CNAME</td>
+			<td>多个域名解析同一个IP的记录</td>
+		</tr>
+		<tr>
+			<td>NS</td>
+			<td>用来指定该域名由哪个DNS服务器来进行解析</td>
+		</tr>
+		<tr>
+			<td>MX</td>
+			<td>针对邮件服务</td>
+		</tr>
+	</table>
+
+
+	<p>附录：</p>
+	<h4>动态域名解析-<a href="https://hsk.oray.com/">花生壳</a></h4>
+	<p>申请网域护照--私人<br>
+	注册域名记录</p>
+
+	<p><a href="https://laod.cn/dns/public-dns.html">国内常用公共DNS</a></p>
+	
+</body>
+
+</html>

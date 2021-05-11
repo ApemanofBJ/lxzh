@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Nginx -高性能Web服务器</title>
+</head>
+<body>
+<a href="http://nginx.org"><img src="../../pic/nginx-icon.png" alt=""></a>
+<hr width="400px" color="red" align="left">
+
+<ul>特点：
+	<li>作为Web服务器，处理静态文件，索引文件，自动索引的效率非常高;</li>
+	<li>可作为代理服务器和负载均衡服务器</li>
+	<li>采用内核Poll模型，最大可支持5万个并发连接数的响应</li>
+	<li>支持热部署，可以在不间断服务的情况下，对软件进行升级</li>
+</ul>
+
+<p>
+	<a href="#setup">安装</a> / 
+	<a href="#vhost">虚拟主机</a> / 
+	<a href="#proxy">反向代理</a> / 
+	<a href="#lb">负载均衡</a> / 
+	<a href="#rewrite">URL重写 </a>/
+	<a href="#cache">缓存设置</a>
+</p>
+
+<p>工作原理:<br>
+将客户端请求映射到Location block, 根据Location所配置的指令系统不同的模块去完成相应的工作<br>
+工作方式上分为单进程和多进程两种模式:<br>
+#默认为单进程模式
+</p>
+
+<ul>模块分类
+	<li>核心模块：http/event/mail</li>
+	<li>基础模块: http access/http FastCGI/ http proxy/http rewrite</li>
+	<li>第三方模块: http upstream Request Hash</li>
+</ul>
+
+<h3 id="setup">安装</h3>
+<p>	a.) 支持库<br>
+	pcre	#重写rewrite, 需要安装pcre-devel 库<br>
+	zlib	#gzip压缩<br>
+	ssl		#openssl 库
+</p>
+
+<p>	b.) 安装</p>
+		./configure --prefix=/usr/local/nginx \<br>
+		--sbin-path=/usr/local/nginx/nginx  #命令 		<br>
+		--conf-path=/usr/local/nginx/nginx.conf \       #配置文件路径<br>
+		--pid-path=/usr/local/nginx/nginx.pid \		#pid 文件路径<br>
+		--with-http_ssl_module \			#安装ssl模块<br>
+		--with-pcre=		#pcre库<br>
+		--with-zlib=		#zlib库<br>
+		--with-openssl=		#openssl库<br>
+<p>	    备注： --with 使用源码包路径</p>
+
+<p>[启动]<br>
+	sudo /usr/local/nginx/nginx	start|stop<br>
+	备注：测试配置文件<br>
+		nginx -t -c 配置文件路径	#-V 查看安装时的编译选项</p>
+<p>停止<br>
+	pkill -QUIT nginx</p>
+<p>********************************************************************************</p>
+<p>配置	#重启配置文件 	pkill -HUP nginx	#USR1 重新打开一个日志文件</p>
+
+<h3>配置文件： nginx.conf</h3>
+
+<table>全局配置
+	<tr>
+		<td>设置</td>
+		<td>说明</td>
+	</tr>
+	<tr>
+		<td>worker_processes 8</td>
+		<td>进程数，建议按照cpu数目来指定，一般跟cpu核数相同</td>
+	</tr>
+	<tr>
+		<td>worker_rlimit_nofile 65535</td>
+		<td>nginx进程打开的最多文件描述符数目</td>
+	</tr>
+	<tr>
+		<td>use epoll</td>
+		<td>epoll的I/O模型，用这个模型来高效处理异步事件 #对linux系统而言，是工作模式的首选</td>
+	</tr>
+	<tr>
+		<td>worker_connections 65535</td>
+		<td>每个进程允许的最多连接数</td>
+	</tr>
+	<tr>
+		<td>keepalive_timeout 60</td>
+		<td>http连接超时时间，默认是60s</td>
+	</tr>
+	<tr>
+		<td>user nobody nobody</td>
+		<td>运行用户及用户组，默认是nobody账号运行</td>
+	</tr>
+</table>
+
+<h4>Web模块-http/server</h4>
+<p>	http--</p>
+<p>		server:</p>
+<p>			listen	8080;			#监听端口</p>
+<p>			server_name	naginx_web;	#域名	</p>
+<p>			备注：与host匹配优先级</p>
+<p>				所有字符串完全匹配的server_name，	如www.nginx.org</p>
+<p>				通配符在前面的server_name，		如*.nginx.org</p>
+<p>				通配符在后面的server_name，		如www.nginx.*</p>
+<p>				使用正则表达式才匹配的server_name，	如~^\.testweb\.com$</p>
+<p>				  </p>
+
+<p>			locate 匹配</p>
+<p>				~	#执行正则匹配，区分大小写</p>
+<p>				~*	#执行正则匹配，不区分大小写</p>
+<p>				^~	#匹配普通字符，一般用来匹配目录</p>
+<p>				=	#进行字符精确匹配</p>
+<p>				@	#定义一个命名</p>
+
+<p>				index	#默认首页文件，顺序从左到右</p>
+<p>				root	网页文件目录(默认html为根目录)，即网站文件路径</p>
+<p>				alias	#访问目录别名，指定网页文件目录的绝对路径
+
+<p>			显示目录</p>
+<p>			autoindex	on;			</p>
+<p>			autoindex_exact_seze	on|off;		#索引文件大小单位</p>
+<p>			autoindex_localtime	on|off;		#以本地时间显示文件时间</p>
+
+<h3 id="vhost">虚拟主机</h3>
+<p>	a.) 基于ip<br>
+	server <br>
+	{<br>
+		listen	80;		#监听端口<br>
+		server_name  www2.lxzh.cn	#主机域名<br>
+		location / {<br>
+			root	html/路径;<br>
+			index	索引文件;<br>
+		} <br>
+	}<br>
+</p>
+
+<p>支持php</p>
+<p>	a.) 安装php-fpm		#是一个CGI进程管理程序，监听本机的9000端口</p>
+<p>		语法测试	php-fpm -t</p>
+<p>	b.) 修改nginx 配置文件</p>
+<p>		location ~* \.php$ {</p>
+<p>			root 	html</p>
+<p>			fastcgi_pass	127.0.0.1:9000;		#使用9000端口</p>
+<p>			fastcgi_index	index.php;</p>
+<p>			fastcgi_param	SCRIPT_FILENAME	$document_root$fastcgi_script_name</p>
+<p>			include		fastcgi_params;</p>
+<p>		}</p>
+
+<h3 id="lb">负载均衡--上游</h3>
+<p>	upstream  php_server_pool {</p>
+<p>		ip_hash</p>
+<p>		server	ip	weight=4  max_fails=2  fail_timeout=30;</p>
+<p>		... ...</p>
+
+<p>			server {</p>
+<p>				location /{</p>
+<p>					proxy_pass	http://php_server_pool;</p>
+<p>					proxy_set_header 	X-Real_IP	$remote_addr;</p>
+<p>				}</p>
+<p>			}</p>
+<p>	}	</p>
+<p>	</p>
+<p>	#默认方式是轮询，server名称可以是域名、Ip、端口号、UNIX Socket</p>
+<p>	#weight越高，被访问几率越大。n 代表40%</p>
+<p>	问题是： 二次登录的情况下会重新定位，造成登录信息丢失，需要使用ip_hash 解决(固定访问)</p>
+<p></p>
+
+<h3 id="proxy">反向代理</h3>
+<p>	server {<br>
+		proxy_pass(fastcgi_pass)	http://php_server_pool;<br>
+		proxy_set_header		Host	$host;<br>
+		proxy_set_header		X-Forwarded-For		$remote_addr;<br>
+	}<br>
+note: proxy_set_header 设置，否则日志反映的都是代理服务器IP，无法进行日志分析</p>
+
+<h3 id="rewrite">[Rewrite]	分为内部和外部</h3>
+<p>	return 			结束规则，返回状态码给客户端</p>
+<p>	set $var 'hello'	定义变量</p>
+<p>	ex1: 错误输出重定向</p>
+<p>		rewrite ^()\.html   error.html break;</p>
+
+<h3 id="cache">[缓存配置]</h3>
+<p>原理：<br>
+将用户访问过的内容在服务器本地建立副本，当再次访问数据时，不必向后端服务器再次发出请求<br>若后端服务器宕机，副本资源还可以回应用户的请求</p>
+<pre>
+	proxy_cache_path	缓存资源的存放路径
+	levels				子目录的建立级别
+	key_zone			共享内存中的存储区域，存储次数KV
+	server {
+		set $upstream http://ip:port
+			location / {
+				proxy_cache	my_cache;		#启用缓存并指定key_zone，off表示关闭掉缓存
+				proxy_pass	$upstream;
+			}
+	}
+</pre>
+
+<h3>[安全模块]</h3>
+HttpLimitZoneModule 限制同时并发访问的数量(并发数)
+HttpLimitReqModule 限制访问数据，每秒内最多几个请求(最大访问量)
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Java--应用最广泛的开发语言</title>
+</head>
+
+<body>
+	<p>kotlin正式成为Android官方开发语言</p>
+	
+	<ul>
+		<li>SE: Standart Edition	标准版</li>
+		<li>EE: Enterprise Edition	企业版</li>
+		<li>ME: Mobile Edition		移动版</li>
+	</ul>
+
+	JVM: Java Virtual Machine 虚拟机
+	<ol>实现方式
+		<li>一次性解释器，解释字节码并执行</li>
+		<li>即时编译器just-in-time complier,对结果进行缓存，依赖于更多内存</li>
+		<li>自适应编译器，仅缓存高频使用的代码</li>
+	</ol>
+
+	<pre>
+	bytecode 字节码
+	JRE --运行时环境(对于终端用户)
+	JDK --开发环境(包含JRE，面向程序员)，是Java+API+JVM(OpenJDK 源码包安装)
+		安装的两种方式：rpm、Sun的二进制格式(需要oracle网站下载)
+
+	Servlet: <a href="./cgi.html">CGI</a>技术, 响应http
+	jar 归档压缩文件
+
+	垃圾回收器：
+		Serial单一进程执行
+		ParNew多线程并行执行
+
+	环境设置：
+		export JAVA_HOME=/usr/local/jdk
+		export PATH=$PATN:$JAVA_HOME/bin
+
+	版本： java -version
+	</pre>
+
+	<ul>命令行工具
+		<li>jps 显示系统内所有的JVM虚拟机进程</li>
+		<li>jstat  收集并显示虚拟机的运行数据</li>
+		<li>jinfo  显示虚拟机的配置信息</li>
+		<li>jvisualvm	可视化管理工具</li>
+	</ul>
+	
+	<p><b>Linux 环境部署</b></p>
+	<pre>
+		export JAVA_HOME=/usr/local/src/java		#以实际java安装目录为准
+		export PATH=$JAVA_HOME/bin:$PATH
+		export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+		export JRE_HOME=$JAVA_HOME/jre
+	</pre>
+</body>
+</html>

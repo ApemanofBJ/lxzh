@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>计算机系统架构</title>
+</head>
+
+<body>
+	<h3>MySQL 架构</h3>
+	<img src="../../pic/it/os/architecture/mysql_1.png" alt="">
+
+	<h3>网站基础架构</h3>
+	<p>LAMP 架构</p>	
+	<img src="../../pic/it/os/architecture/lamp.png" alt="" usemap="#lamp">
+	<map name="lamp">
+		<area shape="rect" coords="0,0,420,60" href="../os/nginx.html" alt="">
+		<area shape="rect" coords="27,365,160,416" href="../db/mysql.html" alt="">
+	</map>
+
+	<ul type="square">说明
+		<li>Apache 开销大，Nginx 不支持PHP和CGI；</li>
+		<li></li>
+	</ul>
+
+	<p>基础架构</p>
+	<img src="../../pic/it/os/architecture/网站基础架构.png" alt="">
+	<p>说明：<br>
+	CDN部署在网络提供商的机房，使用户在请求网站服务时，可以从距离自己最近的网络提供商机房获取数据；<br>
+	而反向代理则部署在网站的中心机房，当用户请求到达中心机房后，首先访问的服务器是反向代理服务器，<br>
+	如果反向代理服务器中缓存着用户请求的资源，就将其直接返回给用户</p>
+
+	<h3>Wiki架构图</h3>
+	<img src="../../pic/it/os/architecture/WikiPedia.png" alt="">
+
+	<h3>电商平台基础架构</h3>
+	<img src="../../pic/it/os/architecture/电商.png" alt="">
+
+	<h3>大型高并发系统架构</h3>
+	<img src="../../pic/it/os/architecture/大型高并发系统架构.png" alt="">
+
+	<hr>
+	<p>附录：模拟环境<br>
+	<pre>
+		a.> DELL 笔记本电脑 
+			Server-ubuntu 作为服务器使用
+			管理工具：webmin/cockpit
+			应用：
+				Nginx Web 服务器/ Tomcat 
+				MySQL 数据库(slave)
+				Ansible 远程操作
+				Nagios/Zabbix 进行监控
+				ELK 日志分析系统
+				Samba 实现与windows系统的通信
+				LVS/HA/Keepalived-heartbeat
+		b.> DELL 台式机 
+			Client 作为客户端使用(加入虚拟机作为更多终端)
+			应用：
+				MySQL(master)/redis数据库/mycat 中间件
+				Python 脚本的编写
+				KVM虚拟机/docker 容器(系统集成)
+				OpenStack/Hadoop 部署
+				iptables
+				缓存服务器：squid/memcached/varnish
+		c.> Windows 系统作为工作客户端，模拟两种虚拟环境的通信
+			应用：
+				Sublime Text 	结合语音输入，完成对网站文档的编辑
+				XShell6			与Linux系统进行通信
+				PowerShell 		命令行操作
+	</pre>
+
+	</p>
+</body>
+</html>

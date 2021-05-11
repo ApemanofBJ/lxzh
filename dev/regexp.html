@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式--计算机/程序语言开发/</title>
+	<style>
+		table   { border: 1px solid black; width: 500px;}
+		caption { color: white; background-color: black; font-size: 20px;}
+		th      { background-color: gray;}
+		
+	</style>
+</head>
+
+<body>
+	<ol>正则表达式(Regular expression)分类：
+		<li>基本的正则表达式 basic RegExs</li>
+		<li>扩展的正则表达式 extended RegExs</li>
+		<li>Perl的正则表达式 perl RegExs</li>
+	</ol>
+
+	<table>
+		<tr>
+			<th>字符</th>
+			<th>描述</th>
+		</tr>
+		<caption>常规字符匹配</caption>
+		<colgroup style="color:red;"></colgroup>
+		
+		<tr>
+			<td>^(脱字符号)</td>
+			<td>匹配字符串的开始位置</td>
+		</tr>
+		<tr>
+			<td>$(美元符号)</td>
+			<td>匹配字符串的结束位置</td>
+		</tr>
+		<tr>
+			<td>.</td>
+			<td>匹配任何单个字符，除\n以外</td>
+		</tr>
+		<tr>
+			<td>\d</td>
+			<td>匹配数字</td>
+		</tr>
+		<tr>
+			<td>\w</td>
+			<td>匹配单词字符，包括下划线、数字、字母</td>
+		</tr>
+		<tr>
+			<td>\s</td>
+			<td>空白字符</td>
+		</tr>
+		<tr>
+			<td>\t</td>
+			<td>匹配制表符</td>
+		</tr>
+		<tr>
+			<td>\u4e00-\u9fa5</td>
+			<td>匹配中文汉字</td>
+		</tr>
+	</table>
+	<table>
+		<caption>反义字符匹配</caption>
+		<tr>
+			<td>\D</td>
+			<td>非数字字符</td>
+		</tr>
+		<tr>
+			<td>\W</td>
+			<td>非单词字符，即非下划线、数字、字母</td>
+		</tr>
+		<tr>
+			<td>\S</td>
+			<td>匹配非空白字符</td>
+		</tr>
+		<tr>
+			<td>[^xyz]</td>
+			<td>匹配不在指定范围内的任意字符</td>
+		</tr>
+	</table>
+	<table>
+		<caption>锚定范围</caption>
+		<tr>
+			<td>\&lt; \&gt;	(或者\b)</td>
+			<td>匹配单词边界</td>
+		</tr>
+		<tr>
+			<td>x|y</td>
+			<td>匹配x或y</td>
+		</tr>
+		<tr>
+			<td>[xyz]</td>
+			<td>xyz字符集合</td>
+		</tr>
+		<tr>
+			<td>[0-9]</td>
+			<td>0--9数字范围</td>
+		</tr>
+		<tr>
+			<td>{n}</td>
+			<td>确定匹配n次</td>
+		</tr>
+		<tr>
+			<td>{n,}</td>
+			<td>至少匹配n次</td>
+		</tr>
+		<tr>
+			<td>{n,m}</td>
+			<td>至少匹配n次,最多匹配m次</td>
+		</tr>
+		<tr>
+			<td>+</td>
+			<td>最少匹配一次(1次以上)</td>
+		</tr>
+		<tr>
+			<td>?</td>
+			<td>表示可选项，有或者没有(即最多匹配一次)</td>
+		</tr>
+	</table>
+
+	<ul type="circle">常用匹配表示
+		<li>反向引用：([a-z]), 后面用\1代替</li>
+		<li>匹配空行:	^$</li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<p>word 正则匹配：<br>
+	匹配英文字符串 -- [a-z]{1,}<br>
+	匹配数字 -- [0,9]{1,}<br>
+	</p>
+
+	<p><b>附注</b>: 
+	<a href="">在线测试工具</a> </p>
+</body>
+</html>

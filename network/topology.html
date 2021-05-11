@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>网络拓扑</title>
+
+	<style>
+		ul {list-style-image: url("../../pic/it/icon/arrow/对号.png"); }
+		img {width: 600px; height: 500px; } 
+	</style>
+</head>
+<body>
+	<ul>拓扑结构
+		<li>星型</li>
+		<li>总线型</li>
+		<li>环型</li>
+	</ul>
+
+	<h4>局域网通信协议</h4>
+	IPX/SPX 协议（Novell 公司提供）
+	Internetwork Packet Exchange/Sequences Packet Exchange 网际包-顺序包交换协议（联网游戏必须）
+
+	NetBeUI 不具有跨网段的路由功能
+	NetBIOS Extended User Interface 用户扩展接口
+
+	<h4>实例一： ADSL + 代理服务器（软路由）</h4>
+	<img src="../../pic/it/net/adsl+proxy.png" alt="">
+
+	<h4>实例二： ADSL + wifi</h4>
+	<img src="../../pic/it/net/adsl+wifi.png" alt="" >
+
+	<h4>实例三： ADSL + 路由器 + 三层交换机</h4>
+	<img src="../../pic/it/net/adsl+三层.png" alt="" >
+
+
+	<h4>实例四： ADSL + 二层路由器（简单扩展）</h4>
+	<img src="../../pic/it/net/adsl+二层路由.png" alt="" >
+
+	<h4>实例五： 双路由器</h4>
+	<p>通过分配不同的网关实现，无线实现负载均衡</p>
+	<img src="../../pic/it/net/双路由.png" alt="" >
+
+	<h4>实例六： 多WAN口的实现</h4>
+	<img src="../../pic/it/net/多WAN.png" alt="" >	
+
+	<h4>实例七： 常规方式</h4>
+	<img src="../../pic/it/net/常规.png" alt="" >		
+	<p>备注：现在防火墙已完全替代路由器功能， 防火墙设置DMZ区，放置服务器</p>
+
+	<h4>实例八： 冗余链路</h4>
+	<img src="../../pic/it/net/冗余链路.png" alt="" >
+	<p>分为主备方式和负载分担方式</p>
+
+	<hr>
+
+	<h3>问题解析</h3>
+
+	<p>Q1. 某政府部门网络用户包括有线网用户、无线网用户和有线摄像头。<br>
+	要求：访客通过无线网可以接入互联网，但是不能访问内部网；摄像头只能和DMZ 区域服务器互访</p>
+
+	<p>解决方案及说明：二层网络<br>
+		ISP --> 防火墙(出网/入网)-->DMZ区(WEB服务器等)/核心交换机(划分不同VLAN)-->接入层(办公网、摄像头)
+	</p> 
+
+	<h4>实例一: 中科威荣网络</h4>
+	1. 互联网接入--华三3200路由器
+	2. 华为5720核心交换机
+		VLAN 1\100\200
+
+	办公区1-304
+		华三1824接入交换机(0网段，250网关)
+			{
+				考勤机
+				监控
+			}
+			1824服务器交换机(1网段)
+			1824东区pc交换机(0网段，249网关)
+
+	办公区2-303
+
+
+</body>
+</html>

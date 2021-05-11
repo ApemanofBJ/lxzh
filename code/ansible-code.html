@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<h3 id="nginx">1. 安装nginx</h3>
+	<pre>
+		1. 打包nginx:
+			cd /usr/local
+			tar zcvf nginx.tar.gz
+		2. 建立所需目录
+			cd /etc/ansible; mkdir nginx_install
+			cd nginx_install; mkdir roles
+			cd roles; mdkir common install
+		3. 建立主文件
+			cd common; mkdir tasks;
+			vim main.yml
+				-name: Insatll initializtion 
+				 yum : name={{item}} state=installed
+				 with_items:
+					- zlib-devel
+					- pcre-devel
+					- openssl-devel
+		4. 建立配置文件
+			cd install
+			mkdir tasks(核心的配置文件) vars(定义的变量) files(安装时用到的一些文件) templates(配置文件，启动脚本等模板文件)
+	</pre>
+</body>
+</html>

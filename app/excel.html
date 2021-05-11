@@ -1,0 +1,257 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Excel-电子表格</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<li>Excel-小技巧<br>
+		1. 重复操作F4(win)/Ctrl+Shift+Y(linux)<br>
+		   &nbsp;&nbsp;&nbsp;拷贝单元格内容--Ctrl + D<br>
+		2. 列拷贝转置-&gt;复制(剪切不行)、选择性粘贴、转置<br>
+		3. 将数据制成图表，按Alt + F1<br>
+		   &nbsp;&nbsp;&nbsp;快速求和： Alt + '='键<br>
+		   &nbsp;&nbsp;&nbsp;制作下拉菜单：Alt + down键, #限文本<br>			
+		5. 对号的输入: 选择插入符号--&gt; 数学符号(Alt+41420)<br>
+		6. 错开列粘贴内容： 数据列格式调整至相同，粘贴选择“空excel格”<br>
+		7. 保护工作簿：审阅--&gt;保护工作表/保护工作簿<br>
+		8. 美化表格格式：套用表格格式后，需要转化为普通区域(表格工具--工具--转换为区域)<br>
+		9. 冻结数据表：选择单元格后，打开"视图"--&gt;"冻结窗格"<br>
+		10. 打印标题：页面布局-&gt;标题-&gt;打印<br>
+		11. 单元格交换上下两行内容: 选中上一行/按住Shift键/下拉出现"工"字即可<br>
+		12. 数据自动填充:使用加法公式-&gt;再选择填充<br>
+		13. 自动调整所有表格列宽度:选中左上角三角，然后双击单元格<br>
+		14. 自动拆分数据:把待拆分数据依次填写到第1行单元格中，在自动填充状态下使用CTRL+E<br>
+		15. 根据条件设置表格的背景颜色: 选择"条件格式"-&gt;突出显示单元格规则-&gt;根据条件进行选择<br>
+		16. 单元格定位(公式左侧);
+		17. 设置单元格格式：其他-&gt;通用(自定义)
+		18. 合并计算功能：数据-&gt;合并计算-&gt;选择首行或者首列
+		19. 关闭所有打开的文件：Shift+关闭窗口
+	</li>
+
+	<h3>&sect;chapter1 基础操作</h3>
+
+	<p><b>填充</b>:<br>
+		a.)序列填充--选择单元格-&gt;填充/序列;<br>
+		b.)填充字母：=UPPER(CHAR(ROW(A2)+96))   #大写字母
+	</p>
+
+	<h3>&sect;chapter2 函数的使用</h3>
+
+	<p>引用：[表名称]'工作簿'!单元格，其中$代表绝对引用<br>
+	输入公式： "="+公式(Tab自动填充);<br>
+	Shift+Ctrl+Enter, 数组计算</p>
+
+	<table>
+		<tr>
+			<th>类别</th>
+			<th>函数</th>
+			<th>使用说明</th>
+			<th>实例</th>
+		</tr>
+		<tr>
+			<td rowspan="5">统计</td>
+			<td>sum(求和)</td>
+			<td>
+				<ul>
+					<li>数字求和        sum(数字序列,……)</li>
+					<li>单元格求和      sum(A#,……)</li>
+					<li>连续单元格求和  sum(A1:A10)             #可以扩展到区域</li>
+					<li>列求和          sum(A:A)</li>
+				</ul>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>sumproduct</td>
+			<td>求数组乘积和 sumproduct(区域1，区域2)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>sumif(条件求和)</td>
+			<td>条件求和        sumif(条件范围,条件,求和范围)</td>
+			<td>求人员的分数,即=SUM(SUMIF(A3:A10,{"明","东"},D3:D10))		#数组条件<br>
+			</td>
+		</tr>
+		<tr>
+			<td>count</td>
+			<td>统计数量(单元格范围)</td>
+			<td></td>
+		</tr>	
+		<tr>
+			<td>large/small</td>
+			<td>返回某一数据集中的某个（可以指定）最大值/最小值</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="3">逻辑</td>
+			<td>and(并)</td>
+			<td>所有条件为真    and(条件1,……)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>or(或)</td>
+			<td>有一个条件为真  or(条件1,……)</td>
+			<td>eg: 身份证15位或者18位，即or(len(B2:B10)={15,18})</td>
+		</tr>
+		<tr>
+			<td>if(条件判断)</td>
+			<td>根据条件判断真假值      if(条件,真,假)</td>
+			<td>
+				<ul>
+					<li>空值计算，即if(and(B2="",C2=""),"空",B2+C2)</li>
+					<li>单列条件计算, 即=SUM(IF(A3:A10={"明","花"},D3:D10))</li>
+					<li>条件求和,即{=SUM(IF(C3:C10="男",D3:D10,0))}</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="6">数学计算</td>
+			<td>randombetween(随机整数)</td>
+			<td>RANDBETWEEN(下限，上限)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>abs(绝对值)</td>
+			<td></td>
+			<td>IF(C2&gt;B2,"提高","下降")&amp;ABS(C2-B2)&amp;元"</td>
+		</tr>
+		<tr>
+			<td>product(乘积)</td>
+			<td>product(参数1,参数2……)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>gcd(最大公约数)</td>
+			<td>gcd(参数列表……）</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>lcm</td>
+			<td>lcm(参数列表……）</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>mod</td>
+			<td>mod(数值,模板)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="4">文本</td>
+			<td>len</td>
+			<td>字符串的长度，比如检查身份证输入位数是否正确</td>
+			<td>#默认使用""表示文本</td>
+		</tr>
+		<tr>
+			<td>mid</td>
+			<td>取字符串的函数（string,start,end)</td>
+			<td>#索引值从1开始</td>
+		</tr>
+		<tr>
+			<td>find 查找</td>
+			<td>find(string,substr)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>left/right 取左、右函数</td>
+			<td>left(string，数值)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="3">其他</td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>offset</td>
+			<td>偏移(单元格，下，右，上，左)，即逆时针</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>col/row</td>
+			<td>返回所在行、列, #用数字表示</td>
+			<tr>序号自动更新：row()-1</tr>
+		</tr>
+		<tr>
+			<td>vlookup</td>
+			<td>
+				<li>基础查找</li>
+				<li>反向查找</li>
+				<li></li>
+				<li>返回多列值</li>
+			</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<p><b>subtotal</b>参数说明:统计函数(参数,计算范围)</p>
+
+	<img src="../../pic/it/software/excel/subtotal.png" alt="">
+
+	<h3>&sect;chapter3 应用</h3>
+
+	<p><b>导入数据：</b>
+		直接打开文本文件，选择分隔符即可(空格、TAB键、逗号、空格等)<br>
+	</p>
+
+	<ul>图形属性(包括背景、图表)
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<ul>文本属性
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<h4>&sect;3.1 饼图</h4>
+
+	<ul>
+		<li>普通饼图(2D)</li>
+		<li>三维饼图</li>
+		<li>复合饼图/复合条饼图(用于品类多无法显示情况下)</li>
+		<li>圆环图</li>
+	</ul>
+
+	<h5>&sect3.1.1 三维饼图的使用</h5>
+	<p>插入--&gt;饼图--&gt;三维饼图</p>
+
+	<p>包括标题、标签、图例三个部分</p>
+
+	<ol>
+		<li>原有数据进行排序(升序/降序)</li>
+		<li>设置数据系列格式:<br>
+			<ul>
+				<li>第一扇区起始角度设置</li>
+				<li>饼图分离</li>
+				<li></li>
+			</ul>
+		</li>
+		<li>改变饼图形状：<br>
+		效果--&gt;三维格式; 效果--&gt;阴影</li>
+		<li>添加数据标签:<br>
+		</li>
+	</ol>
+
+	<p>备注：另存为模板。<br>
+	以后再制作饼图时可以一键生成 ：选取数据源 - 插入 - 推荐的图表 - 所有图表 - 模板 - 找到保存的饼图模板</p>
+
+	<h5>&sect;3.2 柱形图</h5>
+
+	<p></p>
+
+	<h5>&sect;chapter4 WPS</h5>
+	<ol>
+		<li>可以一次插入多行(excel选取行后，按shift)</li>
+		<li>双击第一项，可以按序列自动填充</li>
+		<li>可以进行多种类的单元格合并</li>
+		<li></li>
+	</ol>
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>问题汇总</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<table>
+		<tr>
+			<th>分类</th>
+			<th>问题描述</th>
+			<th>解决方案</th>
+		</tr>
+		<tr>
+			<td>系统升级</td>
+			<td>libcurl.so.4: version 'CURL_OPENSSL_3' not found</td>
+			<td>apt install libcurl3:i386</td>
+		</tr>
+		<tr>
+			<td rowspan="2">linux 共享文件-NFS<br>
+			<td>RPC: Port mapper failure - RPC: Unable to receive</td>
+			<td>禁用防火墙 sudo systemctl stop firewalld.service</td>
+		</tr>
+		<tr>
+			<td>mount.nfs: access denied by server while mounting</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>文本工具sed</td>
+			<td>每行末尾有^M</td>
+			<td>这里的“^M”要使用“CTRL-V CTRL-M”生成，而不是直接键入“^M”<br>
+			使用dos2unix命令或者sed 替换命令</td>
+		</tr>
+		<tr>
+			<td>系统操作</td>
+			<td>ubuntu 系统安装完成后没有启用root用户</td>
+			<td>普通用户进入命令行：sudo passwd root , 输入新密码(默认-!@#$lxzh)</td>
+		</tr>
+		<tr>
+			<td>Apache WEB服务器</td>
+			<td>alias 目录定义别名后无法打开</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="2">Python </td>
+			<td>执行的时候报错，不支持中文</td>
+			<td>在连接Mysql的时候添加charset='utf8'即可解决中文乱码问题</td>
+		</tr>
+		<tr>
+			<td>python AttributeError: 'module' object has no attribute</td>
+			<td>命名py脚本时，不要与python预留字，模块名等相同; 删除该库的.pyc文件</td>
+		</tr>
+		<tr>
+			<td>软件编译安装</td>
+			<td>编译报错 'aclocal-1.14' is missing on your system</td>
+			<td>在源文件目录执行autoreconf -ivf ，否则会找不到文件</td>
+		</tr>
+		<tr>
+			<td>Unbuntu 18.04安装sogou输入法for linux</td>
+			<td>如何在输入法上进行配置(fcitx)</td>
+			<td>在输入法中需要选择'fcitx'，系统默认是ibus</td>
+		</tr>
+		<tr>
+			<td>Samba共享文件夹</td>
+			<td>使用\\bogon可以打开文件夹，使用IP地址则显示“没有相应的权限”</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>apt 安装报错</td>
+			<td>dpkg 被中断，您必须手工运行 ‘sudo dpkg --configur</td>
+			<td>sudo rm /var/lib/dpkg/updates/*<br>
+			sudo apt-get update/sudo apt-get upgrade</td>
+		</tr>
+	</table>
+	
+	<h3>计算机概念解析</h3>
+	<ul>
+		<li><a href="https://blog.csdn.net/u8AHNh95ix6lUC/article/details/78970286">
+		网站的"动静分离"</a></li>
+		<li></li>
+	</ul>
+	
+	<hr>
+	<p><a href="./interview.html">附录：linux面试题</a><br>
+	<a href="https://www.cnblogs.com/sweetXiaoma/p/5855732.html">linux编译安装时常见错误解决办法</a></p>
+</body>
+</html>

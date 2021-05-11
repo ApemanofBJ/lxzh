@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Nagios--工业标准的监控软件系统</title>
+</head>
+<body>
+	<p><a href="https://www.nagios.org">Nagios 主页</a></p>
+	<p>有效监控windows、linux、unix主机，交换机、路由器等网络设备,以及打印机.</p>
+	<p>
+		<a href="#setup">安装</a>
+		<a href="#conf">配置</a>
+	</p>
+	<p>原理:</p>
+	<img src="../../pic/nagios原理.png" alt="">
+	<h2>安装</h2>
+	<h2>服务器端</h2>
+	<h2>客户端</h2>
+
+[nagios]
+监控状态：
+	OK/WARNING/CRITICAL/UNKNOWN
+	core 只提供核心框架/plugins 插件提供功能
+
+<ul>对象：
+	<li>主机、主机群组</li>
+	<li>服务</li>
+	<li>联系人</li>
+	<li>时段</li>
+	<li>命令(模板)</li>
+	<li>插件分类： ssh/nrpe(unix/linux)/snmp/nsca</li>
+</ul>
+
+<h3 id="setup">安装</h3>
+<pre>
+	创建用户和组
+		groupadd nagcmd
+		useradd -G nagcmd -s /sbin/nologin nagios
+		
+		#把apache加入到nagcmd组
+		usermod -a -G nagcmd apache
+	
+	配置软件
+		./configure  --prefix=/usr/local/nagios \
+		--with-nagios-user=nagios \
+		--with-nagios-group=nagios \
+		--with-command-group=nagcmd \
+		--enable-event-broker
+		--sysconfdir=/usr/local/nagios/etc/
+	
+	安装core:
+		make all && make install
+		make install-init		#在/etc/rc.d/init.d/ 创建启动脚本
+		make install-commandmode 	#配置目录权限
+		make install-config			#安装示例配置文件
+		make install-webconf		#安装web配置脚本,需要在线安装httpd
+
+	创建目录验证文件
+		htpasswd  -c  /usr/local/nagios/etc/htpasswd.users nagiosadmin
+		passwd: admin
+
+	安装plugin：
+		./configure  --prefix=/usr/local/nagios \
+		--with-nagios-user=nagios \
+		--with-nagios-group=nagios \
+		备注：
+			插件的可执行文件使用C语言进行编写
+	
+	配置Apache:
+		install-webconf 当成一个Web配置文件，添加的Apache配置目录conf.d下(nagios.conf)
+		备注：在3.1版本以后，配置监控界面需要php的支持
+
+	安装php:
+
+
+	备注：	日志文件  nagios/var/nagios.log
+</pre>
+
+<h3 id="conf">nagios 配置</h3>
+<pre>
+	启动： nagiso -d  path/nagios.conf
+	       sudo apachectl start 	#启动web服务器
+	       sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
+	
+		cfg_file
+		cfg_dir
+
+		status_file		#监测结果状态信息
+	测试配置文件：
+		/etc/init.d/nagios checkconfig
+
+	资源文件	/etc/resource.cfg
+		$USER1$=/usr/local/nagios/libexec	#插件路径(宏变量，共计32个)
+		$HOSTADDRESS				#主机地址
+
+	备注：	error-- unable to get process status
+</pre>
+
+<h3 id="winhost">监控Windows 主机</h3>
+	客户端安装NSClient++,设置好nagios服务器的IP地址；
+	测试：　/nagios/libexec
+		运行　./check_ns -H cliet_ip  -p 12489 -v UPTIME 	#检测客户机
+	设置：
+		/etc/object/windows.cfg  中设置host 的IP地址；
+		/etc/nagios.cfg		 中启用cfg_file=....../windows.cfg
+	重新启动nagios
+
+<h3 id="linux-host">监控linux 主机 NRPE</h3>
+<pre>
+	nrpe-plugin	作监控端
+	nrpe-daemon	客户端，监听来在服务器的请求，端口:5666
+
+	安装
+	./configure 
+		 --with-nrpe-user=nagios \
+		 --with-nrpe-group=nagios \
+		 --with-nagios-user=nagios \
+		 --with-nagios-group=nagios \
+		 --enable-command-args \
+		 --enable-ssl
+	编译	make all
+	插件	make install-plugin
+	命令	make install-daemon
+	配置文件	make install-daemon-config  #3.1版本以下
+			make install-config	    #3.1版本以上
+
+		nagios/etc/nrpe.cfg
+			allowed_hosts=服务器ip	
+	启动	nagios/bin/nrpe -c nrpe.cfg -d
+	测试	libexec/check_nrpe -H IP
+	备注：
+		configure error: cannot find ssl headers
+		解决办法：yum install openssl-devel
+
+	服务器端配置：
+		a.) 定义命令　commands.cfg
+		define command {
+			command_name	check_nrpe
+			command_line	$USR1$/check_nrpe -H "$HOSTNAME" -c "$ARG1"	#-c $ARG1$ 是定义的命令名称
+		}
+			备注：-w warning 阈值/-c critical阈值 /-p 数据包个数
+			      参数用!做分隔
+		
+		b.) 主机-服务配置文件
+		# Define a host for the Windows machine we'll be monitoring
+		# Change the host_name, alias, and address to fit your situation
+
+		define host{
+			use		linux-server	;引用模板 
+			host_name	ubuntu16.04 ; The name we're giving to this host
+			alias		My Windows Server	; A longer name associated with the host
+			address		192.168.0.107	; IP address of the host
+			}
+</pre>
+		# ==================================================
+		define service{   {{{
+		    use         generic-service   
+		    host_name       ubuntu16.04   
+		    service_description CHECK USER   
+		    check_command       check_nrpe!check_users   
+		    }   
+		define service{   
+		    use         generic-service   
+		    host_name       ubuntu16.04   
+		    service_description Load   
+		    check_command       check_nrpe!check_load   
+		    }   
+		define service{   
+		    use         generic-service   
+		    host_name       ubuntu16.04   
+		    service_description SDA1   
+		    check_command       check_nrpe!check_hda1   
+		    }   
+		define service{   
+		    use         generic-service   
+		    host_name       ubuntu16.04   
+		    service_description Zombie   
+		    check_command       check_nrpe!check_zombie_procs   
+		    }   
+		define service{   
+		    use         generic-service   
+		    host_name       ubuntu16.04   
+		    service_description Total procs   
+		    check_command       check_nrpe!check_total_procs   
+		    } }}}
+</body>
+</html>

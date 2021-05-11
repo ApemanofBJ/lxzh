@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>汇编及编译原理</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		pre {background-color:black;color:white;}
+	</style>
+</head>
+
+<body>
+	<h2>第一部分 汇编语言</h2>
+	<hr>
+	<pre>
+		.section .data 		#(注释)- .指令，不会被直接翻译成机器指令，称为汇编指令或者伪操作
+		.section .text 		#文本段， 存放程序指令
+		.global _start		#_start 符号，
+	
+		_start: 			#标签
+			mov1 $1, %eax   #将数字1放入寄存器，$代表立即寻找方式
+			mov1 $0, %ebx
+
+		int $0x80 			#int 表示中断，后数字代表中断号
+	</pre>
+
+	<ul>数据类型
+		<li>.byte, 占用一个字节位</li>
+		<li>.int, 每个整型数字占用2个字节位(16位）</li>
+		<li>.long，占用4个字节位</li>
+		<li>.ascii, 将字符输入内存，占用一个字节位</li>
+	</ul>
+
+	<ul>寻址方式
+		<li>立即寻找: 指令的地址部分存放着数据，也就是包含着常数，eg: $1</li>
+		<li>直接寻址: 指令的地址部分直接包含了目标操作数的存储器地址，为了取得操作数必须访问一次存储器。</li>
+		<li>间接寻址: 指令的地址部分包含了一个存储器地址，访问这个地址就可以得到全长度的操作数地址. eg: (%esp)</li>
+		<li>寄存器寻址:</li>
+		<li>偏移寻址:</li>
+	</ul>
+
+	<p>索引寻址方式：movl 起始地址(,%索引寄存器，字长)</p>
+
+	<ul>跳转语句
+		<li>je, 若值相等则跳转</li>
+		<li>jg, 若第二个值大于第一个值则跳转</li>
+		<li>jge, 若第二个值大于等于第一个值则跳转</li>
+		<li>jl, 若第二个值小于第一个值则跳转</li>
+		<li>jle, 若第二个值小于等于第一个值则跳转</li>
+		<li>jmp, 无条件跳转</li>
+	</ul>
+
+	<h3>函数</h3>
+	<pre>
+		#幂函数 power--计算2的3次方
+		_start:
+			pushl	$3 		#压入第二个参数入栈
+			pushl	$2 		#压入第一个参数入栈
+
+			call 	power	#调用函数
+			addl 	$8, %esp 	#将栈指针向后移动
+			pushl 	$eax 		#保存答案
+
+		power:
+			pushl 	%ebp	#保留旧基址指针
+			movl 	%esp, %ebp 		#将基址指针设为栈指针
+			subl	$4, %esp		#为本地存储保留空间
+
+			movl 	8(%ebp), %ebx 	#将第一个参数放入%ebx
+			movl 	12(%ebp), %ecx 	#将第二个参数放入%ecx
+
+			movl	%ebx, -4(%ebp) 	#存储当前结果
+
+		power_loop_start:
+			cmp1 	$1, %ecx		#1次方，获得结果
+			je		end_power
+			movl 	-4(%ebp), %eax	#将当前结果移入%eax
+			imull	%ebx, %eax		#当前结果与底数相乘
+			movl	%eax, -4(%ebp) 	#保存当前结果
+
+			decl	%ecx			#指数递减
+			jmp	 power_loop_start	#为递减后的指数进行幂运算
+
+		end_power:
+			movl 	-4(%ebp), %eax 	#将返回值移入%eax
+			movl	%ebp, %esp 		#恢复栈指针
+			popl	%ebp			#恢复基址指针
+			ret
+	</pre>
+
+	<h2>第二部分 编译原理</h2>
+	<hr>
+	<h3>第一章 编译简介</h3>
+	<p>编译器：是将源程序翻译成目标程序。</p>
+	<img src="../../pic/it/os/CPlus/编译器的阶段.png" alt="">
+	
+	<p>库的本质 就是一个打包好的代码包，一般分为静态(.lib .a)和动态(.dll .so)。<br>
+	g++ -fPIC -shared -o libsource.so Source.cpp<br>
+	其中-shared代表这是动态库，-fPIC使得位置独立</p>
+
+</body>
+</html>

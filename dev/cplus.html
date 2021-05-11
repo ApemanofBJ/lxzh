@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>C++</title>
+	<style>
+		code pre{width: 500px; background-color: black; color: white;}
+	</style>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+
+	<ul>参考资料：
+		<li><a href="http://www.cplusplus.com/reference/">cplusplus-reference</a></li>
+		<li><a href="https://en.cppreference.com/w/">cppreference.com</a></li>
+		<li><a href="https://isocpp.org/">StandardC++</a></li>
+		<li><a href="http://users.cs.fiu.edu/~weiss/dsaa_c++/code/">
+		Data Structures and Algorithm Analysis in C++</a></li>
+		<li><a href="https://www.thefreecountry.com/sourcecode/cpp.shtml#stl">
+		Free C / C++ Libraries</a></li>
+	</ul>
+<p>
+C++对C的“增强”，表现在六个方面：<br>
+　　(1) 类型检查更为严格。<br>
+　　(2) 增加了面向对象的机制。<br>
+　　(3) 增加了泛型编程的机制（Template）。<br>
+　　(4) 增加了异常处理。<br>
+　　(5) 增加了运算符重载。<br>
+　　(6) 增加了标准模板库（STL）<br>
+</p>
+	<p>程序框架</p>	
+	<code>
+	<pre>
+		 #include &lt;iostream&gt; 		  
+		 using namespace std; 
+		 		 
+		 int main() 
+		 {
+			 cout &lt;&lt; "hello" &lt;&lt; endl; 
+			 return 0; 
+		 }
+	</pre>
+	</code>
+
+	<h3>第一章 面向对象</h3>
+	<p>面向对象编程——Object Oriented Programming，简称OOP</p>
+
+	<h4>&sect;1.1 类的定义</h4>
+	<p>进行数据抽象，包括属性和方法</p>
+
+	<p>语法：<br>
+		class 类名称 <br>
+		{<br>
+			&nbsp;public:<br>
+			&nbsp;private:<br>
+			&nbsp;protected:<br>
+		};
+	</p>
+
+	<h5>&sect;1.1.1 构造函数和析构函数</h5>
+
+	<p><b>I. 构造函数constructer</b></p>
+	<p>构造函数的名称与类的名称是完全相同的，并且不会返回任何类型，也不会返回 void。</p>
+
+	<table>
+		<tr>
+			<th>构造函数类型</th>
+			<th>语法</th>
+			<th>代码说明</th>
+		</tr>
+		<tr>
+			<td>默认构造函数</td>
+			<td>类名称(空)</td>
+			<td>与原函数同名，没有参数</td>
+		</tr>
+		<tr>
+			<td>带参数的构造函数</td>
+			<td>类名称(参数列表)</td>
+			<td>与原函数同名，带有参数</td>
+		</tr>		
+
+		<tr>
+			<td>拷贝构造函数</td>
+			<td>类名称(同类对象的引用)</td>
+			<td>类名称(const 类名称& rhs)</td>
+		</tr>
+	</table>
+
+	<p><b>初始化列表</b><br>
+	语法格式：Constructor(参数列表):变量(赋值),…… {}</p>
+
+	<p><b>默认参数值的构造函数</b></p>
+	<code>
+		<pre>
+			class CPerson
+			{
+			private:
+			    char name[10];
+			    int  _age;
+			public:
+			    CPerson(const char *str,int age = 0);
+			};
+
+			CPerson::CPerson(const char *str, int age)
+			{
+			    strcpy(name,str);
+			    _age = age;
+			}
+		</pre>
+	</code>
+
+	<p><b>II. 析构函数</b></p>
+
+	<h5>&sect;1.1.2 运算符重载</h5>
+	<p>语法格式：[friend] 类名称 operate 操作符(const 类名称 &rhs) const<br>
+		不能重载的运算符只有五个，它们是：成员运算符“.”、指针运算符“*”、作用域运算符“：：”、“sizeof”、条件运算符“？：”<br>
+		形式有两种，重载为类的成员函数和重载为类的友元函数
+	</p>
+
+	<p><b>I. 一元运算符</b></p>
+
+	<p><b>自引用：*this， 作为返回值--返回当前对象</b></p>
+	<code>
+		<pre>
+			Type& operator [] (size_t i) 		#[] 操作符
+			{	return  Array[i]；	}
+
+			bool operator == (const T& x, const T& y)
+			{   return x == y; } 				#== 比较操作符
+
+			Type* operator& () { return this;}	#前缀取地址
+
+			Type operator++ () 					#前缀缀增量
+			{
+				Type tmp(*this);				#临时变量存储旧对象
+				成员变量++;
+				return tmp;						#返回前值
+			}
+			Type operator++ (int) 				#后缀增量
+			{
+				成员变量++;
+				return *this;
+			}
+		</pre>
+	</code>
+	
+	<p><b>II. 二元运算符</b></p>
+
+	<code>
+		<pre>
+			Type operator+ (const Type &c) 		#算术运算符
+
+			friend Type operator + (const Type &c1,const Type &c2)		#友元重载
+		</pre>
+	</code>
+
+	<p><b>III. 函数重载</b></p>
+	<p>说明：函数名称相同，但参数列表不同。即一个函数的多种实现，主要是数量不同(参数类型问题通过模板解决)</p>
+	
+	<ul>备注：
+		<li>包含指向类自身对象的this指针</li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<h5>&sect;1.1.3 成员函数</h5>
+	<p>在不同类中可能存在相同名字的成员函数，所以在定义时必须给出类的名称作为限定</p>
+
+	<P>定义枚举类型：<br>
+	public: enum sex{MALE, FEMALE};</P>
+
+	<p><b>常量成员函数</b><br>
+	在函数后加入const, 定义时也需要加入后缀。#无法对成员变量进行修改</p>	
+
+	<h5>&sect;1.1.4 有元函数</h5>
+	<p>允许一个类将对其非公有成员的访问权授予指定的函数或者类(外部函数)<br>
+	缺点：会破坏该类的封装性，降低该类的可靠性和可维护性</p>
+	<pre>
+		
+	</pre>
+
+	<h4>&sect;1.2 类的继承</h4>
+	<p>语法格式：class 子类:&lt;public/private/protected&gt;父类<br>
+	多继承：使用父类列表,……</p>
+	<p>通常使用public继承</p>
+
+	<h4>&sect;1.3 stream 流</h4>
+	<p>C++ 标准库提供了 ios_base 类。该类作为所有 I/O 流的基类</p>
+	<table>
+		<tr>
+			<th>类型</th>
+			<th>头文件</th>
+			<th>对象</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td rowspan="3">基于控制台</td>
+			<td rowspan="3">iostream</td>
+			<td>istream</td>
+			<td>从流中读取</td>
+		</tr>
+		<tr>
+			<td>ostream</td>
+			<td>在流中写入</td>
+		</tr>
+		<tr>
+			<td>iostream</td>
+			<td>对流进行读写，从istream和ostream派生</td>
+		</tr>
+		<tr>
+			<td rowspan="3">基于文件</td>
+			<td rowspan="3">fstream</td>
+			<td>ifstream</td>
+			<td>从文件中读取，由istream派生</td>
+		</tr>
+		<tr>
+			<td>ofstream</td>
+			<td>学到文件中去，由ostream派生</td>
+		</tr>
+		<tr>
+			<td>fstream</td>
+			<td>对文件进行读写，由iostream派生</td>
+		</tr>	
+		<tr>
+			<td rowspan="3">基于字符串</td>
+			<td rowspan="3">sstream</td>
+			<td>istringstream</td>
+			<td>从string对象读取，由istream派生</td>
+		</tr>
+		<tr>
+			<td>ostringstream</td>
+			<td>写到string对象中，由ostream派生</td>
+		</tr>
+		<tr>
+			<td>stringstream</td>
+			<td>对string对象进行读写，由iostream派生</td>
+		</tr>	
+	</table>
+
+	<p>备注：写入文件时，数据将写入系统的内存写入缓冲区中。当系统收到系统调用 sync 时，此缓冲区的内容将被写入硬盘。</p>
+
+	<ul>cout输出格式设置：
+			<li>setprecision(n)函数设置小数位数(#include &lt;iomanip&gt;)</li>
+	        <li></li>
+	        <li></li>
+	</ul>
+
+	<h3>第二章 std库</h3>
+	<h4>&sect; 2.1 常用数据容器</h4>
+
+	<p>A. <b>vector</b> 向量<br>
+	采用连续空间来存储元素,大小可以动态改变,在末尾添加和删除元素相对高效</p>
+
+	<table>
+		<tr>
+			<th>基本操作</th>
+			<th>函数</th>
+		</tr>
+	<tr>
+			<td>末尾添加元素</td>
+			<td>push_back</td>
+		</tr>
+		<tr>
+			<td>开始指针</td>
+			<td>begin()</td>
+		</tr>
+		<tr>
+			<td>末尾指针</td>
+			<td>end()</td>
+		</tr>
+	</table>	
+
+	<code><pre>
+		#include &lt;vector&gt;
+
+		vector&lt;int&gt; V{1,3,5,7,9};   #或者
+		
+		vector&lt;int&gt;::iterator  it;
+		for (it = V.begin(); it != V.end(); it++){ 遍历元素}
+	</pre></code>
+
+	<p><b>B. list 列表</b></p>
+	<p>定义：template &lt; class T, class Alloc = allocator&lt;T&gt; &gt; class list;</p>
+
+	<p><b>C. pair 对组&& tuple元祖</b></p>
+
+	<p>语法格式: pair&lt;type T, type U&gt; 对组名称(即键值对k-v)</p>
+
+	<h3>第三章 模板元编程</h3>
+	<p>语法格式：template&lt;typename/class&gt; </p>
+	
+	<h4>&sect;3.1 函数模板</h4>
+	<code>
+		<pre>
+			template &lt;typename T&gt;
+			T Max2(const T& a, const T& b)
+			{
+				return (a>b)? a:b;
+			}
+		</pre>
+	</code>
+	
+	<h4>&sect;3.2 类模板</h4>
+	<p>语法格式：template&lt;typename T &gt; <br>
+		class 类名称 {……}<br>
+		函数的外部实现：template&lt;typename T &gt; <br>
+		type 类名称&lt;typename T &gt;::函数名称(参数列表){……}</p>
+
+	<h4>&sect;3.3 模板的特化</h4>
+	
+	<h5>&sect;3.3.1 全特化</h5>
+	<pre>
+		template<class T>
+		class Compare
+		{
+		public:
+		    static bool IsEqual(const T& lh, const T& rh)
+		    {
+			return lh == rh;
+		    }
+		};
+
+		// specialize for float
+		template<>
+		class Compare &lt;float&gt;
+		{
+		public:
+		    static bool IsEqual(const float& lh, const float& rh)
+		    {
+			return abs(lh - rh) < 10e-3;
+		    }
+		};
+	</pre>
+
+	<h5>&sect;3.3.2 偏特化</h5>
+	
+	<h3>第四章 高级特性</h3>
+
+	<h4>&sect;4.1 高级特性</h4>
+	<h4>&sect;4.1.1 命名空间</h4>
+
+	<p>在 C语言中定义了3个层次的作用域，即文件(编译单元)、函数和复合语句。<br>C++又引入了类作用域，类是出现在文件内的。在不同的作用域中可以定义相同名字的变量</p>
+
+	
+	<h4>&sect;4.1.2 异常处理</h4>
+	<p>语法格式：try{} catch (ExceptionName e1) {处理语句}</p>
+
+	<table>
+		<tr>
+			<th>异常</th>
+			<th>描述</th>
+		</tr>
+		<tr>
+			<td>std::exception</td>
+			<td>是所有标准C++异常的父类</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<h4>&sect;4.2 C++11</h4>
+
+	<h5>&sect;4.2.1 新的关键字</h5>
+
+	<p><b>auto 自动判断类型</b></p>
+	<p><b>for 循环</b></p>
+
+	<code>
+		<pre>
+			int numbers[] = {1,2,3,4,5};
+			for (auto ele : numbers)
+				cout &lt;&lt; ele &lt;&lt; endl;
+		</pre>
+	</code>
+
+	<p><b>using 定义别名</b><br>
+		I. 定义数据-- using 新类型 = 旧类型<br>
+		II. 定义函数指针-- using 函数名称 = type (*) (参数列表)</p>
+
+	<h5>&sect;4.2.2智能指针</h5>
+	
+	<p><b>unique_ptr指针</b></p>
+	<p>不可以拷贝、赋值，通过release函数转移控制权<br>
+	语法格式：uinque_ptr&lt;type&gt; up(new type(构造函数))</p>
+
+	<p><b>动态内存分配 new/delete</b></p>
+	<p>语法格式(一): type* p = new type_obj();  #null 指针只声明未初始化 <br>
+	动态分配的内存在使用完成后需要用 delete 来删除指针</p>
+
+	<p>语法格式(二): type* p = new type_obj[size];  #数组的动态内存分配 <br>
+	动态分配的内存在使用完成后需要用 delete [] 来删除数组指针</p>
+
+	<h5>&sect;4.2.3 通用函数或者算法</h5>
+
+	<p><b>累计求和函数 accumulate</b></p>
+	<code>
+	<pre>
+		template &lt;class InputIterator, class T&gt;
+	        T accumulate (InputIterator first, InputIterator last, T init)
+		{
+		  while (first!=last) {
+		    init += *first;
+		    ++first;
+		  }
+		  return init;
+		}
+	</pre>
+	</code>
+	
+	<h4>&sect;4.3 C++14</h4>
+
+	<h4>&sect;4.4 C++17</h4>
+	<p><b>在 if 和 switch 语句内可以初始化变量</b></p>
+	
+	<ul>【附录】
+		<li><a href="windev.html">Windwos SDK开发</a></li>
+		<li><a href="game.html">游戏设计</a></li>
+		<li><a href="https://www.boost.org/">Boost库</a></li>
+	</ul>
+
+	<h3>&sect; 第五章 第三方类库</h3>
+	<h4>&sect; 5.1 wxWidgets</h4>
+</body>
+
+</html>

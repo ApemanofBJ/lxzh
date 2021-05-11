@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>C语言代码库</title>
+	<style>
+		code pre {background-color: black; color: white;}
+	</style>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p id="LDatetime">日期时间类</p>
+	<code>
+	<pre>
+		class LDatetime
+		{
+		public:
+		    LDatetime(){
+		        now = time(NULL);
+		        tmLocaltime = localtime(&amp;now);
+		    }
+
+		    int GetYear() { return tmLocaltime-&gt;tm_year + 1900;}
+		    int GetMonth() { return tmLocaltime-&gt;tm_mon + 1;}
+		    int GetDay() { return tmLocaltime-&gt;tm_mday; }
+
+		private:
+		    time_t  now;
+		    tm* tmLocaltime;
+		};
+	</pre>
+	</code>
+
+	<p id="bit">位运算技巧集合</p>
+	<code>
+	<pre>
+		A. 求两个整数的平均值：(a+b)>1
+		   求某个整数的2倍值： a<1  (依据移位运算)
+		B. 判断奇偶数
+		   bool IsEven(int n)  #奇数odd
+		   {
+			return !(n&1);
+	           } 
+		C. 取某一数的某几位数
+		   ex1. 取某一个数的最后4位
+			int a=0x1e;	#十进制数30
+			cout << a&0b1111;  #与15做与运算，输出14	
+	</pre>
+	</code>
+
+	<p id="dialog">Win32对话框窗口框架</p>
+	<code>
+	<pre>
+	#include <windows.h>
+	#include <commctrl.h>
+	#include <stdio.h>
+	#include "resource.h"
+
+	HINSTANCE hInst;
+
+	BOOL CALLBACK DlgMain(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+	{
+	    switch(uMsg)
+	    {
+	    case WM_INITDIALOG:
+	    {
+	    }
+	    return TRUE;
+
+	    case WM_CLOSE:
+	    {
+	        EndDialog(hwndDlg, 0);
+	    }
+	    return TRUE;
+
+	    case WM_COMMAND:
+	    {
+	        switch(LOWORD(wParam))
+	        {
+	        }
+	    }
+	    return TRUE;
+	    }
+	    return FALSE;
+	}
+
+
+	int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+	{
+	    hInst=hInstance;
+	    InitCommonControls();
+	    return DialogBox(hInst, MAKEINTRESOURCE(DLG_MAIN), NULL, (DLGPROC)DlgMain);
+	}
+	</pre>
+	</code>
+
+	<p id="win32">Windwos窗口程序</p>
+	<code>
+	<pre>
+	
+	</pre>
+	</code>
+
+	<p id="accumulate">向量数组的数值累计求和</p>
+	<code>
+	<pre>
+	#include &lt;iostream&gt;
+	#include &lt;numeric&gt;
+	#include &lt;vector&gt;
+
+	using namespace std;
+
+	int main()
+	{
+	    vector<int>  chuchai {553,23};
+
+	    cout << accumulate(chuchai.begin(),chuchai.end(),0) << endl;
+
+	    return 0;
+	}
+	</pre>
+	</code>	
+
+	<p id="pointer">指针的应用</p>
+	<code>
+	<pre>
+		A. 一维数组的遍历
+		    int ay [] = {1,3,5,7,9};
+		    const int* p = ay;			//默认转换
+
+		    for (int i=0;i&lt;5;i++)
+		        cout &lt;&lt; *(p+i) &lt;&lt; endl;
+		B. 二维数组的遍历
+		    int ay [2][5] = { {1,3,5,7,9},   //行、列必须指定
+                {2,4,6,8,10}
+               };
+
+		    const int* p = &ay[0][0];	//取首元素地址
+
+		    for (auto i=0;i&lt; 2*5;i++)
+		        cout &lt;&lt; *(p+i) &lt;&lt; endl;
+		C. 函数指针
+			#define GET_MAX 0
+			#define GET_MIN 1
+			int get_max(int a, int b)
+			{
+			    return a &gt; b ? a : b;
+			}
+			int get_min(int a, int b)
+			{
+			    return a &lt; b? a : b;
+			}
+			int compare(int a,int b, int nFlag)
+			{
+			    int (*f)(int,int);
+			    if (nFlag == GET_MAX)
+				f = get_max;
+			    if (nFlag == GET_MIN)
+				f = get_min;
+			    return f(a,b);
+			}
+	</pre>
+	</code>
+	
+	<p id="list">链表 list</p>
+	<code>
+	<pre>
+		I. 单链表
+	//****链表的节点*****
+	template &lt; typename T &gt;
+	struct ListNode
+	{
+	    T val;              //数据域
+	    ListNode&lt;T&gt;* next;  //后向指针
+	};
+
+	//****链表对象的类抽象，对应节点的操作(节点是元素，链表是集合)*****
+	template &lt; typename T&gt;
+	class LSinglyList
+	{
+	public:
+	    LSinglyList();
+	    ~LSinglyList();
+	    
+	    bool Initialize(int n,T val=0); //使用val的值创建n个节点；
+
+	    ListNode&lt;T&gt;* InsertNode(ListNode&lt;T&gt;* cur, const T& data);   //在当前节点前插入数据节点
+	    ListNode&lt;T&gt;* AppendNode(ListNode&lt;T&gt;* cur, const T& data);   //在当前节点后追加数据节点
+	    
+	    ListNode&lt;T&gt;* GetHead() const { return first;}
+	    ListNode&lt;T&gt;* GetTail() const { return last;}
+
+	private:
+	    ListNode&lt;T&gt; *first;
+	    ListNode&lt;T&gt; *last;   //头、尾指针
+	};
+
+	template&lt;typename T&gt;
+	LSinglyList&lt;T&gt;::LSinglyList()
+	{
+	    first = last = NULL;
+	}
+
+	template&lt;typename T&gt;
+	LSinglyList&lt;T&gt;::~LSinglyList()
+	{
+	    first = last = NULL;
+	    delete first;
+	    delete last;
+	}
+	</pre>
+	</code>
+
+	<p id="pork">随机发牌程序</p>
+	<code>
+	<pre>
+		#include &lt;stdio.h&gt;
+		#include &ltstdlib.h&gt;
+
+		int comp(const void *j, const void *i);
+
+		void p(int b[], char n[]);
+
+		const int nUnit = 13;
+
+		int main(void)
+		{
+		    static char n[]={'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};  //nUnit张牌
+		    int a[53], b1[nUnit], b2[nUnit], b3[nUnit], b4[nUnit];   //扑克牌，每副牌分4个人
+		    int b11=0, b22=0, b33=0, b44=0, t=1, m, flag, i;
+
+		    while( t<=52 )     /*控制发52张牌*/
+		    {
+		        m=rand()%52;  /*产生0到51之间的随机数*/
+
+		        for(flag=1,i=1; i<=t&&flag; i++)  /*查找新产生的随机数是否已经存在*/
+		            if(m==a[i])
+		                flag=0;  /*flag=1表示产生的是新的随机数，flag=0表示新产
+		                          生的随机数已经存在*/
+		        if(flag)
+		        {
+		            a[t++]=m;  /*如果产生了新的随机数，则存入数组*/
+		                       /*根据t的模值，判断当前的牌应存入哪个数组中*/
+		            if(t%4==0)
+		                b1[b11++]=a[t-1];
+		            else
+		                if(t%4==1)
+		                    b2[b22++]=a[t-1];
+		                else
+		                    if(t%4==2)
+		                        b3[b33++]=a[t-1];
+		                    else
+		                        if(t%4==3)
+		                            b4[b44++]=a[t-1];
+		        }
+		    }
+
+		    /*将每个人的牌进行排序*/
+		    qsort(b1, nUnit, sizeof(int), comp);
+		    qsort(b2, nUnit, sizeof(int), comp);
+		    qsort(b3, nUnit, sizeof(int), comp);
+		    qsort(b4, nUnit, sizeof(int), comp);
+
+		    /*分别打印每个人的牌*/
+		    p(b1, n);
+		    p(b2, n);
+		    p(b3, n);
+		    p(b4, n);
+
+		    return 0;s
+		}
+		void p(int b[], char n[])
+		{
+		    int i;
+		    /*打印黑桃标记*/
+		    printf("\n\006 ");
+		    for(i=0; i&lt;nUnit; i++)  /*将数组中的值转换为相应的花色*/
+		        if(b[i]/nUnit==0)  /*找到该花色对应的牌*/
+		            printf("%c ", n[b[i]%nUnit]);
+		    /*打印红桃标记*/
+		    printf("\n\003 ");
+		    for(i=0; i&lt;nUnit; i++)
+		        if((b[i]/nUnit)==1)
+		            printf("%c ", n[b[i]%nUnit]);
+		    /*打印方块标记*/
+		    printf("\n\004 ");
+		    for(i=0; i&lt;nUnit; i++)
+		        if(b[i]/nUnit==2)
+		            printf("%c ", n[b[i]%nUnit]);
+		            /*打印梅花标记*/
+		                printf("\n\005 ");
+		                for(i=0; i&lt;nUnit; i++)
+		                    if(b[i]/nUnit==3 || b[i]/nUnit==4)
+		                        printf("%c ", n[b[i]%nUnit]);
+		    printf("\n");
+		}
+
+		int comp(const void *j, const void *i)  /*qsort调用的排序函数*/
+		{
+		    return(*(int*)i-*(int*)j);
+		}
+	</pre>
+	</code>
+
+	<p id="mystack">栈-数据结构的实现</p>	
+	<code><pre>
+	/*
+	时间：2018年11月2日
+	程序描述：实现基于数组的栈(数据结构)
+	技术要求：使用模板技术
+
+	1. 模板的第二个参数来定义数组的大小；
+	2. 通过栈顶指针(top)来进行操作标记；
+	*/
+
+	template&lt;typename T, size_t N=10&gt;   //定义模板的数据类型，模板的大小
+	class myStack
+	{
+	public:
+	    myStack();
+	    ~myStack() = default;
+
+	    size_t GetCapacity() const { return N;}  //输出模板的大小
+
+	    bool IsEmpty() { return top == 0; }      //栈是否为空
+	    bool IsFull()  { return top == N-1;}      //栈是否已满
+
+	    int Index() const { return top; }        
+
+	    bool Push(T val);   //入栈操作
+	    T Pop();            //出栈操作
+
+	    void Traversal();   //遍历栈元素
+
+	private:
+	    T ele[N];   //数组存储数据
+	    int top;    //栈顶值
+	};
+
+	template&lt;typename T,size_t N&gt;
+	myStack&lt;T,N&gt;::myStack():top(0)
+	{
+	    for (size_t i =0; i&lt; N; i++)
+	        ele[i] = T(0);
+	}
+
+	//入栈
+	template&lt;typename T,size_t N&gt;
+	bool myStack&lt;T,N&gt;::Push(T val)
+	{
+	    //如果不满，栈顶位置赋值，栈顶+1
+	    if (!IsFull()){
+	        ele[top] = val;
+	        top++;
+	        return true;
+	    }
+
+	    return false;
+	}
+
+	template&lt;typename T,size_t N&gt;
+	T myStack&lt;T,N&gt;::Pop()
+	{
+	    if (IsEmpty())
+	        return 0;
+
+	    return ele[--top];
+	}
+
+	template&lt;typename T,size_t N&gt;
+	void myStack&lt;T,N&gt;::Traversal()
+	{
+	    for (int i=0;i&lt;top;i++)
+	        cout &lt;&lt; ele[i] &lt;&lt; endl;
+	}	
+	</pre></code>
+
+	<p id="c-mysql"><b>C++实现连接MySQL</b></p>
+	<code><pre>
+		
+	</pre></code>
+</body>
+</html>

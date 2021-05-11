@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tomcat公猫(catalina)--应用程序服务器</title>
+</head>
+<body>
+	<a href="https://tomcat.apache.org/"><img src="../../pic/it/os/tomcat.png" alt=""></a>
+	<hr>
+	<p>由 Apache 开发的一个 Servlet 容器(.jsp-->.java 的编译)，实现了对 Servlet 和 JSP (Java Server Page，#嵌入HTML，框架SSH--Structs,Spring, Hebernate,#Jasper编译为Servlet)的支持<br>
+	特点：运行时占用的系统资源小，扩展性好，支持负载平衡与邮件服务等开发应用系统常用的功能</p>
+
+	<ul>架构:
+		<li>Server -> Connector </li>
+		<li>Service 将连接器Connector与引擎进行关联</li>
+		<li>Engine --Servlet Container,定义时需要指定默认主机</li>
+		<li>Host 在引擎内部实现虚拟主机</li>
+		<li>context 网站文件路径</li>
+	</ul>
+
+	<ul>组件工具
+		<li>realm:用户账号数据库</li>
+		<li>valve(过滤器):记录访问日志、基于ip认证</li>
+		<li>logger:日志记录器,不能用于context</li>
+	</ul>
+
+	<ul>部署方式
+		<li>单独服务器方式响应WEB需求</li>
+		<li>代理服务器方式:<br>
+			apache+tomcat--使用专用代理服务器模块与后端集群进行连接，协议ajp(apache jserv protocol)效率高<br>
+			nginx+tomcat--协议http，使用upstream</li>
+	</ul>
+
+	<p>[安装]</p>
+	<code>wget http://mirrors.hust.edu.cn/apache/tomcat/tomcat-8/v8.5.24/bin/apache-tomcat-8.5.24.tar.gz</code>
+	
+	<p>配置文件-[server.xml]<br>
+		port	#用telnet通过端口访问
+
+	a.> 端口<br>
+	Connector port="8080"</p>
+
+	catalina.policy 网络访问的安全策略
+	webapps 应用程序目录(网页)
+	work 	工作目录
+
+	<p>启动程序 -建立catalina.sh<br>
+		export CATALINA_HOME=/usr/local/tomcat<br>
+		export PATH=$PAHTH:$CATALINA_HOME/bin<br>
+		exec $CATALINA_HOME/bin/catalina.sh $*
+	</p>
+</body>
+</html>

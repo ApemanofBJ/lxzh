@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Docker容器(软件集装箱)-基于GO语言的云计算开源项目</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<h3>容器(Containers-集装箱)技术</h3>
+	<img src="../../pic/it/os/containers.jpg" alt="">
+	<p>需要解决的核心问题之一是运行时的环境隔离</p>
+
+	<p>LXC-Linux Containers 容器</p>
+	<ul>应用场景：
+		<li>Web 应用的自动化打包和发布</li>
+		<li>自动化测试和持续集成、发布</li>
+		<li>在服务型环境中部署和调整数据库或其他的后台应用</li>
+		<li>从头编译或者扩展现有的 OpenShift 或 Cloud Foundry 平台来搭建自己的 PaaS 环境</li>
+	</ul>
+
+	<p>Ubuntu 安装: apt install docker.io</p>
+	
+	<ul>应用:
+		<li>是一个开源的软件部署解决方案；</li>
+		<li>也是轻量级的应用容器框架；</li>
+		<li>可以打包、发布、运行任何的应用。(web应用和自动化测试)</li>
+	</ul>
+
+	<p>启动服务: systemctl start docker</p>
+	<h3>I. 镜像 Image</h3>
+	<p>I.1 获取镜像: docker pull 镜像名称：标签<br>
+	搜索镜像：docker search 镜像名称</p>
+
+	<p>I.2 查看镜像信息：docker image (inspect ID 详细信息)</p>
+
+	<h3>II. 容器 Container</h3>
+	<p>II.1 创建容器: docker create -it 镜像名称:标签</p>
+	<p>II.2 启动容器：docker run -t 镜像名称:标签<br>
+		或者	  docker run -d 镜像image ID <br>
+		停止	  docker stop 容器-ID <br>
+	<p>II.3 更新镜像: docker commit -m "描述信息" -a "作者" 容器ID 镜像名称</p>
+	<p>II.4 建立镜像：docker built</p>
+	
+	<p>docker exec -it 镜像 /bin/bash</p>
+	<ul>参数：
+		<li>-i 进行交互操作</li>
+		<li>-t 指定一个终端</li>
+		<li>-p 8080:80 端口映射 (docker port 查看) #-P 绑定端口</li>
+		<li>docker port 查看端口情况</li>
+	</ul>
+
+	<ul>操作
+		<li>文件复制 docker cp file image-id://usr/share/nginx/html(nginx网页文件)</li>
+		<li>保存设置 docker commit -m 'message' image-id image-name</li>
+		<li>删除镜像 docker rmi/rm image-id	#容器必须是停止状态</li>
+		<li>显示容器 docker ps -a</li>
+		<li>查看容器输出 docker logs</li>
+		<li>设置镜像标签 docker tag ID 仓库:name</li>
+	</ul>
+
+	<pre>
+	[nginx]
+		A.拉取官方最新镜像	docker  pull  nginx:latest
+		B.查看docker镜像	docker  images
+		C.运行			docker  run --name nginx-docker -p 8080:80 -d nginx	
+		D.进入到容器系统 	docker	exec -it nginx-docker bash
+	</pre>
+
+	<h3>III 仓库 Repository</h3>
+	<p>III.1 Docker Hub<br>
+	官方公共镜像仓库--<a href="https://hub.docker.com" target="blank">https://hub.docker.com</a></p>
+	
+	<p>附录资源:<br>
+	http://www.putty.ws/PuTTY-LinuxVPS<br>
+	Git: http://git.oschina.net</p>
+
+	<p>[Question]<br>
+	1. 如何使docker 创建的容器像虚拟机一样可以使用，或者通过ssh 连接？</p>
+</body>
+</html>

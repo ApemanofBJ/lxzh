@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ansible</title>
+	<style>
+		div.example {background-color: lightgreen; color: blue;}
+	</style>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+<p>参考：<a href="http://www.ansible.com.cn/">Ansible中文权威指南</a></p>
+<img src="../../pic/it/os/ansible.png" alt="自动化管理it资源的工具">
+
+<ul>功能(特点：无客户端推送式/规模小、效率低)
+	<li>系统环境配置</li>
+	<li>安装软件</li>
+	<li>持续集成</li>
+	<li>热回滚</li>
+</ul>
+
+<p>安装：<br>pip: easy_install pip <br>ansible: pip install ansible</p>
+
+<ul>配置文件路径
+	<li>export ANSIBLE_CONFIG</li>
+	<li>./ansible.cfg</li>
+	<li>~/.ansible.cfg</li>
+	<li>/etc/ansible/ansible.cfg</li>
+</ul>
+<p>note: ask_pass&ask_sudo_pass(开启sudo密码) </p>
+
+<table>配置文件：
+	<tr>
+		<th>内容</th>
+		<th>说明</th>
+	</tr>
+	<tr>
+		<td>inventory = /etc/ansible/hosts</td>
+		<td>资源清单inventory文件的位置</td>
+	</tr>
+	<tr>
+		<td>library = /usr/share/ansible:其他模块的目录位置</td>
+		<td>指向存放ansible模块的目录</td>
+	</tr>
+</table>
+
+<h3>step.1 主机清单</h3>
+<p>路径：/etc/ansible/hosts</p>
+<ul>定义方式
+	<li>直接指明主机地址或主机名</li>
+	<li>定义一个主机组[组名]把地址或主机名加进去</li>
+	<li>技巧:组成员可以使用通配符来匹配，如下 172.17.254.[1:6]</li>
+</ul>
+
+<pre>
+	Ex1. 直接指定主机名称
+		192.168.100.1
+		blue.example.com
+	Ex2. 指定主机组
+		[webservers]
+			主机列表	
+</pre>
+
+<h3>step.2 命令格式</h3>
+<p>ansible <host-pattern> [-f forks] [-m module_name] [-a args]</p>
+<ul>pattern 主机匹配
+	<li>all/*: 所有主机</li>
+	<li>group1:group2 多组主机/ !group 组排除 / &group 组交集</li>
+	<li>~: 匹配正则表达式(支持通配符)</li>
+	<li>@filename: 从文件读取主机名称</li>
+</ul>
+<ul>参数
+	<li>-m 指定使用的模块，默认是command</li>
+	<li>-u 用户名，指定登录用户名</li>
+	<li>-su 用户名, 指定sudo用户名</li>
+	<li>-K, 提示输入密码，与-su 一起使用</li>
+	<li></li>
+</ul>
+<ul>模块
+	<li>shell--支持shell的各种功能，例如管道</li>
+	<li>copy--复制文件到远程主机，可以改权限</li>
+	<li>file--设置文件属性</li>
+	<li>fetch--从远程某主机获取文件到本地</li>
+	<li>cron--管理计划任务</li>
+	<li>yum--安装软件</li>
+	<li>service--服务程序管理</li>
+	<li>user/group--管理用户(组)帐号</li>
+	<li>setup--采集被管机器设备信息</li>
+</ul>
+
+<h3>playbook-剧本</h3>
+<p>命令格式: ansible-playbook .yml脚本</p>
+<p>
+	<div class="example">
+		<pre>
+			---
+			- hosts: webserver
+			  vars:
+			 	http_port: 80
+			 	max_client: 200
+			  remote_user: admin
+			  tasks:
+			 	-name: ensure apache is at The latest version  
+			 	 yum:
+			 	 	name: httpd
+			 	 	state: lasted
+			 	-name: setup MariaDB
+			 	 yum:  name=mariadb  state=present
+
+		</pre>
+	</div>
+</p>
+
+<hr>
+<p>附录--YAML语法(基于k/v列表)</p>
+<p>
+	<div class="example">
+		<pre>
+		---		#起始
+		fruits:			#主题
+			-Apple		#-子项
+			-Orange
+		martin:
+			name: Martin D'vloper	#k/v值
+			job: Devloper
+		</pre>
+	</div>
+</p>
+<ul>note:
+	<li>支持布尔值true/false</li>
+</ul>
+
+
+	
+</body>
+</html>

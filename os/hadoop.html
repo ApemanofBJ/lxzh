@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hadoop --大数据平台/分布式文件系统</title>
+</head>
+<body>
+	<img src="../../pic/it/os/hadoop.png" alt="">
+	<ul>子项目：
+		<li>MapReduce:并行处理框架，实现任务分解和调度</li>
+		<li>HDFS--Hadoop Distributed File System 存储海量数据</li>
+	</ul>
+	<p>无所不在的大数据</p>
+	<img src="../../pic/it/os/大数据.png" alt="">
+	<ul>Hadoop 生态圈：
+		<li>hive</li>
+		<li>hbase --存储结构化数据的分布式数据库</li>
+		<li>zookeeper</li>
+	</ul>
+
+	<p>[安装]</p>
+	<ul>部署模式
+		<li>本地模式(使用的本地文件系统，而不是HDFS-默认)</li>
+		<li>伪分布模式</li>
+		<li>完全分布模式</li>
+		<li>HA完全分布模式</li>
+	</ul>
+
+	<p>安装JDK/设置环境变量</p>
+	<img src="../../pic/it/os/java-env.png" alt="">
+
+	<h4>HDFS</h4>
+	<p>是一个文件系统，用于存储和管理文件，通过统一的命名空间.<br>
+	文件被分成块block进行存储，默认64M，是文件存储处理的逻辑单元#块的大小可以通过配置参数( dfs.blocksize)来规定</p>
+	
+	<p>客户端访问：hdfs://namenode:port/dir-a/dir-b/dir-c/file.data</p>
+
+	<p>NameNode--管理结点，存放文件元数据。<br>
+	文件与数据块的映射表<br>
+	数据块与数据结点的映射表<br>
+	二级NameNode进行元数据的备份</p>
+	<p>DateNode--数据结点<br>
+	每个数据块3个副本，分布在两个主机上<br>
+	DataNode 定期向NameNode发送心跳消息</p>
+	<p>命令接口: hadoop fs -put/-get	#上传/下载文件</p>
+	<h5>I.   写节点数据</h5>
+	<h5>II.	 读节点数据</h5>
+	<h5>III. 删节点数据</h5>
+
+	<h4>MapReduce</h4>
+	<p>Job/Task-Map task,Reduce task</p>
+	<p>JobTracker/TaskTracker</p>
+
+	<h4>[zookeeper]</h4>
+	<ul>znode
+		<li>PERSISTENT-持久化目录节点</li>
+		<li>PERSISTENT_SEQUENTIAL-持久化顺序编号目录节点</li>
+		<li>EPHEMERAL-临时目录节点</li>
+		<li>EPHEMERAL_SEQUENTIAL-临时顺序编号目录节点</li>
+	</ul>
+
+
+	<h4>DFS</h4>
+	<p> --Distributed File System/分布式文件系统</p>
+
+	<h5>&sect;.1 FastDFS</h5>
+</body>
+</html>

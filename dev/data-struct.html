@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数据结构与算法</title>
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<p><b>不积跬步无以至千里!</b><br>
+	Donald Knuth：程序不仅仅是给计算机看的，更是给人看的;<br>
+	本质上就是人机交互，过程就是输入-运算-输出，对于界面而言，要求就是简洁地、方便地</p>
+
+	<ul>目录
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<h2>第一部分	数据结构</h2>
+
+	<h3>第一章 线性表</h3>
+
+	<p>定义：相同类型的数据元素的有限序列,{a<sub>0</sub>,a<sub>1</sub>,a<sub>2</sub>,……a<sub>n</sub>}</p>
+
+	<h4>&sect;1.2 stack 栈</h4>
+	<p>基本原理：采用后进先出(LIFO-last in first out)的原则，典型应用--函数参数</p>
+	<img src="../../pic/it/os/CPlus/stack.png" alt="">
+
+	<h4>&sect;1.3 list 链表</h4>	
+	<img src="../../pic/it/os/CPlus/s-list.png" alt="">
+
+	<h4>&sect;1.3.1 singly linked list 单链表(线性链表)</h4>	
+	<h4>&sect;1.3.2 doubly linked list 双向链表</h4>	
+	<h4>&sect;1.3.3 ring   linked list 环形链表</h4>	
+
+	<h4>&sect;1.4 deque 队列</h4>
+
+	<h3>第二章 树形结构</h3>	
+	<p><b>概念</b><br>
+		数是由n个节点组成的有限集合。 若n=0, 则称为空数；若n &gt; 0, 则：<br>
+		有一个根节点root, 只有后继，没有前驱.<br>
+		其他节点划分为m个互不相交的子集合T<sub>0</sub>、T<sub>1</sub>……,称为子树。<br>
+		每颗子树的根节点有且仅有一个直接前驱，但可以有0个或者多个后继。
+	</p>
+
+	<ul>相关术语
+		<li>节点node</li>
+		<li>节点的度degree, 是节点拥有的子树数量。<br>
+			叶子节点--度为0的节点，即终端节点；<br>
+			分支节点--度不为0的节点
+		</li>
+		<li>子节点child/父节点parent/兄弟节点 brother</li>
+		<li>节点层级level: 从根节点到该节点的分支条数<br>
+			数的高度：最大的层数</li>
+	</ul>
+	<pre>
+	//节点的类结构
+	template&lt;typename T&gt;
+	class node
+	{
+	private:
+	    int degree;     //度--子节点的数量
+	    node *parent;   //父节点, 通过它可以访问兄弟节点
+	    node *ChildHead;    //子节点链表的表头指针
+	    /* 度为0-没有子节点链表；度为1-链表就一个对象；大于2个以上有子节点链表 */
+	    int level;      //层次--从根到该节点的分支条数，最大值是数的高度
+	    
+	    T data;         //数据域
+	};
+
+	//数的类结构
+	template&lt;typename T&gt;
+	class tree
+	{
+	private:
+	    node* root;   //根节点
+	    
+	public:
+	    InsertNode          //在当前节点前插入新节点
+	    AppendNode          //在当前节点后插入新节点
+	    DeleteNode          //按照值删除节点
+	    FindNode            //按照值查找节点
+	};
+	</pre>
+
+	<h3>第三章 图形结构</h3>	
+
+	<h2>第二部分	算法</h2>
+	<ul>参考
+		<li><a href="https://www.cnblogs.com/v-July-v/default.html?page=6">
+		结构之法算法之道</a></li>
+	</ul>
+
+	<p>大O表示法：O(执行次数)</p>
+
+	<h3>&sect;2.1 基本算法</h3>
+	<h4>&sect;2.1.1 迭代算法</h4>
+	<p>所谓迭代，就是变量调用自身，改变本身状态或者值的行为 #递归是函数调用自身</p>
+	<code>
+	<pre>
+		A.  febonacci 数列
+		int febonacci(int n)   //n为数列的项数
+		{
+		    int a = 0, b = 1;
+		    for (int i=1;i&lt;=n; i++)
+		    {
+			b = a + b;
+			a = b - a;
+		    }
+		    return a;
+		}
+		B. 交换两个整数的值
+		void swap2(int& a, int& b)
+		{
+		    a +=  b;
+		    b = a - b;
+		    a -=  b;
+		}
+       </pre>
+       </code>
+
+   <h4>&sect;2.1.2 递归算法</h4>
+   <p>所谓递归，就是函数调用自身，包括递归边界和递归方式两个部分</p>
+   <code>
+	<pre>
+		A. 求解最大公约数
+		int gcd(int m,int n)
+		{
+		    return (m%n) ? gcd(n,m%n):n ;
+		}
+	</pre>
+   </code>
+
+   <h4>&sect;2.1.3 筛选算法</h4>
+   <p>筛选，在循环范围内设置条件，符合条件的进行操作</p>
+	<code>
+	<pre>
+	int MaxOfArray(int ay[],int n)
+	{
+	    int max = 0;
+	    for (int i=0;i&lt;n;i++)   //循环范围
+	    {
+	        if (ay[i] &gt; max)    //筛选条件
+	            max = ay[i];
+	    }
+	    return max;
+	}
+	</pre>
+	</code>
+
+	<h4>&sect;2.1.4 排序算法</h4>
+
+	<p><b>快速排序算法</b></p>
+
+	<h4>&sect;2.1.5 伪随机数算法</h4>
+
+	<p><b>线性同余法</b></p>
+	
+	<h3>&sect;2.2 专业算法</h3>
+
+	<h4>&sect;2.2.1 发牌算法</h4>
+	<pre>
+	#include &lt;stdio.h&gt;
+	#include &lt;stdlib.h&gt;
+
+	#define true  1
+	#define false 0
+
+	int comp(const void *j, const void *i);
+
+	void p(int b[], char n[]);
+
+	const int PORK = 13;
+
+	int main(void)
+	{
+	    static char n[]={'2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};  //PORK张牌
+	    int a[53], b1[PORK], b2[PORK], b3[PORK], b4[PORK];   //扑克牌，每副牌分4个人
+	    int b11=0, b22=0, b33=0, b44=0, t=1, m, flag, i;
+
+	    while( t&lt;=52 )     /*控制发52张牌*/
+	    {
+	        m=rand()%52;  /*产生0到51之间的随机数*/
+
+	        for(flag=true,i=1; i&lt;=t&&flag; i++)  /*查找新产生的随机数是否已经存在*/
+	            if(m==a[i])
+	                flag=false;  /*flag=1表示产生的是新的随机数，flag=0表示新产
+	                          生的随机数已经存在*/
+	        if(flag)
+	        {
+	            a[t++]=m;  /*如果产生了新的随机数，则存入数组*/
+	                       /*根据t的模值，判断当前的牌应存入哪个数组中*/
+	            switch (t%4)
+	            {
+	            case 0:
+	                b1[b11++]=a[t-1];
+	                break;
+	            case 1:
+	                b2[b22++]=a[t-1];
+	                break;
+	            case 2:
+	                b3[b33++]=a[t-1];
+	                break;
+	            case 3:
+	                b4[b44++]=a[t-1];
+	                break;
+	            }
+	        }
+	    }
+
+	    /*将每个人的牌进行排序*/
+	    qsort(b1, PORK, sizeof(int), comp);
+	    qsort(b2, PORK, sizeof(int), comp);
+	    qsort(b3, PORK, sizeof(int), comp);
+	    qsort(b4, PORK, sizeof(int), comp);
+
+	    /*分别打印每个人的牌*/
+	    p(b1, n);
+	    p(b2, n);
+	    p(b3, n);
+	    p(b4, n);
+
+	    return 0;
+	}
+	void p(int b[], char n[])
+	{
+	    int i;
+	    /*打印黑桃标记*/
+	    printf("\n\006 ");
+	    for(i=0; i&lt;PORK; i++)  /*将数组中的值转换为相应的花色*/
+	        if(b[i]/PORK==0)  /*找到该花色对应的牌*/
+	            printf("%c ", n[b[i]%PORK]);
+	    /*打印红桃标记*/
+	    printf("\n\003 ");
+	    for(i=0; i&lt;PORK; i++)
+	        if((b[i]/PORK)==1)
+	            printf("%c ", n[b[i]%PORK]);
+	    /*打印方块标记*/
+	    printf("\n\004 ");
+	    for(i=0; i&lt;PORK; i++)
+	        if(b[i]/PORK==2)
+	            printf("%c ", n[b[i]%PORK]);
+	    /*打印梅花标记*/
+	    printf("\n\005 ");
+	    for(i=0; i&lt;PORK; i++)
+	        if(b[i]/PORK==3 || b[i]/PORK==4)
+	            printf("%c ", n[b[i]%PORK]);
+	    printf("\n");
+	}
+
+	int comp(const void *j, const void *i)  /*qsort调用的排序函数*/
+	{
+	    return(*(int*)i-*(int*)j);
+	}
+	</pre>
+
+	<h3>&sect;2.3 高级算法</h3>
+
+	<h4>2.3.1 平方根的卡马克算法</h4>
+	<pre>
+		float Q_rsqrt( float number )
+		{
+		    long i;
+		    float x2, y;
+		    const float threehalfs = 1.5F;
+
+		    x2 = number * 0.5F;
+		    y  = number;
+		    i  = * ( long * ) &y;						// evil floating point bit level hacking
+		    i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+		    y  = * ( float * ) &i;
+		    y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration 
+		//  y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+		    return y;
+		}
+	</pre>
+</body>
+</html>

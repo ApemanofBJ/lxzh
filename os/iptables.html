@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>防火墙</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<h3>iptables</h3>
+	<p>
+		iptables只是Linux防火墙的管理工具而已。<br>
+		真正实现防火墙功能的是netfilter，它是Linux内核中实现包过滤的内部结构。<br>
+	</p>
+	
+	<p>图示：</p>
+	<img src="../../pic/it/os/iptables.png" alt="">
+	<p>note:<br>
+	四表：filter(过滤数据包)/NAT(地址转换)/Mangle(修改数据包)/Raw(跟踪) #过滤转换、修改跟踪<br>
+	五链：前(prerouting)、里(input)、转(forward)、外(output)、出(postrouting)</p>
+
+	<p>命令格式：<br>
+	iptables -t 表名 <-A/I/D/R> 规则链名 [规则号] <-i/o 网卡名> -p 协议名 <-s 源IP/源子网> --sport 源端口 <-d 目标IP/目标子网> --dport 目标端口 -j 动作
+	</p>
+	
+	<ul>动作
+		<li>accept：接收数据包</li>
+		<li>DROP：丢弃数据包</li>
+		<li>REDIRECT：重定向</li>
+		<li>SNAT：源地址转换</li>
+		<li>DNAT：目标地址转换</li>
+		<li>MASQUERADE：IP伪装（NAT），用于ADSL</li>
+		<li>LOG：日志记录</li>
+	</ul>
+
+	<table>
+		<caption>应用</caption>
+		<tr>
+			<th>功能说明</th>
+			<th>具体命令</th>
+		</tr>
+		<tr>
+			<td>允许访问本机的80端口</td>
+			<td>iptables -A INPUT -p tcp --dport 80 -j ACCEPT</td>
+		</tr>
+		<tr>
+			<td>屏蔽ip网段</td>
+			<td>iptables -I INPUT -s 123.45.6.0/24 -j DROP</td>
+		</tr>
+	</table>
+	<hr width="500">
+
+	<h3>firewalld -RHEL7系统默认</h3>
+	   <p>Dynamic Firewall Manager of linux system 动态防火墙管理器 #不用重启服务<br>区别于iptables对于规则的改变需要重新加载，但是底层还是iptables 实现</p>			
+ 
+         <h4>区域名称及策略规则</h4>
+         <ul>
+                 <li>trusted         允许所有的数据包</li>
+                 <li>home            拒绝流入的流量，除非与流传相关</li>
+                 <li>internal        同home</li>
+                 <li>work           </li>
+                 <li>public</li>
+                 <li>external</li>
+                 <li>dmz</li>
+                 <li>block</li>
+                 <li>drop</li>
+         </ul>            
+                 备注说明： zone文件位置--/etc/firewalld/zone
+ 
+         <h4>命令行工具  firewall-cmd    长格式参数</h4>
+		<table>参数:
+		<tr>
+			<td> --add-service=<服务名称></td>
+			<td>设置默认区域允许该服务</td>
+		</tr>
+		<tr>
+			<td> --get-services </td>
+			<td>获取所有支持的服务</td>
+		</tr>
+		<tr>
+			<td> --remove-service=<服务></td>
+			<td> 禁用服务</td>
+		</tr>
+		<tr>
+			<td> --add-port=port/协议 </td>
+			<td>设置默认区域允许该端口</td>
+		</tr>
+		<tr>
+			<td> --get-defatablet-zone </td>
+			<td> 获取默认的区域名称</td>
+		</tr>
+		<tr>
+			<td> --set-defatablet-zone=<区域></td>
+			<td> 设置默认的区域</td>
+		</tr>
+		<tr>
+			<td> --get-zone </td>
+			<td> 显示可用的区域</td>
+		</tr>
+		<tr>
+			<td> --get-active-zones</td>
+			<td>当前区域与网卡名称</td>
+		</tr>
+		<tr>
+			<td> --reload</td>
+			<td>重新加载</td>
+		</tr>
+		<tr>
+			<td> -permanent</td>
+			<td>规则保存到zone配置文件, 永久生效</td>
+		</tr>
+		<tr>
+			<td> --state</td>
+			<td>显示防火墙状态</td>
+		</tr>	
+		<tr>
+			<td> --query-service</td>
+			<td>查询服务</td>
+		</tr>				
+		</table>
+</body>
+</html>

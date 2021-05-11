@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>C语言</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		code pre{width: 500px; background-color: black; color: white;text-align: left;}
+	</style>
+</head>
+
+<body>
+	<p>简单程序框架</p>
+	<code>
+		<pre>
+			#include  &lt;stdio.h&gt;
+
+			int main(void)  #int argc, char* argv[] 命令行参数
+			{
+				printf("hello!\n I'm coming.")
+				return 0;
+			}
+		</pre>
+	</code>
+
+	<ul>参考资料
+		<li><a href="http://users.cs.cf.ac.uk/Dave.Marshall/C/"> 
+		Programming in C – UNIX System Calls and Subroutines using C</a></li>
+		<li><a href="http://c-faq.com/">C FAQ</a></li>
+		<li><a href="https://blog.codingnow.com/2007/02/cplusplus.html">
+		云风的blog</a></li>
+		<li><a href="https://www.thoughtco.com/c-and-c-plus-programming-4133470">
+		C and C++ Programming</a></li>
+		<li><a href="http://c.biancheng.net/cpp/">C语言中文网</a></li>
+	</ul>
+
+	<h3>第一章 数据类型</h3>
+
+	<p>输出数据的大小：sizeof</p>
+	<p>多变量定义：type a,b,c;</p>
+
+	<h4 id="binary">&sect;1.1 二进制运算(位运算)</h4>
+	<p>一个bit有两种状态，即0和1</p>
+
+	<p>所谓位运算，就是在内存中对整数进行二进制位的操作</p>
+
+	<table>
+		<tr>
+			<th>逻辑运算符号</th>
+			<th>特点</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>与运算：a&b</td>
+			<td>一一为一</td>
+			<td>串联电路：两个开关同时闭合，整个电路才是闭合的</td>
+		</tr>
+		<tr>
+			<td>或运算：a|b</td>
+			<td>一零为一</td>
+			<td>并联道路：只要由一个开关闭合，整个电路就是闭合的</td>
+		</tr>
+		<tr>
+			<td>异或：a^b</td>
+			<td>不同为一</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>取反：!a</td>
+			<td>将一为零，将零为一</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>移位: 左移&lt;&lt; 右移&gt;&gt;</td>
+			<td>左移乘2，右移除2</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h4 id="int">&sect;1.2 整型</h4>
+
+	<p>有符号：signed/ 无符号: unsigned<br>
+	进制数的表示法：二进制0b/八进制数O/十六进制数0x</p>
+
+	<table>
+		<tr>
+			<th>类型</th>
+			<th>占用字节</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>short</td>
+			<td>2Bytes</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>int</td>
+			<td>4Bytes</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>long</td>
+			<td>8Bytes</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>long long</td>
+			<td>8Bytes</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<p><b>++的前缀与后缀</b><br>
+	i++: 先取值再运算 / ++i: 先运算再取值 (从左至右的顺序)</p>
+
+	<p><b>[枚举类型]</b></p>
+	<p>语法： enum 枚举类型名称 {变量=起始值, ……}； #起始值默认为0 </p>
+
+	<p><b>static 静态</b><br>
+	类似于全局变量，在释放前保持原值</p>
+
+	<code>
+		<pre>enum WeekDays {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};</pre>
+	</code>
+	
+	<h4 id="float">&sect;1.3 浮点型</h4>
+	<p>表示方法：标准法和科学计数法(E表示法)</p>
+
+	<table>
+		<tr>
+			<th>类型</th>
+			<th>占用字节</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>float 浮点型</td>
+			<td></td>
+			<td>后缀用f</td>
+		</tr>
+		<tr>
+			<td>double 双精度型</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>long double 长双精度型</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h4 id="def">&sect;1.4 自定义类型</h4>
+	<p>备注：不是创建了新的类型，实际上就是类型别名</p>
+
+	<p>语法： typedef 原类型 新类型名称(可以使用新类型名称定义变量)</p>
+
+	<pre>
+        typedef T              value_type;          	#定义值类型
+        typedef T*             iterator;			  	#定义迭代指针
+        typedef const T*       const_iterator;			#定义常量迭代指针	
+        typedef T&             reference;				#定义引用类型
+        typedef const T&       const_reference;			#定义常量引用
+        typedef std::size_t    size_type;				#定义数据大小类型
+        typedef std::ptrdiff_t difference_type;			#定义指针算术类型
+	</pre>
+
+	<ul>常用类型别名
+		<li>typedef unsigned int UINT</li>
+		<li>typedef unsigned int size_t</li>
+		<li></li>
+	</ul> 		
+	
+	
+	<h4 id="">&sect;1.5 类型转换 Type-Casting</h4> 
+
+	<h5>&sect;1.5.1 显示转换 Coercion</h5>
+	<p>语法格式： type A = (new type) B<br>
+	备注： 从浮点数到整型数的强转换将截掉小数位；</p>
+
+	<h5>&sect;1.5.2 隐式转换</h5>
+	<p><b>A. 整数到布尔值</b></p>
+	<p><b>B. 数组到指针</b></p>
+	<p>即type [] 到 type* 的直接转换，但是问题是屏蔽了数组的大小</p>
+
+	<h4 id="">&sect;1.6 其他</h4>
+
+	<h5>&sect;1.6.1 bool 类型</h5>
+	<p>C++99标准 中出现了bool 类型<br>
+		头文件：stdbool.h <br>
+	#define true	1(真值)<br>
+	#define false	0(假值)</p>
+
+	<h5>&sect;1.6.2 const常量</h5>
+	<p>语法格式：const type name=value; #只读属性<br>
+	a.)常量名称大写<br>
+	b.)const type 位置可以互换<br>
+	c.)定义时必须初始化</p>
+
+	<h5>&sect;1.6.3 格式化输出</h5>
+	<p>语法格式化：printf("字符串",参数表)</p>
+	<table>
+		<tr>
+			<th>格式化字符%</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>数字输出</td>
+			<td>
+				<ul>
+					<li>d, 带符号十进制数</li>
+					<li>o, 带符号八进制数</li>
+					<li>x, 带符号十六进制数</li>
+					<li>u, 无符号十进制数</li>
+					<li>f, 小数形式输出浮点数</li>
+					<li>e, 指数形式输出浮点数</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>其他数据输出</td>
+			<td>
+				<ul>
+					<li>c, 输出单个字符</li>
+					<li>s, 输出字符串</li>
+					<li>p, 输出指针地址</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<p><b>	随机数函数 </b>rand()%n，在0-n范围内的随机数<br>
+	设置种子：srand()，eg. srand((unsigned)time(NULL))</p>
+
+	<h5>&sect;1.6.4 void类型</h5>
+	<p>void 为不确定的类型<br>
+	函数的返回值类型为void，则不允许有返回值；函数参数为void后，将不具有参数</p>
+
+	<p>void* 指针：可以接受任何类型的赋值(无需进行类型转换)；为其他类型时必须进行强制类型转换<br>
+	备注：不能代表一个真实的变量，指代任意类型的指针</p>
+
+	<code>
+		<pre>
+	void* pto(void* ptr)
+	{
+	    return ptr;             //返回变量的指针
+	}
+
+    int a = 10;
+    cout << pto(&a) << endl;    //输出整型数的指针
+
+    float b = 1.1;
+    cout << pto(&b) << endl;    //输出浮点数的指针
+		</pre>
+	</code>
+
+	<h3>第二章 流程语句& 预处理命令</h3>
+
+	<h4>&sect;2.1 常规操作符</h4>
+
+	<h4>&sect;2.2 选择语句</h4>
+	
+	<p><b>【多分支语句】</b></p>
+	<p>语法格式：<br>
+	switch (expression):<br>
+	{<br>
+		case 常量表达式：<br>
+			statement;<br>
+			break;<br>
+		default:<br>
+			statement;<br>		
+	}</p>
+
+	<h4>&sect;2.3 循环语句</h4>
+
+	<p><b>for 循环</b><br>
+	语法格式: for (初值;范围;步进) { statements;} #for (;;) 无限循环</p>
+
+	<p><b>while循环</b><br>
+	语法格式： while (条件) {} #当条件是true或者1时，是无限循环</p>
+
+	<p><b>do while 循环</b><br>
+	语法格式： do { 语句 } while (条件) #先执行语句，再验证循环条件</p>
+
+	<ul>备注：
+		<li>break -- 跳出循环体</li>
+		<li>continue -- 返回循环头，不执行后面的语句</li>
+	</ul>
+
+	<h4>&sect;2.4 预处理命令</h4>
+	<h4>&sect;2.4.1 宏定义</h4>
+	<p>语法格式：#define 标识符 字符串</p>
+	<p>assert.h 头文件，void assert (int expression)断言函数<br>
+	如果该值为真则正常运行，否则报错，并调用abort(),产生异常中断，exit出来<br>
+	用法：在函数开始处检验传入参数的合法性</p>
+
+	<h4>&sect;2.4.2 条件编译</h4>
+	<p>语法格式： #ifndef X <br>
+		#define ...<br>
+		#else ...<br>
+		#endif<br>
+	</p>
+
+	<p>应用：头文件定义<br>
+	#ifndef _STDIO_H <br>
+	#define _STDIO_H　　...... <br>
+	#endif<br>
+	</p>
+
+	<h3>第三章 高级数据类型</h3>	
+
+	<h4>&sect;3.1 数组</h4>
+
+	<p>语法：type 数组名称[size]= {赋值列表,……};<br>
+	数组元素的访问：<br>
+	索引方式：数组名称[index],可以直接进行读取</p>
+
+	<p>数组的这个翻译并不好，个人认为阵列较好。因为不仅包括数字，还有字符串、对象等</p>
+
+	<h4>&sect;3.2 结构体</h4>
+	<p>结构体定义：<br>
+		struct 类型名称 <br>
+		{<br>
+			成员数据类型  成员变量名称；<br>
+			…… <br>
+		} 变量列表……;<br>
+	</p>
+
+	<p>初始化：结构体类型 结构体变量 = {成员变量值列表，……}；</p>
+
+	<ul>常用结构体使用
+		<li>日期时间结构 tm</li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<p><b>位域</b><br>
+	struct bit {<br>
+		int a:6;	#成员a占用6个比特位<br>
+		...<br>
+	}</p>
+
+	<h4>&sect;3.3 联合体</h4>
+
+	<h4>&sect;3.4 指针</h4>
+	<p>语法：类型名称 *p指针变量名称， type* 指针类型/type 指针指向的类型<br>
+	变量赋值： p = &变量名称</p>
+
+	<p>备注：&是取地址运算符, *间接指针数据运算符</p>
+
+	<h5>&sect;3.4.1 数组的指针</h5>
+	<p>A.数组名称就是数组首元素的指针，即[0]的元素地址<br>
+	B.一维数组元素的指针表示 p(i) = p + i, 实际地址是p+sizeof(type)*i </p>
+
+	<h5>&sect;3.4.2 函数的指针</h5>
+	<p>语法格式：type (*函数名称)(参数列表……)</p>
+
+	<h3>第四章 函数</h3>
+	<p>语法： 返回值类型 函数名称(参数列表)<br>
+	{ 函数体； return 返回值;	}</p>
+
+	<p>备注：默认情况下，C语言采用传值调用传递参数</p>
+
+	<p><b>lambda 表达式--匿名函数</b></p>
+	<p>语法格式：[]{参数列表} {执行语句}; #没有函数名，用[]替代</p>
+	<code>
+	<pre>
+		    auto f = []{ cout << "hello" << endl;};		//没有参数列表
+    		f();
+	</pre>
+	</code>
+
+	<h3>第五章 文件</h3>
+	<p><b>创建文件</b><br>
+	语法：int creat(const char* pathname, mode_t mode) </p>
+
+	<h3>附录</h3>
+	<h3><a href="./encoding.html">计算机字符编码</a></h3>
+
+	<h3>常用函数库</h3>
+
+	<table>
+		<tr>
+			<th>头文件</th>
+			<th>函数说明</th>
+			<th>函数原型</th>
+			<th>备注</th>
+		</tr>
+		<tr>
+			<td rowspan="2">string.h或者&lt;cstring&gt;字符串头文件</td>
+			<td>字符串拷贝函数</td>
+			<td>char* strcpy ( char* destStr, const char * srcStr)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>字符串长度函数</td>
+			<td>size_t strlen ( const char* str)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="3">math.h或者&lt;cmath&gt; 数学运算头文件</td>
+			<td>平方根函数</td>
+			<td>double sqrt(double x)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>立方根函数</td>
+			<td>double cbrt(double x)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>绝对值函数</td>
+			<td>double abs(double x)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="2">ctype.h或者&lt;cctype&gt; 字符头文件</td>
+			<td>判断是否为字符</td>
+			<td>int isalpha (int c)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>大小写转换函数</td>
+			<td>int tolower/toupper ( int c )</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="3">stddef.h或者&lt;stddef&gt; 标准定义头文件</td>
+			<td>size_t</td>
+			<td>正整数类型</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>NULL</td>
+			<td>空指针</td>
+			<td>宏定义，0值</td>
+		</tr>
+		<tr>
+			<td>offsetof </td>
+			<td>计算偏移量</td>
+			<td>offsetof (type--结构体/联合体,member--成员变量)</td>
+		</tr>
+		<tr>
+			<td rowspan="2">time.h&lt;ctime&gt; 时间头文件</td>
+			<td>获取当前时间</td>
+			<td>time_t time (time_t* timer)</td>
+			<td>1970年以来的秒数</td>
+		</tr>
+		<tr>
+			<td>时间的结构体</td>
+			<td>struct tm</td>
+			<td>存储年、月、日、时、分等</td>
+		</tr>
+		<tr>
+			<td>limits.h&lt;limits&gt; 数据类型(整型)边界头文件</td>
+			<td>类型_MAX/MIN</td>
+			<td>float.h&lt;float&gt; 浮点数据类型边界头文件</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script text="javascript/text" src="../www/JS/jquery-3.3.1.js"></script>
+	<script>
+
+	</script>
+</head>
+
+<body>
+	<audio controls="controls" autoplay="autoplay">
+	  <source src="C:\Users\Administrator\Music\滨崎步 - My All.mp3" type="audio/mpeg" />
+	Your browser does not support the audio element.
+	</audio>
+
+	<p id="1" onclick="hide()"> hello</p>
+	<script>
+		function hide()
+		{
+			document.getElementById("1").style.display = "none";
+		}
+
+		function show()
+		{
+			document.getElementById("1").style.display = "block";
+		}
+	</script>
+	<button onclick="show()">显示</button>
+</body>
+
+</html>

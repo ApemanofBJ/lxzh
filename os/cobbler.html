@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Cobbler--无人值守安装</title>
+</head>
+<body>
+	<p>[介绍]<br>
+	是一个Linux服务器安装的服务，<br>
+	可以通过网络启动(PXE)的方式来快速安装、重装物理服务器和虚拟机，<br>
+	同时还可以管理DHCP，DNS等</p>
+	<p>note:<br>
+	传统的pxe+dhcp+tftp+kickstart仅能够提供单一系统安装，功能过于简单；如果遇到安装不同操作系统时就遇到瓶颈；<br>
+	而cobbler正好解决了这一问题。Cobbler是多安装树的PXE环境，是PXE的高级封装。</p>
+	
+	<p>[安装]<br>
+	yum -y install cobbler cobbler-web dhcp tftp-server pykickstart httpd</p>
+	<p>配置文件</p>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL-查询</title>
+</head>
+
+<body>
+	<h4>&sect;1.5.1 mysql 匹配语句</h4>
+	<pre>
+		a.) Like
+			格式: select 语句 where field like 条件
+			匹配：
+				%	#任意多个字符
+				_	#任意单个字符
+		b.) 正则
+			格式：select 语句 where field regexp(或者rlike) 条件
+		c.) in
+			格式：select 语句 where field in (范围列表,...)
+			note: like象，in范围,正则表达用reg
+		d.) between ... and
+			WHERE 值 BETWEEN  low AND high 
+		e.) 是否为空
+			IS NULL/NOT NULL
+		f.)	最小LEAST/最大值GREATEST (参数列表……)
+	</pre>
+
+	<h4>&sect;1.5.2 查询</h4>
+	<pre>
+		order by 排序
+			ASC-ascending	升序
+			DESC-descending	降序
+		DISTINCT	消除重复记录	#应用	SELECT DISTINCT FIELDS FROM TABLES (类别筛选)
+		
+		limit 偏移量，数量		
+			limit 10	取前10条
+			limit 100,-1	从100到最后一条记录
+			注意：返回的记录数与ID不对等的情况下，说明数据有错误或者是重复
+
+		select 语句 into outfile 'file_name.txt'	#导出数据库文件到txt文件
+
+		分组 group by [having <分组条件>]
+		ex:
+			1. 查找重复记录
+				select 股票名称,count(*) from stock group by 股票名称 having count(*) > 1;
+			2. 分组汇总统计
+				WITH ROLLUP
+	</pre>
+
+	<h4>1.5.3 多表查询</h4>
+	
+	<pre>
+		使用WHERE子句定义连接条件简单明了(有时会影响性能)，而连接查询语句是ANSI SQL的标准规范，
+		a.> 内连接
+			INNER JOIN 表2 ON <条件>
+			等同于自然连接 WHERE table1.field = table2.field
+			eg. SELECT A.`日期`,B.`股票名称`,A.`消息` FROM `利好要闻` AS A  INNER JOIN `股票名称` AS B ON A.`股票代码`= B.`股票代码`
+order by a.`日期`
+		b.> 外连接
+			左连接:	返回左表所有记录和右表的条件记录(左全右分)
+			select 表.字段... from 表1 as a(别名列表) left outer join 表2 as b on a.字段=b.字段	
+			右连接:	返回右表所有记录和左表的条件记录(右全左分)
+			select 表.字段... from 表1 as a(别名列表) right outer join 表2 as b on a.字段=b.字段	
+		c.> 合并select查询结果
+		    union[all]  使用all的情况下删除重复的记录并进行自动排序
+		    注意：表的列数和数据类型必须相同
+			ex:	select column,... from table1
+				union [all]
+				select column,... from table2
+	</pre>
+
+	<h4>1.5.4 子查询</h4>
+	<pre>
+		先计算子查询，把结果作为外层查询的过滤条件
+		a.> any/some	在比较操作符后(类似于或条件)
+			select num1 from tbl1 where num1 > any(select num2 from tabl2)
+		b.> all 	结果必须满足全部条件(类似于与条件)
+			select num1 from tbl1 where num1 > all(select num2 from tabl2)
+		c.> exists 根据结果判断是否执行
+	</pre>
+
+</body>
+</html>

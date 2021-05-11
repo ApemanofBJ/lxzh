@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>LVS--Linux 虚拟服务器</title>
+</head>
+<body>
+	<p>LVS--Linux Virtual Server<br>
+	<a href="">章文嵩 </a></p>
+	<p><a href="http://www.linuxvirtualserver.org/zh/lvs1.html">LVS项目</a></p>
+	<hr>
+	<img src="../../pic/it/os/lvs.png" alt="">
+
+	<ul>体系架构:
+		<li>LB-load balance: 整个集群对外面的前端机，负责将客户的请求发送到一组服务器上执行，而客户认为服务是来自一个IP地址（我们可称之为虚拟IP地址）上的<br>
+		前端有一台或多台调度器(Director) 组成，安装有IPVS以及监控模块Ldirectord用于检测Real Server的健康状况</li>
+		<li>服务器池server pool:一组真正执行客户请求的服务器，执行的服务有WEB、MAIL、FTP和DNS等</li>
+		<li>共享存储shared storage: 为服务器池提供一个共享的存储区</li>
+	</ul>
+
+	<h4>IP虚拟服务器软件--IPVS</h4>
+	<p>在Director Server上虚拟出一个ip地址(VIP)，用户通过VIP访问服务器</p>
+	<ul>负载均衡算法:
+		<li>轮询Round Robin(RR)</li>
+		<li>加权轮询 Weighted Round Robin</li>
+		<li>最少链接 Least Connections</li>
+		<li>加权最少链接 Weighted Least Connections</li>
+		<li>基于局部性的最少链接</li>
+		<li>带复制的基于局部性的最少链接</li>
+		<li>目的地址散列</li>
+		<li>源地址散列</li>
+	</ul>
+	<p>note: 轮询/链接/散列</p>
+
+	<h3>NAT模式</h3>
+	<p>用户请求和响应报文都必须经过Director Server地址重写</p>
+
+	<p>环境<br>
+	三台服务器，一台作为 director，两台作为 real server，<br>
+	director 有一个外网网卡(172.16.254.200) 和一个内网ip(192.168.0.8)，<br>
+	两个 real server 上只有内网 ip (192.168.0.18) 和 (192.168.0.28)，并且需要把两个 real server 的内网网关设置为 director 的内网 ip(192.168.0.8)</p>
+
+	<p>安装ipvsadm: yum install ipvsadm</p>
+	<ul>配制方法
+		<li>ipvsadm	#ipvs工作在内核空间，ipvsadm工作在用户空间, 与iptables不能同时使用<br>
+			-A 添加一个集群服务 -t:tcp /-u:udp <br>
+			类型：-g: Gateway,DR默认/-i:ipip, TUN/-m: NAT<br>
+		</li>
+		<li>Ldirectord</li>
+		<li>界面工具piranha</li>
+	</ul>
+
+	<h4>TUN</h4>
+	<p>Virtual Server via IP Tunneling,通过ip隧道技术实现虚拟服务器<br>
+	Real Server 直接响应用户的请求，不再经过前端调度器</p>
+
+	<h4>DR</h4>
+	<P>Virtual Server via Direct Routing直接路由技术实现虚拟服务器<br>
+	免去了IP隧道开销，但是必须要求Director Server与Real Server在同一物理网段上</P>
+
+	后端服务器的状态检测
+
+	<ul>参考文章
+		<li><a href="https://yq.aliyun.com/articles/53735">
+		章文嵩博士和他背后的负载均衡帝国</a></li>
+		<li><a href="./loadbalance.html">负载均衡</a></li>
+		<li></li>
+	</ul>
+</body>
+</html>

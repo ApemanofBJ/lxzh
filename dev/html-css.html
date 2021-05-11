@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>前端开发HTML/CSS</title>
+
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+
+<p>【HTML/CSS vim编辑插件 <a href="emmet.html">emmet</a>参考】</p>
+
+<h2>第一部分 HTML--超文本标记语言</h2>
+
+<table>
+	<col style="background:">
+	<tr>
+		<th>对象</th>
+		<th>属性</th>
+		<th>说明</th>
+	</tr>
+	<tr>
+		<td rowspan="4">文本</td>
+		<td>对齐 align</td>
+		<td>
+			<ul>
+				<li>left 左对齐</li>
+				<li>right右对齐</li>
+				<li>center中间对齐</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td style="align: center;">特殊显示</td>
+		<td>
+			<ul>
+				<li>b 	定义粗文本(strong)</li>
+				<li>del 删除文本</li>
+				<li>u 	下划线文本(under)</li>
+				<li>em 	斜体字</li>
+				<li>sup 上标标记</li>
+				<li>sub 下标标记</li>
+				<li>q 	#quote短文本引用,浏览器自动添加双引号</li>
+				<li>blockquote  #长文本引用使用缩进样式</li>
+				<li>center 居中对齐</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>设置</td>
+		<td>
+			<ul>
+				<li>文本缩进 text-indent #缩进2个汉字，字符宽度*2+2pt</li>
+				<li>文本颜色 color</li>
+				<li>文本背景颜色 bgcolor</li>
+				<li>单词首字母大写 text-transform: capitalize</li>
+				<li>页面与浏览器边框的距离 margin(页边距)<br>
+				topmargin/leftmargin/rightmargin/bottommargin</li>
+				<li>注释：&lt;!-- 文字 -- &gt; #格式范围内，--做分割，开头加上！</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>字体 font</td>
+		<td>
+			<ul>
+				<li>face 字体</li>
+				<li>size 大小, #默认是9pt</li>
+				<li>color 颜色</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td rowspan="2">列表	符号类型 type /</td>
+		<td>ul-无序(或者是菜单列表menu)</td>
+		<td>
+			<ul>
+				<li>实心圆 disc</li>
+				<li>空心圆 circle</li>
+				<li>实心方块 square</li>
+				<li>小写英文字母 lower-alpha</li>
+				<li>大写英文字母 upper-alpha</li>
+				<li>数字 decimal</li>
+				<li>中文数字 cjk-ideographic</li>
+				<li>自定义图形 list-style-image: url('/i/eg_arrow.gif')</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>ol-有序</td>
+		<td>
+			<ul>
+				<li>type属性值:1/a/A/i/I</li>
+				<li>设置起始值：start="开始序号" reversed反向排序</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>表格 table</td>
+		<td>
+			<ul>元素
+				<li>caption	#标题</li>
+				<li>tr--table row	#行</li>
+				<li>th--table head	#表头</li>
+				<li>td--table 		#单元格</li>
+				<li>col style=""	#设置列属性</li>
+				<li>thead/tfoot/tbody 	#表结构</li>
+			</ul>
+		</td>
+		<td>
+			<ul>
+				<li>border="表格宽度"/bordercolor表格颜色</li>
+				<li>cellspacing 表格内部各单元格宽度</li>
+				<li>bgcolor 表格背景颜色；</li>
+				<li>colspan="#"	列合并单元格</li>
+				<li>rowspan="#"	行合并单元格</li>
+				<li>border-collapse:collapse; #合并框线</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td rowspan="2">图片</td>
+		<td>背景图片</td>
+		<td>background-image -->缩写bgi (CSS)<br>
+		hspace 图像水平间距/vspace 图像垂直间距</td>
+	</tr>
+	<tr>
+		<td>图片img</td>
+		<td>src="图片地址" alt="图片的替代文字" title="鼠标悬停提示文字"</td>
+	</tr>
+	<tr>
+		<td rowspan="9">表单 form <br>
+		属性：使用name/id 对象进行标识<br>
+		处理脚本：使用action="处理程序"/method="传送方式get/post"
+		</td>
+		<td rowspan="2">&lt;input&gt; </td>
+		<td>
+			<ul>文本输入框 -- type="text/password" 
+				<li>默认宽度是20个字符,size="控件的长度"，maxlength="最长字符数"</li>
+				<li>text --文本输入框；password -- 密码输入框</li>
+				<li>value 默认值, #适用于其他控件</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>&lt;input&gt; 单选按钮 radio/多选按钮 checkbox/普通按钮 button<br>
+		checked="checked" 选中状态</td>
+	</tr>
+	<tr>
+		<td>文本域 &lt;textarea&gt;</td>
+		<td> rows="行数"/cols="列数"</td>
+	</tr>
+	<tr>
+		<td>&lt;select&gt; 下拉列表 </td>
+		<td>&lt;option&gt; 属性：selected="selected" 默认选中<br>
+		multiple="multiple"实现多选功能</td>
+	</tr>
+	<tr>
+		<td>提交按钮submit / 重置按钮 reset</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>&lt;label&gt; 标签</td>
+		<td>使用for 设置id值</td>
+	</tr>
+	<tr>
+		<td>图像域 image</td>
+		<td>在提交按钮位置上的图片</td>
+	</tr>
+	<tr>
+		<td>隐藏域 hidden</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>文件域 file</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>水平线 hr</td>
+		<td>属性：width height color align noshade</td>
+		<td>宽度、高度、颜色、对齐方式、去掉阴影</td>
+	</tr>
+</table>
+
+<ul>新增标记
+	<li>mark: 背景色-黄色，用于搜索关键字</li>
+	<li>address: 地址标签</li>
+	<li>code标签作为单行代码应用，多行代码应用使用pre</li>
+	<li>特殊字符<br>
+	空格 -- &amp;nbsp; &nbsp; 小于号--&amp;lt; &nbsp;
+	小于等于--&amp;le; &nbsp; 大于号--&amp;gt;　&nbsp;　
+	大于等于--&amp;ge; &nbsp; 乘号 -- &amp;times;&nbsp;
+	章节符号--&amp;sect &nbsp; 连接符--&amp;amp; 
+	</li>
+	<li>附录：<a href="http://www.w3school.com.cn/tags/html_ref_symbols.html">特殊符号参考表</a></li>
+</ul>
+
+<H3>[属性]</H3>
+<p>	class	类名称(从样式文件引入)</p>
+<p>	title	额外信息(作为工具条使用)</p>
+<p>	颜色设置：</p>
+<p>		#ffffff		#字符串：red/green</p>
+<p>		备注: background-color 属于css样式/bgcolor属于HTML</p>
+
+<p><a href="https://blog.csdn.net/qq_25824243/article/details/74435757">HTML颜色表及html代码</a></p>
+
+<ul>链接 a 标签：
+	<li>href: 链接地址(http或者ftp)/<mark>锚点-anchors</mark>(#name、#id)</li>
+	<li>target: _self(同一窗口)/_blank(新建窗口)/_parent(上一级窗口)/_top(浏览器窗口) 或者name名称(书签) </li>
+	<li>图像地图: 热点定义map/area指定区域, img使用属性usemap="#map-name"(<a href="../code/js-code.html#hotspot">代码</a>)</li>
+	<li>邮件链接：href="mailto@mailbox"</li>
+	<li>下载文件：href="文件地址"，由浏览器判断</li>
+	<li>脚步链接：href="javascript:"</li>
+	<li>空链接：href="#"</li>
+</ul>
+
+<H3>[对象]</H3>
+<p>		valign	内容的垂直对齐方式</p>
+<p>			top/bottom/middle/baseline</p>
+<p>		colgroup	列组属性设置</p>
+<p>			<col span="#"(包含列) style=""(样式设置)></p>
+
+
+<p>	e.) 框架 frameset	#只能加在head 中</p>
+<p>		 rows/cols="35%,65%"	或者 cols="120,*"</p>
+<p>		 <frame src=url></frame></p>
+
+<h3>多媒体</h3>
+
+<table>
+	<tr>
+		<th>功能实现</th>
+		<th>标签.实例</th>
+		<th>属性</th>
+	</tr>
+	<tr>
+		<td>滚动文字</td>
+		<td>marquee</td>
+		<td>
+			<ul>
+				<li>loop="循环次数"</li>
+				<li>direction="滚动方向：up/down/left/right"</li>
+				<li></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>背景音乐</td>
+		<td>bgsound</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>视频</td>
+		<td>video</td>
+		<td>
+			<ul>
+				<li>type="video/ogg(或者mp4、WebM)"</li>
+				<li>controls = "controls", 向用户显示控件</li>
+				<li>autoplay = "autoplay"</li>
+				<li>loop="loop", 循环播放</li>
+				<li>source src="文件"，链接不同的视频文件，浏览器会自动选择第一个可识别的格式</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>音频</td>
+		<td>audio</td>
+		<td>
+			<ul>
+				<li>包括Ogg Vorbis、MP3、Wav始终</li>
+				<li>controls="controls", 向用户显示控件</li>
+				<li></li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<h3>绘图</h3>
+
+<p>canvas 画布：默认是300*150px 矩形区域，通过JavaScript添加图片、线条及文字，甚至动画</p>
+
+
+<h2>第二部分 CSS-层叠样式表</h2>
+<H3></H3>
+<p><a href="http://www.w3school.com.cn/cssref/index.asp">属性设置参考手册</a></p>
+
+<pre>
+	<style type="text/css">
+		对象  	{属性:值;...}
+	</style>
+	/* …… */ 注释语句
+</pre>
+
+
+<ol>使用方式
+	<li>内联方式：style="属性列表"</li>
+	<li>嵌入方式: 在head 部分加入 style进行设置</li>
+	<li>外部样式表: 单独定义为.css文件，通过link 进行连接<br>
+		<pre>link rel="stylesheet" href="../../CSS/global.css"</pre>
+	</li>
+	<li>输入样式表: @import url(在.css文件中引入其他的css文件格式)</li>
+</ol>
+
+<ul><b>选择器</b>
+	<li>派生选择器：通过父标签 子标签的方式修改样式,即包含关系</li>
+	<li><b>id选择器</b>：通过<mark>#id</mark>的方式修改样式</li>
+	<li><b>类选择器</b>: 通过<mark>.class</mark>的方式修改样式</li></li>
+	<li>属性选择器:通过[属性="值"]的方式修改样式</li></li>
+</ul>
+
+<p>	div标签：是块级元素，可用于布局(作为容器使用)。#division 分区<br>
+	命名--划分逻辑区域<br>
+	<table>
+		<tr>
+			<td>display属性</td>
+			<td>
+				<ul>
+					<li>block 默认值，容器中所有元素被当做一个独立的块放置到页面中；</li>
+					<li>none 隐藏对象</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</p>
+<p>	span标签：是内联元素，用作文本容器。#对包含的文本可以进行CSS设置<br>
+{text-decoration:overline/line-through/underline/blink}<br>
+</p>
+
+<p>
+	border-width支持关键字：thin(1px)、medium(3px)、thick(5px)<br/>
+	style: solid 实线/dashed虚线/dotted点线/double双线/inset内凹<br/>
+	hr 设置：background-color: red(颜色); text-align: left(对齐方式); height: 1px;(必须，否则没有显示)<br/>
+</p>
+
+<table>
+	<tr>
+		<th>类别</th>
+		<th>属性</th>
+		<th>值设置</th>
+	</tr>
+	<tr>
+		<td rowspan="5">伪类</td>
+		<td>:link</td>
+		<td>a链接标签未被访问前的样式</td>
+	</tr>
+	<tr>
+		<td>:hover</td>
+		<td>对象在鼠标移动在上时的样式</td>
+	</tr>
+	<tr>
+		<td>:active</td>
+		<td>对象被点击及被释放之间的样式</td>
+	</tr>
+	<tr>
+		<td>:visited</td>
+		<td>a链接被访问之后的样式</td>
+	</tr>
+	<tr>
+		<td>:focus</td>
+		<td>对象成为输入焦点时的样式</td>
+	</tr>
+	<tr>
+		<td>伪对象</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>元素</td>
+		<td>padding 填充</td>
+		<td>
+			<ul>
+				<li>padding-top</li>
+				<li>padding-right</li>
+				<li>padding-bottom</li>
+				<li>padding-left</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<h2>[ 应用 ]</h2>
+<ul>
+	<li>网页的定时跳转<br>
+	在meta 中设置： http-equiv="refresh" content="20;url=file.html"</li>
+	<li>制作导航栏</li>
+	<li>选项卡的实现</li>
+	<li>HTML5的网站布局</li>
+	<li>图片与文字的混排：在div区域中，img属性设置style的float：对齐方式</li>
+</ul>
+
+<hr>
+
+<ul><b>【浏览器】</b>
+	<li>微软公司的IE(Internet Explore)--windows操作系统内置标准</li>
+	<li>360安全浏览器</li>
+	<li>Mozilla</li>
+	<li>Google公司的chrome</li>
+	<li>苹果公司的Safari</li>
+	<li>FireFox(火狐-缩写ff)，</li>
+	<li>Opera</li>
+</ul>
+
+<p><b>note:</b></p>
+<table>
+	<tr>
+		<td>FF浏览器</td>
+		<td>
+			<ul>
+				<li>查看源码Ctrl+u</li>
+				<li>使用"/"进行快速查找</li>
+				<li>about:config 查看设置</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>Chrome浏览器</td>
+		<td>
+			<ul>
+				<li>查看历史快捷键Ctrl + H</li>
+				<li>关闭当前标签页,鼠标中间键或者Ctrl+W</li>
+				<li>打开新的窗口Ctrl+n/打开新的标签页Ctrl+t</li>
+				<li>打开英文网页，可以使用Google Translation进行翻译</li>
+				<li>打开调试工具的快捷键是F12</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

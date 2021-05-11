@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>系统设备</title>
+	<style>
+		table {border: 1px solid #000;}
+		th {background-color: lightgray;}
+	</style>
+</head>
+<body>
+	<h4>SDN 控制器</h4>
+	<p>SDN-software difined network 软件定义网络<br>
+	功能：负责流量控制以确保智能网络，基于Openflow网络协议<br>
+	</p>
+
+	<ul>高易用性
+		<li>* 基于WEB页面进行管理；</li>
+		<li>* 直观显示用户的网络设备和接入主机；</li>
+		<li>* 大型复杂网络中，通过在VCF控制器Team中为不同的设备划分为不同的Region，可以实现分域管理，极大降低管理复杂度。</li>
+		<li>* 支持虚机迁移和策略自跟随，迁移完成后无需再次配置安全策略和端口策略。</li>
+		<li>* 支持导出和导入备份文件，可以据此迅速实现配置恢复。</li>
+		<li>* 支持ISSU平滑升级，确保升级过程中客户业务不中断。</li>
+	</ul>
+
+	<ul>运维监控
+		<li>* 记录详细的操作日志和系统日志信息，确保用户行为可追溯和系统问题可定位；</li>
+		<li>* 支持基于虚拟端口、流表、DPID+VNI和控制器的流量信息统计，还支持基于虚拟网络、虚拟子网、虚拟路由器和虚拟端口的网络信息统计。</li>
+		<li>* 支持端口镜像，可以将流量镜像到远端的服务器或安全分析设备上。</li>
+		<li>* 支持Overlay链路诊断，可以实现端到端的连通性诊断和分段连通性诊断。</li>
+		<li>* 支持雷达探测，通过UI界面或者REST API接口提供VXLAN隧道的互通性检测和虚机之间的互通性检测。</li>
+	</ul>
+
+	<h4>堡垒机</h4>
+	<p>首先要统一登录到这台服务器上，然后从这台服务器再登录到目标设备进行维护<br>
+	对运维人员的身份认证、对运维操作的访问控制和审计等功能</p>
+
+	<h4>网络前置机</h4>
+	<p>目的是解决系统间的通信问题<br>
+	由于各主机系统间的通信协议差别较大，网络结构复杂，所以异型主机之间通常不能通过网络相互识别。<br>
+	通过综合前置机作为中介，可以很容易地将各主机系统连接起来，实现跨系统主机间的数据交换
+	</p>
+
+	<table>
+		<tr>
+			<th>设备位置</th>
+			<th>设备类型</th>
+			<th>分类</th>
+			<th>厂商</th>
+			<th>设备型号</th>
+		</tr>
+		<tr>
+			<td rowspan="4">人民银行</td>
+			<td rowspan="4">网络设备</td>
+			<td>核心交换机</td>
+			<td>H3C</td>
+			<td><a href="http://www.h3c.com/cn/Products___Technology/Products/Switches/Park_switch/S10500/S10500/">S10508</a></td>
+		</tr>
+		<tr>
+			<td>汇聚交换机1</td>
+			<td>H3C</td>
+			<td>S10508</td>
+		</tr>
+		<tr>
+			<td>SDN控制器</td>
+			<td>H3C</td>
+			<td>UIS-R930X-G2</td>
+		</tr>
+		<tr>
+			<td>负载均衡</td>
+			<td>信安世纪</td>
+			<td>NSAE1800</td>
+		</tr>
+		<tr>
+			<td rowspan="6">公司设备</td>
+			<td rowspan="6">网络设备</td>
+			<td>接入交换机</td>
+			<td>H3C</td>
+			<td><a href="http://www.h3c.com/cn/Products___Technology/Products/Switches/Park_switch/S1800/S1800G/">
+			S1824-千兆可管理交换机</a>
+			</td>
+		</tr>
+		<tr>
+			<td>接入交换机</td>
+			<td>华为</td>
+			<td>s2700 8口</td>
+		</tr>
+		<tr>
+			<td>汇聚交换机</td>
+			<td>H3C</td>
+			<td><a href="http://www.h3c.com/cn/Products___Technology/Products/Switches/Park_switch/S5000/S5024F-SI/">
+			S5024F-SI光纤交换机</a>
+			</td>
+		</tr>
+		<tr>
+			<td>核心交换机</td>
+			<td>华为</td>
+			<td><a href="http://e.huawei.com/cn/related-page/products/enterprise-network/switches/campus-switches/s5700/brochure/switches-s5720-ei">
+			S5720</a>
+			</td>
+		</tr>
+		<tr>
+			<td>宽带路由器</td>
+			<td>H3C</td>
+			<td><a href="http://www.h3c.com/cn/Products___Technology/Products/Router/Catalog/ER/ER3200/">
+			ER3200 企业级宽带路由器</a>
+			</td>
+		</tr>
+		<tr>
+			<td>VPN</td>
+			<td>惠尔顿</td>
+			<td><a href="https://baike.sogou.com/v7596566.htm?fromTitle=e%E5%9C%B0%E9%80%9A">
+			e地通</a></td>
+		</tr>
+	</table>
+</body>
+</html>

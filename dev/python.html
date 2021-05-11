@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>人生苦短，我用python！</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<a href="https://www.python.org/"><img src="../../pic/it/software/python-icon.png" alt=""></a>
+	<hr>
+	<p>python学习参考--<a href="http://www.liaoxuefeng.com/">廖雪峰的网站</a> | 
+		<a href="https://docs.python.org/zh-cn/3/library/index.html">参考文档</a>
+	</p>
+	
+	<ul type="circle">[目录]
+		<li><a href="#number">数字类型</a></li>
+		<li><a href="#string">字符串类型</a></li>
+		<li><a href="#list">列表</a></li>
+		<li><a href="#dict">字典类型</a></li>
+		<li><a href="#numpy">numpy 类库</a></li>
+	</ul>
+
+	<h2>第一章 语法基础</h2>
+	
+	<p>#! /usr/bin/env python3<br>
+	#encoding=utf-8</p>
+
+	<ul type="circle">I/O
+		<li>格式化输出：<br>
+			print("string %s" % value) 	#统一替换<br>
+			或者： "string {0}".format(value……) #占位符<br>
+			<pre>
+				a , b = 10 , 20 
+				print("%d + %d = %d" % (a,b,a+b))
+				或者 --
+				"{0} + {1} = {2}".format(a,b,a+b)
+			</pre>
+		</li>
+		<li>输入：<br>
+			var = input("")			#raw_input 在3.X版本里取消
+		</li>
+	</ul>
+
+
+	<p>(#) 作为注释<br>
+	使用"""(三引号) 作为docstring</p>
+
+	<p>使用脚本参数：<br>
+		import  sys 	#导入<br>
+		sys.argv[0] 	#类似于shell中的$0,但不是脚本名称，而是脚本的路径<br>
+		sys.argv[1]	#表示传入的第一个参数
+	</p>
+
+	<h3>&sect;1.1 数据类型</h3>
+	<p>使用type(变量)  &nbsp;&nbsp;显示数据类型,eg: &lt;class 'str'&gt;<br>
+	或者：import types, #types.FunctionType/types.LambdaType……</p>
+
+	<h4 id="number">&sect;1.1.1 Number 数字类型</h4>
+
+	<ul>数字类型
+		<li>整型int: </li>
+		<li>长整型long: 最后使用L进行表示</li>
+		<li>浮点型: </li>
+		<li>复数：用a+bj或者complex(a,b)表示</li>
+	</ul>
+
+	<p>[数制转换]<br>
+	1. 转换为十进制数字: int("number", base-2/8/16) #默认是十进制<br>
+	2. 转换为其他进制数字： bin/oct/hex(int("number"))<br>
+	</p>
+
+	<ol>note:
+		<li>数学常量: math.pi表示圆周率，math.e 表示自然常数</li>
+		<li>模块：math用于数学运算, cmath用于复数运算</li>
+		<li>随机数模块random, random.randint(a,b),#随机数范围</li>
+		<li>数字转换为字符: str(n)</li>
+	</ol>
+
+	<ul>运算符
+		<li>幂运算： **</li>
+		<li>三元运算符： exp1 <u>if condition else</u> exp2 <br>
+			<pre>print ("yes") if x in L else ("no")</pre>
+		</li>
+		<li>连续表达式： <u>#oh! my god!</u><br>
+			a=b=c=10	#赋值<br>
+			a!=b!=c 	#逻辑判断,类似a<=b<=c也可以<br>
+			a,b = 10,100	#连续赋值<br>
+		</li>
+		<li>区间 range：(start,end,step), 左开右闭区间 #range(end)表示从0开始</li>
+		<li>除法：<br>
+			/--原除法，结果是浮点数<br>
+			//--floor除法，结果是整数。#去余数除法
+		</li>
+		<li>备注：支持位运算</li>
+	</ul>
+
+	<h4 id="string">&sect;1.1.2 string 字符串类型</h4>
+	<p>字符串赋值，使用''或者"", 多行字符串使用""" 内容 """<br>
+	r'' 默认不转义</p>
+
+	<table>
+		<tr>
+			<th>字符串操作</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>字符串大写/小写</td>
+			<td>upper/lower</td>
+		</tr>
+		<tr>
+			<td>每单词首字母大写</td>
+			<td>title</td>
+		</tr>
+		<tr>
+			<td>获取字符串长度</td>
+			<td>len(字符串), #也适用于计算列表元素数量</td>
+		</tr>
+		<tr>
+			<td>查找字符串</td>
+			<td>find, 返回第一个偏移量值 #rfind 从右边开始查找</td>
+		</tr>
+		<tr>
+			<td>字符串的分割</td>
+			<td>split("分割符号"[,分割次数]), #次数为空表示分割所有,最后一个值为""</td>
+		</tr>
+		<tr>
+			<td>替换字符串</td>
+			<td>replace("old","new")</td>
+		</tr>
+	</table>
+
+	<ol>note:
+		<li>Python 3版本中，字符串是以Unicode编码的/定义u(string)</li>
+		<li>不支持单字符类型,也是作为一个字符串使用.#ord('字符'）/chr(整数)</li>
+		<li>string*n, 重复字符串n次</li>
+		<li>以字节为单位的字符串：b'',转换为str使用decode()方法</li>
+	</ol>
+
+	<h4 id="string">&sect;1.1.3 其他数据类型</h4>
+	<ul>
+		<li>布尔型：True/False</li>
+		<li>空值：None</li>
+		<li></li>
+	</ul>
+
+	<h4 id="string">&sect;1.1.4 分数</h4>
+	<pre>
+		import Fractions from Fraction
+		
+	</pre>
+	
+	<h3>&sect;1.2 高级数据类型</h3>
+
+	<h4 id=list>&sect;1.2.1 列表list</h4>
+	<p>赋值：使用[值列表,...]，或者list([range()])<br>
+		1. 不需要类型相同;<br>
+		2. 使用索引,并且支持反向索引 -n，等同于l-n<br>
+		3. 列表生成式  list comprehesions: 表达式 for 循环语句 <br>
+		   表达式：[ x*x for x in range(1,11) ] <br>
+		4. 变量列表 = list, 将list 元素赋值给变量<br>
+	</p>
+	<table>
+		<tr>
+			<th>列表操作</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>切片 slice</td>
+			<td>
+				<ul>[start:end:step], 左边界默认为0、右边界默认是列表长度、step默认不出现
+					<li>列表反向输出 L[-1::-1]</li>
+					<li>输出到最后项：L[start:], #end默认不出现</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>数据操作</td>
+			<td>
+				<ul>
+					<li>追加数据，append</li>
+					<li>弹出数据，pop，结果是列表项的值</li>
+					<li>排序，sort</li>
+					<li>逆序: reverse</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<p>备注：append/pop完全可实现"栈"机制</p>
+
+	<p><b>元组 tuple</b><br>
+		定义： t = (元素,……)， #特点是不能修改元素值，只读属性，需要赋初值<br>
+		将列表转为元组 tuple(seq)<br>
+		单元素定义 t = (a,)<br>
+	</p>
+
+	<h4 id="dict">&sect;1.2.2 字典 dict</h4>
+	<p>赋值： D={key:val,……} 或者 D[key]=val</p>
+
+	<ul>备注
+		<li>若key不存在则输出报错，判断方式为 key in Dict 或者 Dict.get(key)，没有返回None</li>
+		<li>len(dict) 计算字典元素个数，即键的总数</li>
+		<li>一个key只能对应一个value，多次对一个key放入value，后面的值会把前面的值冲掉</li>
+	</ul>
+
+	<tabel>
+		<tr>
+			<th>字典函数</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>keys()</td>
+			<td>以列表返回一个字典所有的键</td>
+		</tr>
+		<tr>
+			<td>values()</td>
+			<td>以列表返回字典中的所有值</td>
+		</tr>
+		<tr>
+			<td>get(key, default=None)</td>
+			<td>返回指定键的值</td>
+		</tr>
+		<tr>
+			<td>pop(key)</td>
+			<td>删除key,对应的value值也会从dict中删除</td>
+		</tr>
+	</tabel>
+
+	<ul>遍历
+		<li>for i in dict:<br>
+		print "dict[%s]=" % i,dict[i]</li>
+		<li>for (k,v) in dict.item():<br>
+		print "dict[%s]=" % k,v</li>
+		<li></li>
+	</ul>
+
+	<h4 id="set">&sect;1.2.3 集合set</h4>
+	<p>是一个无序且不重复的元素集合，是一组无序排列的可哈希的值</p>
+	<pre>
+		s = set()
+		s = {1,2,3,4} 		#{} 空集合
+		d = {[2,4,6]}
+
+		e = s.difference(d) 	#集合s与d的差集
+			eg: 	s = {1,2,3,4}
+				for i in s:
+					d = {i}
+					print (s.difference(d))	
+		f = s.intersection(d) 	#集合s与d的交集
+		g = s.union(d) 			#集合s与d的并集
+
+		s.discard 	#移除不存在的元素不会报错
+		s.remove    #移除不存在的元素会报错
+
+		s.issubset(d)  	#判断子集
+		s.isuperset(d)  #判断父集合
+	</pre>
+
+	<h3>&sect;1.3 语句结构</h3>
+
+	<h4 id="if">&sect;1.3.1 if语句</h4>
+
+	<p>多值验证：<br>
+		if val in {1，3，5，7} <br>
+	等同于 if m==1 or m==3 or m==5 or m==7</p>
+
+	<p>注意：没有switch 语句, 使用elif</p>
+	
+	<h4 id="loop">&sect;1.3.2 循环语句</h4>
+
+	<ul>
+		<li>for x in range:<br>
+		或者：<br>
+		D = {"liang":90,"zhang":80}<br>
+		for x,y in [D.keys(),D.values()]:<br>
+		    print(x,y)<br>
+		</li>
+		<li>while condition:<br>
+		    else: #默认
+		</li>
+		<li>多变量表达式: for x,y in zip(A,B): #需要使用zip进行封装<br>
+		ex:  for x,y in zip (range(1,5),range(2,9)):<br>
+		       print (f"{x} + {y} = {x+y}" )
+		</li>
+	</ul>
+
+	<p>pass 表示空语句</p>
+
+	<h4 id="func">&sect;1.3.3 函数</h4>
+	<p>数据类型检查可以用内置函数isinstance()实现<br>
+	可以返回多个值</p>
+
+	<pre>
+		#求三个数中的最大者
+			def Max3(a,b,c):
+	     		return a if a &gt; max(b,c) else max(b,c) 	#利用三元表达式, 内置max(列表...)
+     	#参数有默认值
+	     	def power(x,n=2):
+			    s = 1
+			    for i in range(n):
+			        s *= x
+			    return s
+	    #可变参数函数
+		    def cal(*vector):
+		    sum = 0
+		    for x in vector:
+		        sum += x
+		    return sum
+	</pre>
+
+	<p><b>递归函数</b></p>
+	<pre>
+	def jiech(n):
+	     if n<=1 :
+		 return 1
+	     else:
+		 return n*jiech(n-1)
+	</pre>
+
+	<p><b>lambda函数</b></p>
+	<p>即匿名函数，或者中间函数。
+	格式-- lambda 变量：表达式</p>
+
+	<p>【应用：】</p>
+	<pre>作为对象使用
+		f = lambda x: x*x
+		print f(5)	#输出25
+	</pre>
+
+	<p>备注:只能有一个表达式，不用写return,返回值就是该表达式的结果。</p>
+
+	<p><b>高阶函数</b></p>
+	<table>
+		<tr>
+			<td><a href="../../education/math/series.html#accumulate">map</a>(函数，对象序列)/reduce</td>
+			<td>不改变原有的 list，而是返回一个新的 list(类似于表达式生成器)</td>
+		</tr>
+		<tr>
+			<td>filter</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>sorted</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3 id="obj">&sect;1.4 面向对象</h3>
+	<h4>&sect;1.4.1 类的定义</h4>
+
+	<p>class 类名称(父类)</p>
+
+		<ul>方法
+			<li>__init__(self,...参数列表) 初始化-构造函数，注意第一个参数永远是实例变量self，不能有返回值</li>
+			<li>__del(self)__, 析构函数</li>
+			<li>私有变量：变量名称前加__，即<b>双下划线</b>, #__xxx__ 是特殊变量，可以直接访问，不是私有变量</li>
+			<li>isinstance(变量，类）函数测试对象是否是某一类型</li>
+			<li>super()函数可以直接调用使用的父类方法</li>
+		</ul>
+
+	<p><b>枚举类的实现</b><br>
+		from enum import Enum<br>
+		Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))<br>
+	</p>	
+
+	<h3>&sect;1.5 文件</h3>
+	<p>
+	open打开：filename = open('path','r'), r表示是文本文件(默认)，rb是二进制文件<br>
+	f.close(), #文件使用完毕后必须关闭 <br>
+	或者：with open('/path/to/file', 'r') as f: <br>
+	print(f.read())
+	</p>
+
+	<ul>读取文件
+		<li>read():每次读取整个文件</li>
+		<li>readlines():自动将文件内容分析成一个行的列表</li>
+		<li>readline():每次只读取一行</li>
+	</ul>
+
+	<h2>第二章 模块</h2>
+
+	<ul>模块分为三种：
+		<li>自定义模块</li>
+		<li>内置标准模块</li>
+		<li>开源模块（第三方）</li>
+	</ul>
+
+	<p>模块导入</p>
+	<code>
+		import module				#整体导入模块<br>
+		from module.xx import xx		#导入模块某一函数<br>
+		from module.xx import xx as rename	#导入模块某一函数并建立别名<br>
+		from module.xx import *			#导入模块某一部分全部函数<br>
+	</code>
+
+	<h3>&sect;2.1 os 模块</h3>
+	<table>
+		<tr>
+			<th>函数</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>os.getcwd()</td>
+			<td>获取当前工作目录</td>
+		</tr>
+		<tr>
+			<td>os.chdir("dirname")</td>
+			<td>改变当前脚本工作目录</td>
+		</tr>
+		<tr>
+			<td>os.mkdir('dirname')</td>
+			<td>生成单级目录</td>
+		</tr>
+		<tr>
+			<td>os.rename("oldname","new")</td>
+			<td>重命名文件/目录</td>
+		</tr>
+		<tr>
+			<td>os.path.abspath(path)</td>
+			<td>返回绝对路径</td>
+		</tr>
+		<tr>
+			<td>os.path.split(path)</td>
+			<td>将path分割成目录和文件名二元组返回</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3 id="numpy">&sect;2.2 NumPy </h3>
+
+	<p>导入模块：import numpy as np</p>
+
+	<ul>应用：
+		<li>多维数组的算数和逻辑运算;</li>
+		<li>傅立叶变换和用于图形操作的例程;</li>
+		<li>与线性代数有关的操作。 NumPy 拥有线性代数和随机数生成的内置函数;</li>
+	</ul>
+
+	<pre>
+		A = np.array([1,2,3]) 		#一维数组构造
+		B = np.array([1,2]，[3,4]) 	#二维数组构造
+		print A.shape              	#返回数组的维度
+		C = np.zeros(3,dtype=类型)	#零值数组，类型选择np.int等
+		或者
+		C = np.zeros([2,3]) 		#二行三列的零值数组
+		C = np.empty([2.3]) 		#二行三列的空数组
+
+		D = range(5)
+		X = np.array(D)             	#已有数组的构造
+		或者
+		y= np.array(range(5,10))
+
+		E = np.arange(开始值、终值和步长) 			#创建一维数组, 等差数列
+		F = np.linspace(开始值、终值和元素个数)  	#创建一维数组
+		G = np.logspace(开始值、终值和元素个数)	#创建一维数组, 等比数列
+
+		H = np.array([[1,1],[2,4]],dtype=np.int) 	#创建二维数组
+		print np.linalg.det(H)				#计算行列式
+
+		#数组的算术运算
+			加		np.add(x,y)
+			减		np.subtract(x,y)
+			乘		np.multiply(x,y)
+			除		np.divide(x,y)
+	</pre>
+
+	<p>NumPy 数字类型是dtype（数据类型）对象的实例</p>
+	<pre>
+	student = np.dtype([('name',"S10"),("数学",'i1'),("语文",np.int8),("英语",np.int8)])
+	B = np.array([["zhangsan",95,72,60],["lisi",89,87,98]],dtype=student)
+	</pre>
+
+	<h3 id="regex">&sect;2.3 正则表达式</h3>
+	<p>导入模块： import re</p>
+
+	<table>
+		<tr>
+			<th>函数</th>
+			<th>参数</th>
+			<th>说明</th>
+			<th>代码</th>
+		</tr>
+		<tr>
+			<td>match(pattern, string, flags=0)</td>
+			<td>
+				<ul>
+					<li>pattern--匹配的正则表达式</li>
+					<li>string--要匹配的字符串</li>
+					<li>flags--标志位，用于控制正则表达式的匹配方式</li>
+				</ul>
+			</td>
+			<td>匹配成功re.match方法返回一个匹配的对象，否则返回None</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3 id="others">&sect;2.4 其他</h3>
+
+	<ul>
+		<li><a href="../code/python-code.html#mysql">mysql数据库--MySQLdb</a></li>
+		<li><a href="../code/python-code.html#oracle">oracle数据库--cxOracle</a></li>
+		<li><a href="../code/python-code.html#tcp">TCP/IP 网络</a></li>
+		<li></li>
+	</ul>
+
+	
+	<h2>第三章 高级应用</h2>
+
+	<h3>&sect;3.1 Web 开发</h3>
+
+	<h4>&sect;3.1.1 <a href="http://webpy.org">web.py</a>模块</h4>
+
+	<p>安装: pip install web.py</p>
+
+	<div class="mycode">
+		<pre>
+			import web
+			urls = ('/(.*)', 'hello')
+
+			app = web.application(urls,global())
+
+			classs hello:
+				def GET(self, name):
+					if not name:
+						name = 'World,' 
+					return 'Hello'+ name +'!'
+			if __name__ == "__main__":
+				app.run()
+		</pre>
+	</div>
+
+	<p>启动服务：python web-name.py 端口号#默认8080</p>
+
+	<p>返回WEB页：
+		<pre>
+			retrun open('file','r')
+		</pre>
+	   URL 映射：
+	   <pre>
+			完全匹配 	/index
+			模糊匹配 	/post/\d+
+			带组匹配 	/post/(\d+) 	#带组内容传递给函数
+	   </pre>
+	</p>
+	
+	<h4>&sect;3.1.2 Django 框架</h4>
+	<p>采用了 MVT 的软件设计模式，即模型（Model），视图（View）和模板（Template）;<br>
+	基于 MVC 模型，即 Model（模型）+ View（视图）+ Controller（控制器）设计模式</p>
+
+	<p>安装：apt-get install  python-django<br>
+	Anaconda:</p>
+
+	<div>
+		<pre>
+			创建项目：django-admin startproject 项目名称
+			
+		</pre>
+	</div>
+
+	<h4>&sect;3.1.3 flask 框架</h4>
+
+	<p><b>什么是Web Framework？</b></p>
+	<p>Web框架表示一个库和模块的集合，使Web应用程序开发人员能够编写应用程序，而不必担心协议，线程管理等低级细节;<br>
+	Flask是一个用Python编写的Web应用程序框架</p>
+
+	<ul>
+		<li>WSGI(Web服务器网关接口)已被用作Python Web应用程序开发的标准。 WSGI是Web服务器和Web应用程序之间通用接口的规范</li>
+		<li>Werkzeug是一个WSGI工具包，它实现了请求，响应对象和实用函数</li>
+		<li>jinja2是Python的一个流行的模板引擎。Web模板系统将模板与特定数据源组合以呈现动态网页</li>
+	</ul>
+
+	<h4>&sect;3.1.4 Tornado 框架</h4>
+
+	<h4>&sect;3.1.5 <a href="./import.html">其他工具</a></h4>
+
+	<h5>&sect;A <a href="https://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a></h5>
+
+	<p>主要的功能是从网页抓取数据(爬虫),每一个网站都有一个名为 robots.txt 的文档,判断是否有禁止访客获取的数据</p>
+
+	
+	<h3>&sect;3.2 图形化开发</h3>
+
+	<h4>&sect;3.2.1 tkinter</h4>
+	<p> 是 Python 的标准 GUI 库</p>
+	<pre>
+		import tkinter
+	</pre>
+	
+	<h2>第四章 附录</h2>
+
+	<h3>&sect;4.1 交互环境 <a href="https://bpython-interpreter.org/">bpython</a></h3>
+	<p>Python解释器：CPython/IPython/PyPy等</p>
+
+	<ol>技巧
+		<li>ctrl + r , 回滚</li>
+		<li>_ ， 上次的临时变量</li>
+		<li>退出：exit()</li>
+	</ol>
+	
+	<h3>&sect;4.2 其他</h3>
+
+	<h4>&sect;4.2.1 pip 包管理器</h4>
+	<p>pip-</p>
+	<p>
+	Centos安装pip: yum install python2-pip<br>
+	curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py<br>
+	python get-pip.py 
+	</p>
+
+	<ul>操作
+		<li>install/uninstall 包名</li>
+		<li>search 搜索</li>
+		<li>升级 pip install --upgrade pip #目前版本18.0<br>
+		ex: sudo python -m pip install --upgrade pip</li>
+		<li>show 包名称，#显示安装包信息</li>
+	</ul>
+
+	<h3>&sect;4.4 调用C/C++程序</h3>
+	<p>import ctypes #ctypes有CDLL和WinDLL两种调用方式，对应上面说过的__cdecl和__stdcall，我们一般使用CDLL<br>	  加载dll:<br>
+	a. cdll.filename;<br>
+	b. cdll.LoadLibrary("filename");<br>
+	c. CDLL("filename");
+	</p>
+
+</body>
+</html>

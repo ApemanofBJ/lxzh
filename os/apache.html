@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Apache--世界排名第一的Web服务器</title>
+	<style>
+		ul {list-style-type: circle;}
+	</style>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<a href="http://httpd.apache.org"><img src="../../pic/apache-icon.png" alt=""></a>
+	<hr width="60%" color="red" align="left">
+
+	<p>功能:</p>
+	<ul type="circle">
+		<li><a href="#vhost">虚拟主机</a></li>
+		<li>https协议(安全的HTP协议)</li>
+		<li>用户认证</li>
+		<li>基于IP或者主机名的ACL(访问控制)</li>
+		<li>每目录的访问</li>
+		<li>URL重写</li>
+		<li>备注：是负载PHP的最佳选择</li>
+	</ul>
+
+	<h2>安装</h2>
+	<p>	CentOS 系统安装: yum install http<br>
+		Ubuntu 系统安装：apt install apache2<br>
+		查看安装的版本号： httpd -v<br>
+	</p>
+
+	<ul>工作模式：
+		<li>worker-- 线程模式，多并发，占用资源少，不稳定</li>
+		<li>prefork-- 进程模式，少并发，占用资源多，稳定(#fork,原意为叉子;在UNIX系统中此函数返回两个值：父进程和子进程的值)</li>
+	</ul>
+
+	<h2>程序命令</h2>
+	<p>
+		启动程序：apachectl -f 配置文件路径(httpd.conf)<br>
+		配置文件测试：apachectl configtest
+	</p>
+	<p>命令参数：-k start|stop|restart</p>
+	<p>端口：80/tcp 443/tcp-ssl</p>
+
+	<p>安装手册页: yum install httpd-manual<br>
+		使用：http://web-server-ip/manual (比如: <a href="http://192.168.159.129/manual">centos-core服务器上的手册页</a> ) 
+	</p>
+
+	<h3>目录的访问控制</h3>
+	<table>
+		<tr>
+			<th>目录访问权限</th>
+			<th>参考说明</th>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3>虚拟主机 VirtualHost </h3>
+	<pre id="vhost">
+	指在单一机器上运行多个网站
+	调试虚拟主机配置：
+	/usr/local/apache2/bin/httpd -S		#显示Apache如何解析配置文件的
+	
+	NameVirtualHost *
+	a.) 基于名称 Name-based
+		<VirtualHost *:80>
+			ServerName		#域名
+			ServerAlias		#别名
+			Documentroot	#文件根目录
+		</VirtualHost >
+		<Directory 文件根目录>
+			设置权限
+		</Directory>
+	b.) 基于 IP  
+		<VirtualHost 172.20.30.40:80>
+			ServerName		#域名
+			Documentroot	#文件根目录
+		</VirtualHost >
+	c.) 基于端口 
+		Listen 8080
+		<VirtualHost *:8080>
+			ServerName		#域名
+			Documentroot	#文件根目录
+		</VirtualHost>
+	</pre>
+
+<p><a href="./http-error.html">常见HTTP错误代码</a></p>
+
+</body>
+</html>

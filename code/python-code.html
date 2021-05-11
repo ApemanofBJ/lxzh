@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Python 代码库</title>
+	<style>
+		pre {background-color:black; color:white;}
+	</style>
+</head>
+
+<body>
+	<p id="bulle">冒泡排序</p>
+	<pre>
+ 	 def Bubble(L):
+	     l = len(L)
+	     for i in range(0,l):
+		 for j in range(i,l-1):
+		     if L[j-1] > L[j]:
+			 L[j-1],L[j] = L[j],L[j-1]	 		     
+		 
+	     return L
+	</pre>
+
+	<p id="rename">批量更改文件名称</p>
+	<pre>
+		import os   
+		import sys
+
+		os.chdir(sys.argv[1])
+
+		import glob
+		#L = [ file for file in os.listdir(os.getcwd()) ]
+		L = [file for file in glob.glob('*.docx')]
+
+		for name in L:
+		    os.rename(name,name.split('V')[1])
+		    #os.rename(name,"录音"+name)
+	</pre>
+
+	<p id="2018cost">2018年每月费用花费统计</p>
+
+	<p id="gcd">最大公约数函数</p>
+	<pre>
+		def gcd(m,n):
+			"求两个正整数的最大公约数"
+			if (n>m): m,n = n,m
+			return n if (m%n == 0) else gcd(n,m%n)
+	</pre>
+
+	<p id="prime">求101-200间的素数</p>
+	<pre>
+		from math import sqrt
+
+		l = []
+
+		for i in range(101,200):
+		    for j in range(2,int(sqrt(i))+1):
+		        if i%j == 0:
+		            break
+		    else:
+		        l.append(i)
+
+		print('总数是：%d' % len(l) )
+	</pre>
+
+	<p id="oushu">输出1-10间的偶数</p>
+	<pre>
+		a = range(1,11)
+		a[1::2]
+	</pre>
+
+	<p id="mysql">连接MySQL数据库</p>
+
+	<p>安装模块： <br>
+	pip install MySQL-python  #2.7版本<br>
+	pip install pymysql       #3.x版本<br>
+	</p>
+
+	<pre>
+		A. 数据查询
+		  import  sys
+		  import  MySQLdb
+		  
+		  #database connetion setting
+		  host     ='localhost'
+		  user     ='root'
+		  passwd   =''
+		  database = sys.argv[1]
+		  
+		  conn=MySQLdb.connect(host,user,passwd,database,charset='utf8')
+		  
+		  #database operating
+		  cur=conn.cursor()   #获取游标
+		  
+		  if (database=="lxzh"):
+			  sql="SELECT SUM(付款金额) FROM `日常费用`"
+			  cur.execute(sql)
+		  
+			  data=cur.fetchone()
+			  print "总计花费为:%s" % data
+		  elif (database=="stock"):
+			  sql="SELECT COUNT(*) FROM `股票名称`"
+			  cur.execute(sql)
+		  
+			  data=cur.fetchone()
+			  print "股票池共用股票：%s支"  % data
+		  
+		  #close database
+		  cur.close()
+		  
+		  conn.commit()
+		  conn.close()
+
+	</pre>
+   import pymysql
+   
+   host = 'localhost'
+   user = 'root'
+   passwd = ''
+   database = 'xhlsg'
+   
+  conn = pymysql.connect(host,user,passwd,database)
+  cur  = conn.cursor()
+  
+  #会员表
+  members = ['`member-yc`','`member-xn`','`member-sh`']
+  
+  for x in members:
+      sql = "select count(*) from %s" % x
+      cur.execute(sql)
+      data = cur.fetchone()
+      print ("members total is %s" % data)
+
+	<pre>
+		
+	</pre>
+
+	<p id="fibonacci">斐波那契数列</p>
+	<pre>
+	def fbis(num):
+	     L = [0,1]
+	     for i in range(num-2):
+	         L.append(L[-2]+L[-1]) 		#列表的负数索引
+	     return L
+	</pre>
+
+	<p id="score">班级成绩统计</p>
+	<pre>
+	L =[["张三",95,72,60],["李四",89,87,98]] #班级成绩
+
+	for i in L:
+	    print(sum(i[1:]))  	#计算每个学生的总成绩
+
+	D ={"liang":[87,90,95],"zhang":[60,83,77]}
+	for x in D.keys():
+	    print(sum(D[x]))
+	</pre>
+
+	<p id="tcp">tcp</p>
+	<pre>
+	import	socket	#导入socket模块
+	A. 服务器端
+		s = socket.socket()         # 创建 socket 对象
+		host = socket.gethostname() # 获取本地主机名
+		port = 12345                # 设置端口
+		s.bind((host, port))        # 绑定端口
+
+		s.listen(5)                 # 监听端口，等待客户端连接
+		while True:
+		    c, addr = s.accept()     # 建立客户端连接
+		    print '连接地址：', addr
+		    c.send('欢迎访问菜鸟教程！')
+		    c.close()                # 关闭连接
+
+	B. 客户端
+		s = socket.socket()         # 创建 socket 对象
+		host = socket.gethostname() # 获取本地主机名
+		port = 12345                # 设置端口号
+
+		s.connect((host, port))
+		print s.recv(1024)
+		s.close()  
+	</pre>
+
+	<p id="ball"><b>跳球的问题</b><br>
+	一球从100米高度自由落下，每次落地后反跳回原高度的一半；再落下，求它在第10次落地时，共经过多少米？第10次反弹多高？</p>
+
+	<pre>
+		ball = {}
+		ball[0] = 100
+
+		for x in range(1,11):
+		    ball[x] = ball[x-1]/2
+
+		print (ball[10])
+	</pre>
+
+	<p><b>比赛抽签的问题</b><br>
+	两个乒乓球队进行比赛，各出三人。甲队为a,b,c三人，乙队为x,y,z三人。已抽签决定比赛名单。<br>
+	有人向队员打听比赛的名单。a说他不和x比，c说他不和x,z比，请编程序找出三队赛手的名单<br>
+	</p>
+
+	<p id="obj"><b>定义对象</b></p>
+	<pre>
+		class CPerson:
+		     def __init__(self,name,age):
+			 self._name = name		#通过_定义私有变量
+			 self._age  = age
+		     def get_name(self): 		#self 相当于this指针
+			 return self._name
+		     def get_age(self):
+			 return self_age
+		#l = CPerson("liang",40)		
+	</pre>
+
+	<p><b>求分解因数</b></p>
+	<pre>
+	 def Yinshu(number):
+	     L = []
+	     for x in range(1,number/2+1):
+		 if number%x == 0:
+		     L.append(x)
+	     return L
+
+	</pre>
+
+	<p><b>阶乘</b></p>
+	<pre>
+	 def Jiecheng(n):
+	     return 1 if n&lt;=1 else n*Jiecheng(n-1)
+
+	</pre>
+
+	<p><b>计算2020年11月份工作日</b></p>
+	<pre>
+  9 from datetime import date
+  
+ 11 count = 0
+ 12 
+ 13 for i in range(1,31):
+ 14     day = date(2020,11,i)
+ 15 
+ 16     #if ( day.weekday() not in (0,6)  ):
+ 17     if ( day.weekday() < 5):
+ 18             count += 1
+ 19 
+ 20 print (count)
+
+	</pre>
+</body>
+</html>

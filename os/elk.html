@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>ELK --实时日志分析系统</title>
+	<style>
+		ul {list-style-image: url(../../pic/it/icon/arrow/右箭头.png);}
+	</style>
+</head>
+
+<body>
+	<p>由ElasticSearch、Logstash和Kiabana三个开源工具组成</p>
+
+	<ul>完整的集中式日志系统
+		<li>收集－能够采集多种来源的日志数据</li>
+		<li>传输－能够稳定的把日志数据传输到中央系统</li>
+		<li>存储－如何存储日志数据</li>
+		<li>分析－可以支持 UI 分析</li>
+		<li>警告－能够提供错误报告，监控机制</li>
+	</ul>
+	<img src="../../pic/it/os/elk.png" alt="">
+
+	<h3 id="elastic">Elastic-search--日志处理#搜索引擎</h3>
+	<p>基于Lucene的开源分布式搜索服务器</p>
+	<p>安装：<br>
+		step1. 安装Java 环境<br>
+		step2. 下载安装包并解压<br>
+		step3. sysctl -w vm.max_map_count=262144 #修改虚拟机配置<br>
+	</p>
+
+	<h3>Logstash--日志收集</h3>
+	<ul>input
+		<li>file：从文件系统的文件中读取，类似于tail -f命令</li>
+		<li>syslog：在514端口上监听系统日志消息，并根据RFC3164标准进行解析</li>
+		<li>redis：从redis service中读取</li>
+		<li>beats：从filebeat中读取</li>
+		<li>Filters：数据中间处理，对数据进行操作</li>
+	</ul>
+
+	<ul>file插件
+		<li>path：指定日志文件路径。</li>
+		<li>type：指定一个名称，设置type后，可以在后面的filter和output中对不同的type做不同的处理，适用于需要消费多个日志文件的场景。</li>
+		<li>start_position：指定起始读取位置，“beginning”表示从文件头开始，“end”表示从文件尾开始（类似tail -f）</li>
+	</ul>
+	<h3>Kibana--结果展示</h3>
+
+	<P>主要用于监控<a href="../os/nginx.html">nginx</a>/<a href="../os/tomcat.html">tomcat</a>的日志信息</P>
+</body>
+</html>

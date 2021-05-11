@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Linux 常用工具软件</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		hr {color: brown;}
+	</style>
+</head>
+
+<body>
+	<ul type="square">目录:
+		<li><a href="#zsh">zsh</a></li>
+		<li><a href="#tmux">tmux 终端窗口管理器</a></li>
+		<li><a href="#baidu-netdisk">百度网盘</a></li>
+		<li><a href=#shutter>shutter 截图工具</a></li>
+		<li><a href="#sed">sed 流编辑器</a></li>
+		<li><a href="#rsync">rsync 同步复制工具</a></li>
+		<li><a href="#awk">awk</a></li>
+		<li><a href="#skill">日常技巧总结</a></li>
+		<li><a href="#webmin">webmin 基于web的系统管理工具</a></li>
+		<li><a href="#rar">rar 压缩软件</a></li>
+		<li><a href="#grep">grep 正则表达式</a></li>
+		<li><a href="#gcc">gcc 编译器</a> / <a href="#make">make</a></li>
+		<li><a href="#utils">moreutils工具集</a></li>
+		<li><a href="#convert">文件格式转换</a></li>
+		<li><a href="#rdc">远程连接windows桌面</a></li>
+		<li><a href="https://linux.cn/article-11044-1.html">分享100个最佳Ubuntu应用</a></li>
+	</ul>
+	
+
+	<h3 id="zsh">No.1 <a href="https://github.com/ohmyzsh/ohmyzsh">zsh</a></h3>
+	<hr>
+	<p>[ 安装 ]<br>
+	看当前系统的Shell: cat /etc/shells | echo $SHELL<br>
+	更改shell: chsh -s /bin/zsh user-name<br>
+	</p>
+
+	<p>
+	yum/apt install zsh		#需要安装git<br>
+	使用zsh扩展集合<a href="https://ohmyz.sh/">oh-my-zsh</a>:<br>
+	#[old]wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O - | sh  <br>
+	sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"<br> 
+	<a href="https://github.com/ohmyzsh/ohmyzsh">参考</a>
+	</p>
+
+	<p>[ 使用 ]</p>
+	<table>
+		<tr>
+			<th>操作</th>
+			<th>命令</th>
+		</tr>
+		<tr>
+			<td>切换目录</td>
+			<td>
+				<ul>
+					<li>d命令：显示使用过的目录</li>
+					<li>cd -<Tab>命令：切换目录</li>
+					<li>- 命令：之前目录切换</li>
+					<li>.. 命令：上级目录</li>
+					<li>...命令：进入到祖目录</li>
+					<li>/ 命令：进入到根目录</li>
+					<li>~ 命令：进入到家目录</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>Tab 自动补全</td>
+			<td>
+				<ul>
+					<li>Tab重复按，可以进行切换</li>
+					<li>命令 -+Tab, 列出所有参数项</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>别名及其他</td>
+			<td>
+				<ul>
+					<li>_ 命令：替代sudo</li>
+					<li>启用 vi 的键绑定: bindkey -v</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	
+	<p>[ 配置文件 ]</p>
+	<p>
+	~/.zshrc: 通过alias命令设置别名, <br>
+	#alias -s 根据后缀别名进行程序自动调用, #e.g --alias -s {yml,yaml}=vim<br>
+	#alias -g 定义全局别名，#e.g alias -g G='| grep -i' <br>
+	</p>
+
+	<h3 id="tmux">No.2 tmux</h3>
+	<hr>
+
+	<table>
+		<tr>
+			<td>快捷键</td>
+			<td>说明</td>
+		</tr>
+		<tr>
+			<td>%</td>
+			<td>左右平分出两个窗格</td>
+		</tr>
+		<tr>
+			<td>"</td>
+			<td>上下平分出两个窗格</td>
+		</tr>
+		<tr>
+			<td>x</td>
+			<td>关闭当前窗格</td>
+		</tr>
+	</table>
+
+	<p>note: 快捷键是Ctrl + b</p>
+
+	<h3 id="baidu-netdisk">No.3 百度网盘 bcloud</h3>
+	<hr>
+	<p>Windews:系统版本无法支持多文件上传，需要打包</p>			
+	<p>gitlab安装包：<a href="https://gitlab.com/mba811/bcloud-packages">bcloud-packages</a></p>
+	<p>命令行工具:git clone https://github.com/GangZhuo/BaiduPCS.git</p>
+	<p>安装的支持库：
+		openssl-devel &nbsp libcurl-devel <br>
+	</p>
+	
+	<p>
+	Q1: aclocal-1.15: 未找到命令<br>
+	A: apt install automake<br>
+	Q2: 编译错误(可能是路径选择错误--prefix=BaiduPCS)<br>
+	默认选择当前路径
+	</p>
+
+
+	<h3 id="shutter">No.4 shutter 截图工具</h3>
+	<hr>
+	<img src="../../pic/it/software/shutter.png" alt="" width="450" height="350">
+	
+	<h3 id="sed">No.5 sed 流编辑器</h3>
+	<p>命令格式: sed [option] '行地址范围command' file(s)</p>
+	<ul>command 参数
+		<li>a 追加文本到指定行后</li>
+		<li>i 插入文本到指定行前</li>
+		<li>d 删除指定的行</li>
+		<li>c 用新行取代旧行</li>
+		<li>s 文本替换</li>
+		<li>p 打印文本行</li>
+	</ul>
+	<p>note: <br>行范围: 单行n/多行n,m/跳行n~k/最后行$/匹配行/内容/</p>
+	<ul>应用：
+		<li>添加文本内容脚本: sed -i '/pattern/ a添加的文本内容\n(换行)<br>
+		添加到最后一行	sed -i '$a内容' </li>
+		<li>加入css外部链接：r !sed -n '1p' edit.txt</li>
+	</ul>
+
+	<h3 id="rsync">No.6 rsync 同步复制工具</h3>
+	<p>格式：rsync -r 源地址 目的地址, #</p>
+	<p>remote synchronize<br>
+	第一次会全量传输，后续会对比两个文件的不同，只传输文件更新的部分(差异复制)</p>
+	
+	<p>优点：传输速度远在scp之上。（局域网测试，rsync是scp的20倍）<br>
+	缺点：时间差，导致数据不一致，无法应对出现故障时完全恢复数据。</p>
+	
+	<p>[inotify]</p>
+	ll /proc/sys/fs/inotify  --&gt;
+	max_queued_events
+	max_user_instances
+	max_user_watche
+	
+	<p>inotify-tools</p>
+	inotifywait
+	inotifywatch
+
+	<p>深度应用： <b><a href="../os/bacula.html">bacula</a></b></p>
+
+	<h3 id="awk">No.7 awk </h3>
+	<p>格式： '/pattern/ {action}' 或者 -f script input files;<br>
+	-F 选项的作用是指定分隔符。如果不加 -F 选项，则以空格或者 tab 为分隔符</p>
+ 
+	<ul> print 打印(printf 格式化输出)
+		<li>$数字    打印第#个字段</li>
+		<li> NF      字段数量        #number of fields</li>
+		<li> $NF     最后一个字段</li>
+		<li> $0      整行</li>
+		<li> NR      行号            #number of rows</li>
+	</ul>
+
+	<p><b>备注：</b><br>
+	1.某段进行匹配--awk -F ':' '$1 ~/oo/' test.txt 		#~(匹配的意思)，且可进行多次匹配<br>
+	2.查询组包含的所有用户：grep '\<admin\>' /etc/group | awk -F: '{print $1,$NF}'</p>
+    
+	<p>BEGIN   最先位置/END 最后位置</p>
+
+
+	<h3 id="skill">No.8 日常技巧总结</h3>
+	<ol>
+		<li>shell 中使用别名简化复杂命令+参数的形式<br>
+			alias md="mkdir -p"<br>
+			alias fw-cmd="firewall-cmd"<br>
+			alias cls="clear"<br>
+		</li>
+		<li>web前端 对于批量标签使用vim的替换后利用emmet插件</li>
+		<li>sed s替换命令修改文件内容</li>
+		<li>使用ln 链接定义快捷方式</li>
+		<li>egrep -v '^#|^$' 检索配置文件</li>
+	</ol>
+
+	<h3 id="webmin">NO.9 webmin 基于Web的Unix系统管理工具</h3>
+	<p>
+		启动：/etc/init.d/webmin start|stop<br>
+		访问: https://localhost:10000/<br>
+		用户名必须是root<br>
+	</p>
+
+	<img src="../../pic/it/os/webmin.png" alt="">
+	<ul>内容
+		<li>系统(文件系统/计划任务/系统日志)</li>
+		<li>服务器(Apache/DNS/MySQL)</li>
+		<li>网络(防火墙/网络设置/)</li>
+		<li>硬件(逻辑卷/打印机)</li>
+		<li>集群</li>
+	</ul>
+
+	<h3 id="rar">NO.10 rar 压缩软件</h3>
+	<p>安装：wget https://www.rarlab.com/rar/rarlinux-x64-5.6.0.tar.gz</p>
+	<ul>参数说明
+		<li>x 源文件 目标文件夹 #解压缩文件</li>
+		<li>a 源文件 压缩文件 #压缩文件</li>
+		<li></li>
+	</ul>
+	
+	<h3 id="grep">NO.11 grep/egrep 匹配正则表达式</h3>
+	<ul>参数说明
+		<li>-i 忽略大小写</li>
+		<li>-n 输出行号</li>
+		<li>-c 计算出匹配次数</li>
+		<li>-v 反向选择</li>
+		<li>-r 递归下级文件夹</li>
+		<li>-w/o  准确/模糊查询关键词个数</li>
+	</ul>
+
+	<p>uniq 删除重复行/ -c 显示重复次数/-u 显示不重复的行 / -d 显示重复行</p>
+
+	<h3 id="gcc">NO.12 gcc/g++ 编译器</h3>
+
+	<p>安装 build-essential,        将安装gcc/g++/gdb/make 工具</p>
+
+	<p>C++ 编译： g++ --std=c++ 源文件 -o 目标文件<br>
+	alias g++11='g++ --std=c++11'</p>
+
+	<ul>编译过程
+		<li>预处理（Pre-Processing）</li>
+		<li>编译 （Compiling）</li>
+		<li>汇编 （Assembling）</li>
+		<li>链接 （Linking）</li>
+	</ul>
+
+	<img src="../../pic/it/os/CPlus/gcc.png" alt="">
+
+	<p><b>【特性】</b><br>
+		（1.）case 范围扩展： case 1...7: <br>
+		 (2.) 数组赋值： int A[] = {[0...9] = 1,...}<br>
+		 备注：<a href="http://gcc.gnu.org/onlinedocs/7.3.0/">7.3版本手册</a>
+	</p>
+
+	<p id="make"><b>make</b><br>
+	从Makefile文件中获得模块间的依赖关系，使用Makefile中的编译命令进行编译.</p>
+	<p>Makefile文件规则：目标文件列表 分割符： 依赖文件列表; <br>
+	以Tab键开头 [ 命令]</p>
+
+	<h3 id="utils">NO.13 moreutils 工具集</h3>
+	<ul>
+		<li>chronic – 运行程序并忽略正常运行的输出</li>
+		<li>combine – 使用布尔操作合并文件的行 </li>
+		<li>errno – 查询 errno 名称及描述</li>
+		<li>ifdata – 获取网络接口信息，无需解析 ifconfig 的结果</li>
+		<li>ifne – 在标准输入非空的情况下运行程序</li>
+		<li>isutf8 – 检查文件或标准输入是否采用 UTF-8 编码</li>
+		<li>lckdo – 带锁运行程序</li>
+		<li>mispipe – 使用管道连接两个命令，返回第一个命令的退出状态</li>
+		<li>parallel – 同时运行多个任务</li>
+		<li>pee – 将标准输入传递给多个管道</li>
+		<li>sponge – 整合标准输入并写入文件</li>
+		<li>ts – 为标准输入增加时间戳信息</li>
+		<li>vidir – 使用你默认的文本编辑器操作目录文件</li>
+		<li>vipe – 在管道中插入信息编辑</li>
+		<li>zrun – 自动解压并将其作为参数传递给命令</li>
+	</ul>
+
+	<h3 id="convert">NO.14 文件格式转换</h3>
+	<p>Windows下默认使用的是GB2312编码，Linux默认使用的是UTF-8</p>
+
+	<p><b>iconv 命令</b><br>
+	语法格式： iconv -f GB2312 -t UTF-8 infile -o outfile</p>
+
+	<h3 id="rdc">NO.15 远程连接windows桌面</h3>
+	<p></p>
+</body>
+</html>

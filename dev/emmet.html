@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vim-emmet HTML/CSS 编辑插件</title>
+</head>
+<body>
+	
+<h3>[安装]</h3>
+<p> cd ~/.vim/bundle<br>
+    git clone https://github.commattn/emmet-vim.git<br>
+    把 plugin/emmet.vim 拷贝至 Vim 安装目录下的 plugin/ 文件夹。<br>
+    将 autoload/ 下的 emmet.vim 和 emmet/ 文件夹拷贝至 Vim 安装目录下的 autoload/ 文件夹<br>
+</p>
+
+<h2>[使用] <a href="https://docs.emmet.io/cheat-sheet/">官方文档</a></h2>
+
+<p>
+快捷键：	&lt;c-y&gt;,<br>
+# 修改快捷键：	let g:user_emmet_expandabbr_key = '&lt;F2&gt;'<br>
+</p>
+
+<h2>HTML 規則</h2>
+<ul>基本规则：
+	<li>E		标签</li>
+	<li>E*n	-&gt; n个标签</li>
+	<li>E#id		标签有id属性</li>
+	<li>E.class		标签有class属性</li>
+	<li>E&gt;N		N是E的下级元素</li>
+	<li>E+N		N是E的同级元素</li>
+	<li>E^N		N是E的上级元素</li>
+	<li>E{info}		E包含的内容info</li>
+	<li>E[属性="value"] 设置属性</li>
+</ul>
+
+a.) 建立HTML文件
+	html:5 -> 快捷键
+
+b.) 缩写
+	a:link		-> <a  href="http://"> </a>
+	$		-> 变量自增加
+	a:mail		-> <a  href="mailto:"> </a>	
+	img		-> <img src="" alt="">
+	c		-> 注释
+
+c.) 标签
+	选择文本 -> 按'V' -> 快捷键 -> 输入标签
+ul{}
+[实例]
+1. h${这是一个标题}*3
+	<h1>这是一个标题</h1>
+	<h2>这是一个标题</h2>
+	<h3>这是一个标题</h3>
+
+<h2>CSS 規則</h2>
+
+<table>
+	<tr>
+		<th>对象</th>
+		<th>缩写</th>
+		<th>实际意义</th>
+	</tr>
+	<tr>
+		<td>表格边框</td>
+		<td>bd+</td>
+		<td>border:1px solid #000;</td>
+	</tr>
+	<tr>
+		<td>背景颜色</td>
+		<td>bg</td>
+		<td>background:#000;</td>
+	</tr>
+</table>
+
+</body>
+</html>

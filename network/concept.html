@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>计算机网络概念</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p>络：本意是缠绕、打结的意思。所谓网络，自以为网路更合适</p>
+
+	<h2>chapter.1 网络基础</h2>
+
+	<h3>&sect; 1.1 网络分层概念(逻辑)</h3>
+	<img src="../../pic/it/net/OSI.png" alt=""  width="80%" height="1200px">
+
+	<p>note:<br>
+		OSI: 物链网传会表应<br>
+			Physical/Link/Network/Transport/Session/Presentation/Application<br>
+		TCP分层：接网传应<br>
+		IPS-- Intrusion Prevention System 入侵防御系统，监视网络和网络设备的数据传输<br>
+		IDS-- Intrusion Detection Systems 入侵检测系统，一整套安全策略<br>
+	</p>
+
+	<h3>1.2 报文概念</h3>
+	<p>message(消息内容) 通过packet(包裹-固定大小) 进行传输，需要有ip/tcp(收发信息)</p>
+
+	<p>【IP packet】</p>
+	<img src="../../pic/it/os/ip-packet.png" alt="IP报文">
+	<p>【TCP packet】</p>
+	<img src="../../pic/it/os/tcp-packet.png" alt="TCP报文">
+	<ul>
+		<li>ACK-确认: 只有值为1时有效</li>
+		<li>SYN-同步：值为1同步请求或连接</li>
+		<li></li>
+	</ul>
+
+	<h3>1.3 网络地址分类</h3>
+	<img src="../../pic/it/os/ip-addr.png" alt="">
+	<ul>总结：网络限制+网络地址+主机地址
+		<li>A0/B10/C110，对应8-1/16-2/24-3</li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<p>IPv4(32bit) & IPv6(128bit)<br>
+	IPv4最大的问题在于网络地址资源有限(43亿个)；IPv6的地址长度为128位</p>
+
+	<ul>IPv6表示法：
+		<li>"冒分十六进制"表示法，格式为X:X:X:X:X:X:X:X，这种表示法中，每个X的前导0是可以省略的</li>
+		<li>0位压缩表示法，可以把连续的一段0压缩为“::”。但为保证地址解析的唯一性，地址中”::”只能出现一次</li>
+		<li>内嵌IPv4地址表示法，此时地址常表示为：X:X:X:X:X:X:d.d.d.d，前96b采用冒分十六进制表示，而最后32b地址则使用IPv4的"点分十进制"表示</li>
+		<li>备注：与原来在IPv4地址相比，新增了“任播地址”类型，取消了原来IPv4地址中的广播地址，因为在IPv6中的广播功能是通过组播来完成的</li>
+	</ul>
+
+	<p><b>【NAT】</b>(网络地址转换)</p>
+	<table>
+		<tr>
+			<td>优点</td>
+			<td>缺点</td>
+			<td>应用场景</td>
+		</tr>
+		<tr>
+			<td>
+				<ul>
+					<li>共享公有IP地址;</li>
+					<li>对最终用户透明;</li>
+					<li>更加安全;</li>
+					<li>LAV可以扩展或升级;</li>
+					<li>可以在本地控制,包括ISP连通性;</li>
+				</ul>
+			</td>
+			<td>
+				<ul>
+					<li>与某些应用程序不兼容;</li>
+					<li>阻碍合法的远程访问;</li>
+					<li>路由器处理量增加而导致性能下降;</li>
+				</ul>
+			</td>
+			<td>
+				<ul>
+					<li>1对1转换：主要实现端口的静态映射；</li>
+					<li>多多转换：多私有地址对应多公用地址，谁先来谁先转换，用完为止；</li>
+					<li>多对1转换：最常见的配置，实现上网节约网络资源；</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<p>动态映射主要是负责内部主机访问外网使用，静态映射是把DMZ的服务器发布到外网</p>
+
+	<h2>chapter.2 网络协议</h2>
+	<h3>2.1 TCP协议</h3>
+
+	<p>【三次握手-四次挥手】<br>
+		<a href="https://blog.csdn.net/qq_18425655/article/details/52163228">
+		面试题整理</a>
+	</p>
+
+	<p>Three-Way Handshake<br>
+	第一步：同步不确认，有序号<br>
+	第二步：同步确认，序号+1<br>
+	第三步：确认序号再+1</p>
+	<img src="../../pic/it/os/tcp-34.png" alt="">
+
+	<h3>2.2 ARP协议(局域网)</h3>
+	<p>
+		Address Resolution Protocol--地址解析协议<br>
+		ARP高速缓存-本质就是&lt;IP地址，MAC地址&gt;的对应表<br>
+		处理的数据是frame(帧),实质就是将上层传入的数据添加一个头部和尾部, 组成一个框架(应用在链路层)<br>
+	</p>
+
+	<ul>arp命令
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<p>代理ARP、无故ARP、反向ARP</p>
+
+	<p>[ICMP] 协议</p> 
+
+	<h3>2.3 http协议</h3>
+	<p>超文本传输控制协议: Hyper Text Transfer Protocol</p>
+
+	<p>[URl]<br>
+	统一资源定位符Uniform Resource Identifiers</p>
+	<ul>包括部分：#协域端虚文锚参
+		<li>协议部分</li>
+		<li>域名部分</li>
+		<li>端口部分</li>
+		<li>虚拟目录部分</li>
+		<li>文件名部分</li>
+		<li>锚部分</li>
+		<li>参数部分</li>
+	</ul>
+
+	<p>[https协议]<br>
+	http+SSL</p>
+	<ul type="square">
+		<li>认证服务器</li>
+		<li>协商会话密钥</li>
+		<li>加密通讯</li>
+	</ul>
+
+	<hr>
+	<p>附录I：常用网络命令</p>
+	<p>备注：linux 系统需要安装 net-tools工具包，包含：netstat, arp, ifconfig, netstat, rarp, nameif和route 命令</p>
+	
+	<table>
+		<tr>
+			<th>网络命令</th>
+			<th>参数选项</th>
+			<th>实例</th>
+		</tr>
+		<tr>
+			<td>netstat</td>
+			<td></td>
+			<td>
+			<ul>
+				<li>列出所有tcp/udp端口	netstat -at/-au</li>
+				<li>列出监听端口	netstat -l(listen)</li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>tcpdump</td>
+			<td></td>
+			<td>
+				<ul>
+					<li>过滤主机	tcpdump -i eth1 [src/dst] host 192.168.1.1</li>
+					<li>过滤端口	tcpdump pi eth1 [src/dst] port 23</li>
+					<li></li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<p><a href="http://cert.sjtu.edu.cn/doc/linux/ch-ports.html">
+
+	附录II. 常用网络端口及服务</a></p>
+	<img src="../../pic/it/os/port.png" alt="">
+
+	<p>附录III. 常用网络工具</p>
+	<ul>
+		<li>sniffer 嗅探器(网络抓包工具) # <a href="http://netsecurity.51cto.com/art/200512/13221.htm">教程</a></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+</body>
+</html>

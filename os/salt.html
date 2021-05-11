@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Saltstack(盐堆)</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+<ul type="square">服务架构：主端通信需加密
+	<li>master: 负责管理所有节点</li>
+	<li>minios: 终端节点服务</li>
+	<li>zeroMA: 通信服务, #替代 RAET</li>
+	<li>AES: 数据加密方法</li>
+</ul>
+
+<p>安装: <br> yum install salt-master salt-minion</p>
+<p>启动: /etc/init.d/salt-master start</p>
+
+<ul>配置文件
+		<li>interface: 监听的IPv4的地址</li>
+		<li>PUBLISH_PORT: 通信端口</li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>	
+
+<p>测试: salt minion-id test.ping</p>
+
+<table>
+	<td>salt-key</td>
+	<td>
+		<ul>
+			<li>-L 列出终端节点</li>
+			<li>-a 节点名称 #添加节点</li>
+		</ul>
+	</td>
+</table>
+
+</body>
+</html>

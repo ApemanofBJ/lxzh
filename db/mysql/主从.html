@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>主从复制</title>
+</head>
+
+<body>
+	
+<ul>类型
+	<li>单向同步(一主一从/一主多从)</li>
+	<li>双向同步(互为主从)</li>
+	<li>级联同步(单向/环形)</li>
+</ul>
+
+主从设置：
+	查看状态	show master/slave status\g;
+	<pre>
+	设置master	#192.168.0.101(centos7-core)  	#启用dump进程
+		my.cnf:	[mysqld]
+			log_bin			#日志文件
+			log_bin_index	#日志索引文件
+			server-id =1	#或者ip
+
+		flush table with read lock;	#加入读锁，禁止写入
+		unlock tables;			    #解锁
+
+		权限设定 5.7版本
+		create user 'dba'@'192.168.0.%' identity by 'pwd';	#建立用户
+		grant replication slave on *.* to 'dba'@'192.168.3.%';	#设定权限
+		flush pzorivileges;					#刷新
+
+		数据备份	#避免从数据库从头开始执行sql语句来进行数据的复制
+		mysqldump --single-transaction --master-data=2 --triggers --routines --all-databases
+			  -uroot -p > all.sql		#或者 --events |gzip >all.sql.gz
+
+	设置slave
+		my.cnf:	[mysqld]
+			server-id =2
+		change master to
+			master_host = 'ip',
+			master_user = 'user',
+			master_password = 'pw',
+			master_log_file = '',
+			master_log_pos  = n ;		#master.info 文件
+		开启：  start slave;			#启用i/o(读取主数据库二进制日志文件), sql(写入中继日志并执行sql语句)两个进程
+
+		replicate_wild_do_table=database.%	#选择更新的数据库
+		replicate_wild_ignore_table=database.%	#选择不更新的数据库}}}
+	</pre>
+	备注：　主从同步只会同步并不会新建库，需要到主库中导出需要同步的库；
+
+复制类型
+	基于二进制日志的复制
+	使用gtip的基于事务的复制
+
+	显示警告信息	show warnings;
+	删除用户	drop user  user_name@'host';
+
+<p>同步延迟问题<br>
+	show slave status\g命令输出的seconds_behind_master参数的值来判断，是否有发生主从延时<br>
+	sync_binlog: 0, 不做fsync之类的磁盘同步指令刷新binlog_cache中的信息到磁盘<br>
+	n,进行n次事务提交之后，进行一次fsync之类的磁盘同步指令来将binlog_cache中的数据强制写入磁盘
+</p>
+
+<p>
+二进制日志的格式：
+	语句		存储sql语句，存储日志量最小(生成环境中不建议使用)
+	row 行		存储event数据，存储日志量大，但是不能直接读取
+	mixed 混合	若操作量大，日志多
+
+mysql-bin.index 二进制日志文件的索引文件
+</p>
+
+<p>备注：即使部署了主备镜像，传统数据库系统也不得不使用可靠性尽可能高的服务器和存储，以降低主库故障的几率，减少对业务的影响。</p>
+
+</body>
+</html>

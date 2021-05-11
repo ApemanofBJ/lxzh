@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<style type="text/css">
+		#sub_menu1	{ display:block; }
+		ul li:hover { cursor: pointer; }
+	</style>
+	<base target="content" \>
+</head>
+
+<body>
+	<ul>
+		<li onclick = "showcontent('sub_menu1')">监控运维系统II代
+			<ul id="sub_menu1">
+				<li><a href="../../../pic/it/project/sinohonour/topology.jpg">网络拓扑图</a></li>
+				<li><a href="../../../pic/it/project/sinohonour/组网图.jpg">组网图</a></li>
+				<li><a href="../../../pic/it/project/sinohonour/数据流转图.jpg">数据流转图</a></li>
+				<li><a href="./software.html">软件系统需求</a></li>
+				<li><a href="./function.html">软件功能</a></li>
+				<li><a href="./device.html">系统设备</a></li>
+				<li><a href="./performance.html">设备监测指标</a></li>
+			</ul>
+		</li>
+		<li onclick = "showcontent('sub_menu2')">项目管理
+			<ul id="sub_menu2" type="square">
+				<li>进度排期表</li>
+				<li><a href="./schedule.html">项目进度</a></li>
+				<li><a href="./doc-manager.html">文档管理</a></li>
+			</ul>
+		</li>
+		
+		<li onclick = "showcontent('sub_menu3')">涉密系统
+			<ul id="sub_menu2" type="square">
+				<li>信息安全等级保护</li>
+			</ul>
+		</li>
+		<li onclick = "showcontent('sub_menu4')">技术支持
+			<ul id="sub_menu2" type="square">
+				<li><a href="./company.html">问题处理</a></li>
+				<li><a href="./kafka.html">kafka</a></li>
+				<li>flume</li>
+				<li>TiStone</li>
+				<li><a href="axure.html">Axure</a></li>
+				<li><a href="218.241.172.122:9323">Ci-log（基于<a href="./graylog.html">Graylog</a>日志分析）</a></li>
+				<li><a href="http://demo.3ddcim.com/">数据中心基础设施可视化管理</a></li>
+				<li><a href="http://218.241.172.122:9128/ci_net/">智能业务运维系统</a></li>
+			</ul>
+		</li>		
+	</ul>
+
+</body>
+</html>

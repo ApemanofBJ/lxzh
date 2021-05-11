@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL代码库</title>
+	<style>
+		pre {background-color:black; color:white;}
+	</style>
+</head>
+
+<body>
+	<p>数据库test:</p>
+	<p>表-学生student</p>
+	<img src="../../pic/it/software/mysql/student.png" alt="">
+	<p>表-课程sc</p>
+	<img src="../../pic/it/software/mysql/sc.png" alt="">
+	<p>表-成绩course</p>
+	<img src="../../pic/it/software/mysql/course.png" alt="">
+
+	<p id="three">查询姓名"liang"的所修课程及成绩?<br>
+	select c.name,score from course as c,sc,student as stu <br>
+	where stu.name='liang' and stu.sco=sc.sno and sc.cno=c.cno;</p>
+	
+	<ul>问题
+		<li>查询数学成绩低于60分的学生及成绩</li>
+		<li>查询平均分大于等于60分的同学名字及平均成绩并排名次</li>
+		<li>查询所有学生名字，以及对应所选课</li>
+		<li>查询每门课成绩最高同学信息及成绩</li>
+		<li>查询两门及以上不及格的同学及平均成绩</li>
+	</ul>
+	<p>数据库:lxzh<br>
+	表：2018cost</p>
+	<img src="../../pic/it/software/mysql/desc_cost.png" alt="">	
+	<p id="lastone">查询最后一天记录<br>
+	select * from `2018cost` order by ID desc limit 1</p>
+
+	<p id="运算列">新增计算列的操作</p>
+	<pre>
+		#三角形
+		CREATE TABLE triangle ( 
+			sidea DOUBLE, 
+			sideb DOUBLE, 
+			sidec DOUBLE AS (SQRT(sidea * sidea + sideb * sideb)) 
+		); 
+		#插入数据
+		INSERT INTO triangle (sidea, sideb) VALUES(1,1),(3,4),(6,8); 
+	</pre> 				
+	
+	<p id="proc"><b>建立过程调用</b></p>
+	<pre>
+		#CREATE DEFINER=`skip-grants user`@`skip-grants host` PROCEDURE `stock_info`(stock int(6))
+		CREATE DEFINER=`skip-grants user`@`skip-grants host` PROCEDURE `stock_info`(stock char(8) character set utf8)
+		BEGIN
+			select * from stock.`股票名称` where `股票名称`=stock;
+		END
+	</pre>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Linux 面试题</title>
+</head>
+<body>
+<p>概述</p>
+<pre>
+	岗位：桌面、网络、系统、数据库
+		桌面包括：电脑、复印机、打印机、视频会议(文印项目--富士施乐复印机)等办公设备
+		网络是三层网络：
+			包括核心、汇聚(三层交换机)、接入(二层交换机)，每层划分不同的网段VLAN-2000个结点以上
+			山石防火墙/juniperVPN(各分公司接入)/H3C的3层交换机
+		系统：
+			包括IDC和自有机房,规模在50台服务器以上
+			应用：
+				自动化运维工具：ansible/saltstack
+				监控系统：nagios
+				脚本工具: Python/Shell
+				虚拟机：VmWare/KVM/docker（容器）
+				集群：LVS(L4负载均衡)/HAproxy(高可用)/keepalived(双机热备)
+		WEB服务器
+			前端采用apache或者nginx(访问静态网页)# 反向代理/负载均衡/URL重写
+			后端开发(动静分离)--
+				windowIIs 使用asp
+				JSP 使用tomcat
+				PHP 
+			访问pv 5000左右
+		MYSQL数据库
+			基础操作:增删改查
+			根据读写情况进行集群的主从配置
+			调优:
+			大的方面储存配置、读写分离、分库分表
+			高可用MHA(after-sync)
+		集群扩展：
+			云计算：OpenStack
+			大数据：Hadoop
+</pre>
+<hr>
+<h3>一、系统问题</h3>
+	<ul>运维基础
+		<li><a href="https://blog.csdn.net/zhongqi2513/article/details/62044299">
+		运维必须掌握的27道Linux面试题</a></li>
+		<li><a href="https://blog.csdn.net/koli6678/article/details/74452177?locationNum=11&fps=1">
+		linux面试题目</a></li>
+		<li><a href="http://baijiahao.baidu.com/s?id=1573875648762470&wfr=spider&for=pc">
+		Linux面试试题100套</a></li>
+		<li><a href="https://zhangge.net/1986.html">
+		Linux运维工程师：30道面试题整理</a></li>
+	</ul>
+<h3>二、应用问题</h3>
+	<ul>
+		<li><a href="https://segmentfault.com/a/1190000010677483">
+		[Nginx] 面试中最常见的18道题</a></li>
+		<li><a href="https://www.cnblogs.com/panwenbin-logs/p/8366940.html">[MySQL]经典面试题</a></li>
+		<li><a href="http://baijiahao.baidu.com/s?id=1585051786665190647&wfr=spider&for=pc">
+		BAT的Mysql面试题总结</a></li>
+		<li><a href="http://baijiahao.baidu.com/s?id=1577334416017160046&wfr=spider&for=pc">
+		[tomcat]常见面试题</a></li>
+		<li></li>
+		<li></li>
+	</ul>
+<h3>三、网络问题</h3>
+</body>
+</html>

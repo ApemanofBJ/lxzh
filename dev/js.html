@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript 简明教程</title>
+
+	<script type="text/javascript">
+		function ObjID(id)
+		{
+			return document.getElementById(id);	//获得文档标记对象
+		}
+
+		function ChangeColer(id)
+		{
+			ele             = ObjID(id);
+			ele.style.color = "Red";					//改变颜色
+			ele.innerHTML   = "标题文字已经改变！";	  	//改变内容
+		}	
+	</script>
+
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p>作者：Brendan Eich</p>
+
+	<p>需要使用sciprt 标签，或者导入.js文件(src="")</p>
+
+	<h3 id="chaper1">一、基础语法</h3>
+	
+	<p>注释：//单行注释，/* 多行注释 */ </p>
+            
+    <h4>&sect; 1.1 变量</h4> 
+	<p> 声明变量: var 变量名称=赋值<br>
+		<div>变量类型：字符串、数字、布尔Boolean、数组、对象Object、空Null、未定义</div>
+	</p>
+	<p>声明数组： var 数组名称 = new Array(size);<br>
+	默认属性 length</p>
+
+	<p><b>字符串-文本类型转换</b><br>
+		A. 转换函数<br>
+			parseInt(String,进制2/8/10/16)和parseFloat(String) 转换成整数和浮点数，其他返回NaN<br>
+		B. 强制类型转换<br>
+			Boolean/Number/String(value)<br>
+	</p>
+    
+    <h4>&sect; 1.2 流程</h4>
+
+    <h5>&sect; 1.2.1 if条件</h5>
+    if (条件) {}
+    else {}
+
+    <h5>&sect; 1.2.2 循环</h5>
+	<ul type="square">
+		<li>for 循环<br>
+		for (var i=0;i&lt;obj.length;i++) </li>
+		<li>for in 循环<br>
+		for (x in obj) 执行语句</li>
+		<li>while/do while 循环</li>
+	</ul>
+
+    <h4>&sect; 1.3 函数</h4>
+    <p>函数声明：function 函数名称(参数){}</p>
+
+	<h4>&sect; 1.4 消息对话框 </h4>
+	<ul>
+		<li>alert 警告</li>
+		<li>comfirm 确认对话框(OK--返回值true/ Cancel返回值 false)</li>
+		<li>prompt 提问</li>
+	</ul>
+
+	<h3>二、DOM & 对象</h3>
+	<p>Document Object Model-文档对象模型，操作对象的属性、内容、样式</p>
+	<img src="../../pic/it/software/Browser对象.png" alt="">
+
+	<h4>&sect;2.1 document 对象</h4>
+
+	<table>
+		<tr>
+			<td>获取元素</td>
+			<td>
+				<ul>
+					<li>document.getElementById("id")</li>
+					<li>document.getElementsByTagname("标签")</li>
+					<li>document.getElementsByName("name")</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>改变元素样式</td>
+			<td>document.getElementById(标签).style.样式="新值" #去掉-,后单词首字母大写</td>
+		</tr>
+		<tr>
+			<td>改变元素的内容</td>
+			<td>
+				<ul>
+					<li>document.innerText #文本-IE</li>
+					<li>document.textContent #非IE</li>
+					<li>document.innerHtml #带标签</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>显示和隐藏（display属性）</td>
+			<td>Object.style.display = none 隐藏/display 显示</td>
+		</tr>
+	</table>
+
+	<p>表单对象.forms[], 其属性值是一个文档中所有form元素对象的数组。或者，使用表单名称作为索引。<br>
+	   设置属性：name、target、action、methon和enctype。<br>
+	.images[] 是标记img 对象的数组集合。使用value取对应文本</p>
+
+	<h4>&sect;2.2 日期和时间对象</h4>
+	<table>
+		<tr>
+			<td rowspan="2">日期</td>
+			<td>创建日期</td>
+			<td>
+				<ul>
+					<li>new Date(), 当前日期和时间</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>获取日期</td>
+			<td>
+				<ul>
+					<li>获取年份：getFullYear()</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<h4>&sect; 2.3 窗口对象 window(顶层对象)</h4>
+
+	<table>
+		<tr>
+			<td>打开新窗口</td>
+			<td>窗口的引用 = window.open(URL,,“height, width高宽")</td>
+		</tr>
+		<tr>
+			<td>关闭窗口</td>
+			<td>window.close()</td>
+		</tr>
+	</table>
+
+	<p><b>备注：</b><br>
+	使用self 指代当前窗口</p>
+
+	<h5>&sect;2.3.1 载入窗口的URL location</h4>
+	<p>location.href = "URL"</p>
+
+	<h5>&sect;2.3.2 浏览器对象 navigator</h4>
+
+	<h4>&sect;2.4 BOM 浏览器对象模型</h4>
+
+	<h3>三、实例</h3>
+
+	<h4>&sect; 3.1 改变标签文本字体颜色</h4>
+	<pre>
+        function ChangeColer(id)
+        {
+                ele=document.getElementById(id);
+                ele.style.color="Red";
+        }        
+	</pre>
+
+    <button type="button" onclick="ChangeColer('chaper1')">
+    大标题改变颜色</button>
+
+	<p>2. 鼠标移动事件</p>
+	
+	<div onmouseover="mOver(this)" onmouseout="mOut(this)" style="background-color:#D94A38;width:80px;height:10px;padding:40px;">
+		Mouse Over Me
+	</div>
+
+	<script>
+        function mOver(obj){
+                obj.innerHTML="Thank You";
+        }
+
+        function mOut(obj){
+                obj.innerHTML="Mouse Over Me";
+        }
+	</script>
+
+	<p>3.播放/暂停视频</p>
+	
+	<div style="text-align:center;">
+  	<button onclick="playPause()">播放/暂停</button> <br>
+  	<video id="video1" width="420" style="margin-top:15px;">
+    <source src="/example/html5/mov_bbb.mp4" type="video/mp4" />
+	    Your browser does not support HTML5 video.
+  	</video>
+  	</div>
+
+	<script type="text/javascript">
+	var myVideo=document.getElementById("video1");
+
+	function playPause()
+	{ 
+	if (myVideo.paused) 
+	  myVideo.play(); 
+	else 
+	  myVideo.pause(); 
+	} 
+
+	</script>
+
+	<ul type="square">常见的事件
+		<li>onchange	元素改变 #与表单相关，text/textarea 输入字符改变引起</li>
+		<li>onselect 	#文本框的内容被选中时</li>
+		<li>onclick		点击</li>
+		<li>onmouseover	移动鼠标</li>
+		<li>onmouseout	移开鼠标</li>
+		<li>onkeydown	按键</li>
+		<li>onload		页面加载, 在body 中加入或者使用window.onload</li>
+		<li>onunload 	退出网页</li>
+		<li>onsubmit	表单提交事件</li>
+	</ul>
+
+	<h4>&sect; 3.2 热力图的实现</h4>
+
+	<h4>&sect; 3.3 展开与收起效果</h4>
+	<p>1. 调用：<br>
+	a href="javascript: f();</p>
+
+	<p>2. 函数：<br>
+		function show/hide<br>
+			style.display = none/block;<br>
+			innerHTML = "文字改变"<br>
+			href="javascript: hide/show"<br>
+	</p>
+
+	<p>Ajax: 异步JavaScript和XML技术</p>
+</body>
+
+</html>
+

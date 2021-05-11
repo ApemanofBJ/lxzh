@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL/MariaDB--最流行的关系型数据库</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+
+	<style>
+		.same {
+				width: 800px;
+		}
+	</style>
+
+	<script>
+		function show_content(div,me)
+		{
+			document.getElementById(div).style.display="block";
+			document.getElementById(me).innerHTML="收起-";
+			document.getElementById(me).href="javascript:hide_content(div,me);";
+		}
+
+		function hide_content(div,me)
+		{
+			document.getElementById(div).style.display="none";
+			document.getElementById(me).innerHTML="更多内容+";
+			document.getElementById(me).href="javascript:show_content(div,me);";					
+		}	
+	</script>
+</head>
+
+<body>
+
+<p>
+<a href="https://www.mysql.com"><img src="../../pic/mysql-icon.png" alt=""></a>
+	<a href="./datatype.html">数据类型</a> /
+	<a href="./table.html">数据表</a> / 
+	<a href="./search.html">查询</a> / 
+	<a href="./function.html">函数</a>
+	<a href="#script">脚本</a> / 
+	<a href="./主从.html">主从复制</a> / 
+	<a href="#optimize">调优</a> / 
+	<a href="#rw">读写分离</a>  /
+	<a href="#wb">WorkBench</a>  /
+</p>
+<p>版本：Community(社区版)/Enterprise(企业版)<br>
+安装： install mysql-server <br>
+version() 	#查看当前版本号<br>
+connection_id 	#查看当前用户的连接数<br></p>
+<hr>
+
+<h2>第一部分	基础</h2>
+
+<h3>&sect; 1.1 实用工具</h3>
+	<p>数据的组织机构：层次、网状、关系</p>
+
+	<p>修改数据库文件的目录位置:<br>
+	在配置文件中修改: datadir sock</p>
+	
+	<table border="1px">
+		<caption>命令行工具</caption>
+		<tr>
+			<th colspan="2">服务器端</th>
+		</tr>
+		<tr>
+			<td>mysqld</td>
+			<td>服务器后台进程</td>
+		</tr>
+		<tr>
+			<td>mysqld_safe</td>
+			<td>服务器启动脚本，出现错误时可以向错误日志写入信息</td>
+		</tr>
+		<tr>
+			<td>mysql.server</td>
+			<td>服务器启动脚本</td>
+		</tr>
+		<tr>
+			<td>mysql_multi</td>
+			<td>启动/停止系统上安装的多个服务器</td>
+		</tr>
+		<tr>
+			<td>mysql_install_db</td>
+			<td>使用默认权限创建MySql授权表，通常在首次安装时执行</td>
+		</tr>
+		<tr>
+			<th colspan="2">客户端</th>
+		</tr>
+		<tr>
+			<td>mysqlaccess:</td>
+			<td>检查访问主机名、用户名和数据库组合的权限的脚本</td>
+		</tr>
+		<tr>
+			<td>mysqlbinlog:</td>
+			<td>读取二进制日志工具</td>
+		</tr>
+		<tr>
+			<td>mysqldump:</td>
+			<td>数据库转存工具</td>
+		</tr>
+		<tr>
+			<td>mysqlhotcopy:</td>
+			<td>运行时备份MyISAM(ISAM)的工具</td>
+		</tr>
+		<tr>
+			<td>mysql import</td>
+			<td>使用LOAD DATE INFILE导入文本文件的程序</td>
+		</tr>
+		<tr>
+			<td>mysqlshow:</td>
+			<td>显示数据信息的程序</td>
+		</tr>
+		<tr>
+			<td>perror:</td>
+			<td>错误代码含义的工具</td>
+		</tr>
+	</table>
+
+		mysql -e 'SQL语句'	#执行语句<br>
+		      -f --force	#强制执行，有错误时跳过<br>
+		      -C --compress	#客户端与服务器通信使用压缩<br>
+************************************************************
+<p>
+启动服务：	systemctrl start mysqld<br>
+查看版本：	mysql -V--version /(fedora-5.6.30)<br>
+</p>
+
+<h3>&sect; 1.2 登录/存储引擎</h3>
+	<p>登录数据库：<br>
+		mysql -h 主机IP -u 用户名 -p 密码，#-S	指定sock<br>
+	</p>
+
+	<p>
+		#mycli -h 192.168.0.101 -r root -p jingrun@2017(必须带有密码)<br>
+		mycli 支持vi输入模式(F4进行切换)<br>
+		设置为多行模式：~/.myclirc  multi_line=true<br>
+		安装: pip install mycli<br>
+	</p>
+
+	<ul type="lower-alpha">更改root密码
+		    <li>修改/etc/my.cnf<br>
+				[mysqld] 加入：skip-grant-tables
+		    </li>
+		    <li>修改root密码<br>
+				update mysql.user set authentication_string=password('newpwd') where user="root";<br>
+				备注：5.7表中没有password字段了<br>
+				刷新 flush privileges;<br>
+		    </li>
+		    <li>mysqladmin 命令<br>
+				mysqladmin -u root -p password 'newpwd'
+		    </li>
+	</ul>
+
+<h4>1.2.3 存储引擎</h4>
+常用：MyISAM / InnoDB(5.5以后版本默认)
+
+<ul>区别
+	<li>InnoDB支持事务，MyISAM不支持，这一点是非常之重要。事务是一种高级的处理方式，如在一些列增删改中只要哪个出错还可以回滚还原，而MyISAM就不可以了(大量的高并发应用)</li>
+	<li>MyISAM适合查询以及插入为主的应用，InnoDB适合频繁修改以及涉及到安全性较高的应用</li>
+	<li>InnoDB支持外键，MyISAM不支持</li>
+	<li>InnoDB不支持FULLTEXT类型的索引</li>
+	<li>InnoDB中不保存表的行数，如select count(*) from table时，InnoDB需要扫描一遍整个表来计算有多少行，但是MyISAM只要简单的读出保存好的行数即可。注意的是，当count(*)语句包含where条件时MyISAM也需要扫描整个表</li>
+	<li>对于自增长的字段，InnoDB中必须包含只有该字段的索引，但是在MyISAM表中可以和其他字段一起建立联合索引</li>
+	<li>清空整个表时，InnoDB是一行一行的删除，效率非常慢。MyISAM则会重建表</li>
+	<li>InnoDB支持行锁（某些情况下还是锁整表，如 update table set a=1 where user like '%lee%'</li>
+</ul>
+
+<h3>&sect;1.4 备份数据库</h3>
+	mysqldump [-h 主机] -u用户名 -p 数据库名称[表名称] [|gzip] > backup.sql<br>
+	多数据库备份参数： --databases<br>
+	恢复数据库:<br>
+	mysql -u用户名 -p 密码 数据库名称< backup.sql<br>
+	
+	导入本地数据:<br>
+		load data local infile 'path' into table 表名称<br>
+		设置分隔符 fields terminated by '' <br>
+	或者使用:<br>
+		mysqlimport -uUser -pPwd -h -p3306 Statistic 文本文件<br>
+	备注：<br>
+		文件必须在mysql/var/Statistic/目录下<br>
+		输出到文件： select * from 表名称 into outfile '权限目录/输出文件名'
+
+
+<h4>1.5.5 视图 --虚表(不建议使用)</h4>
+
+<p>
+	存储下来得select 语句,当作表来使用<br>
+	create view 视图 as  select 语句<br>
+	drop <br>
+	show create view 视图名称\g<br>
+</p>
+
+<h3>&sect; 1.7 索引	#index 与key相同</h3>
+	mysql中索引的存储类型有两种：btree 和 hash
+	分类：
+		unique
+		fulltext
+		spatial
+	聚族索引，非聚族索引，二级索引，唯一索引、最左匹配原则
+
+<h3>&sect; 1.8 事务</h3>
+	<p>acid--原子性、一致性、隔离性、持久性</p>
+	begin 开始事务
+	rollback 事务回滚
+	commit 	事务确认
+
+<h3>&sect; 1.9 锁</h3>
+<p>悲观锁：数据被锁定，其他的事务必须等本次事务提交之后才能执行<br>
+select …… from table  where …… for update</p>
+
+<h2>第二部分	高级应用</h2>
+<p>变量：<br>
+	用户变量：使用set或select直接赋值，变量名以@开头。作用域是整个会话<br>
+	过程变量：以declare关键字声明的变量，使用default来说明默认值<br>
+	用select … into…形式赋值
+</p>
+
+<p>
+	set @name = '';<br>
+	select @name:=password from user
+</p>
+
+<h3 id="script">2.1 脚本</h3>
+	使用脚本
+		mysql db_name < script.sql
+
+	脚本编辑
+		a. 换行
+			1.> select/from/where/order by/group by 等子句必须换行写
+			2.> select 子句只有一项，同行写
+			3.> select 子句有多项，每项各占一行;而且向右缩进8个空格
+			# from 子句同 select
+			4.> where子句多项，每项各占一行;以and开头，无缩进
+			5.> 不允许出现空行
+		b. 注释
+			#	单独一行
+
+查看允许连接的用户和主机
+	use mysql;
+	select user,host from user;
+
+添加远程访问权限
+	命令格式：
+		grant <权限> on 数据库.表 to 用户 identified by 密码 [with grant option] 	#revoke 命令删除用户权限
+		查看用户权限：show grant for 'user@host'
+
+	grant all privileges on *.* to 'root'@'host' identified by 'pw' with grant option;
+	#赋予所有权限在*数据库上对用户使用密码采用选项
+	
+	<ul>mysql 权限表(位于mysql数据库 )
+		<li>user		用户帐户、全局权限、非权限字段</li>
+		<li>db		数据库级别的权限</li>
+		<li>host		已废弃(整合到user)</li>
+		<li>tables_priv	表级别权限</li>
+		<li>columns_priv	列级别权限</li>
+		<li>procs_priv	存储过程和存储函数的权限</li>
+		<li>proxies_priv	代理用户权限</li>
+	</ul>
+
+查看当前连接的详情
+	mysqladmin -u admin -h ip processlist
+查看当前连接数
+	mysqladmin -u admin -h #net-tools 提供ifconfigip status
+
+<h3 id="rw">2.3 mysql-proxy 代理实现读写分离(lua引擎)</h3>
+<p>配置文件<br>
+	加入my.cnf配置文件: [mysql-proxy]--<br>
+	--proxy-read-only-backend-addresses=<host:port>
+	--proxy-backend-addresses=<host:port>
+	--plugin="proxy"
+</p>
+
+<p>指定读写分离脚本<br>
+--proxy-lua-script="mysql-proxy/share/doc/mysql-proxy/rw-spliting.lua
+</p>
+
+
+<h3>2.4 其他功能</h3>
+<h4>2.4.1 查询缓存 query_cache</h4>
+<p>缓存我们所执行的select语句以及该语句的结果集.做了一个hash映射并保存在一定的内存区域中</p>
+<ul>参数
+	<li>query_cache_limit：允许缓存的单条查询结果集的最大容量，默认是1mb，超过此参数设置的查询结果集将不会被缓存；</li>
+	<li>query_cache_min_res_unit：设置查询缓存query cache每次分配内存的最小空间大小，即每个查询的缓存最小占用的内存空间大小；</li>
+	<li>query_cache_size：设置 query cache 所使用的内存大小，默认值为0，大小必须是1024的整数倍，如果不是整数倍，mysql 会自动调整降低最小量以达到1024的倍数； </li>
+	<li>query_cache_type：控制 query cache 功能的开关</li>
+	<li>query_cache_wlock_invalidate：控制当有写锁定发生在表上的时刻是否先失效该表相关的query cache</li>
+</ul>
+
+<h2>第三部分	问题</h2>
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+1. 修改配置文件，加入default-character-set=utf8,导致mysqld 服务无法启动
+</p>
+
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+2. mysql -> can't connect to local mysql server through socket ‘/var/lib/mysql/mysql.sock'<br>
+   服务未正常开启：  <br>
+	sudo systemctrl start mysqld.service<br>
+	测试端口是否打开： sudo lsof -i:3306<br>
+</p>
+
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+3. 问题--error1820 you must reset your password using alter user...<br>
+	设置密码策略<br>
+		set global validate_password_policy=0;<br>
+		alter user 'root'@'localhost' identified by 'jingrun@2017' #％可以代表本机<br>
+</p>
+
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+4. last_io_error:1236<br>
+	from master when reading data from binary log:<br>
+		log event entry excet read from 'increase max_allowed_packet on master;the first event at 3905,the last event at 123,the last byte read from 3924'<br>
+</p>
+
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+5. error 1148: the used command is not allowed with this mysql version<br>
+       启动mysql 使用 --local-file=1 参数 (默认系统关闭)<br>
+</p>
+
+<p>
+<img src="../../../pic/it/icon/arrow/问号.png" alt="">
+6. error 1290: the mysql server is running with the --secure-file-priv<br>
+	查看设置：show variables like '%secure%';	#导入文件的指定目录
+</p>
+
+<ul><b>使用技巧</b>
+	<li>数字类型支持运算表达式，可以直接计算出结果</li>
+	<li>分组求和，使用as 展示新字段</li>
+	<li></li>
+</ul>
+
+<p id="optimize">[调优]</p>
+<table>
+	<tr>
+		<th>类别</th>
+		<th>方法</th>
+	</tr>
+	<tr>
+		<td>架构层面</td>
+		<td>
+			<ul>
+				<li>做主从复制</li>
+				<li>实现读写分离</li>
+				<li>分库分表</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>系统层面</td>
+		<td>
+			<ul>
+				<li>增加内存</li>
+				<li>硬盘使用固态硬盘 ssd</li>
+				<li>给磁盘做 raid0 或者 raid5 以增加磁盘的读写速度</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>数据库层面</td>
+		<td>
+			<ul>
+				<li>sql语句的优化</li>
+				<li>索引优化</li>
+				<li>数据库结构优化</li>
+				<li>innodb表优化(.frm表结构 .idb表空间)</li>
+				<li>myisam表优化(.myd数据 .myi索引 .frm表结构)</li>
+				<li>memory表优化(临时表使用较多)</li>
+				<li>缓冲和缓存()</li>
+				<li>锁优化(表锁/页锁/行锁)</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+************************************************************
+<h2>[mariadb]</h2>
+<p>
+	是mysql的一个分支，由开源社区维护，完全兼容mysql的api和命令行<br>
+	在存储引擎方面，由xtradb替换innodb.<br>
+	启动服务：	systemctrl start mariadb<br>	
+</p>
+
+************************************************************
+<ul>常用语句
+	<li>select * from stock where `股票代码` regexp '^6[0-9]{5}' order by `股票代码` limit 120,20;</li>
+	<li>insert into stock values(895,'伊力特',600197,'白酒生产和销售，农业综合开发',1,'新疆/食品饮料/酿酒',null);</li>
+</ul>　
+
+<hr>
+<h2 id="wb">mysql 图形界面工具 workbench</h2>
+<p>启动程序：mysql-workbench</p>
+
+<table>
+	<tr>
+		<th>功能</th>
+		<th>快捷键</th>
+	</tr>
+	<tr>
+		<td>执行当前语句</td>
+		<td>ctrl + enter</td>
+	</tr>
+	<tr>
+		<td>新建表</td>
+		<td>ctrl + t</td>
+	</tr>
+	<tr>
+		<td>数据的导入/导出</td>
+		<td></td>
+	</tr>
+</table>
+
+<ul>
+	<li>MySQL Utilities</li>
+	<li>Database Migration</li>
+	<li>MySQL Bug Reporter</li>
+	<li>Workbench Blogs</li>
+	<li>Planet MySQL</li>
+	<li>Workbench Forum</li>
+	<li>Scripting Shell</li>
+</ul>
+
+<h2>phpmyadmin</h2>
+<p>用php编写Web-Base方式架构在网站主机上的MySQL的资料库管理工具，因此必须安装在web服务器中</p>
+
+</body>
+</html>

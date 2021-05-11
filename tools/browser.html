@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>浏览器</title>
+</head>
+
+<body>
+	<img src="../../pic/it/software/web/browser.png" alt="">
+
+	<img src="../../pic/it/software/web/浏览器内核.png" alt="">
+
+	<ul><b>浏览器的多进程架构</b>
+		<li>Browser进程</li>
+		<li>渲染进程：<br></li>
+			包括GUI线程、JS引擎线程、事件线程、异步请求线程
+		<li>GPU进程:<br>
+		</li>
+		<li>插件进程</li>
+		<li>优势：<br>
+			<ol>
+				<li>避免单个页面奔溃影响整个浏览器</li>
+				<li>避免第三方插件奔溃影响整个浏览器</li>
+				<li>充分利用多核优势</li>
+			</ol>
+		</li>
+	</ul>
+
+	<p>问题：微软把IE捆绑在Windows里，导致许多网站都是按照IE来架设的，很多网站不兼容Webkit内核，比如登录界面、网银等网页均不可使用Webkit内核的浏览器</p>
+
+</body>
+
+</html>

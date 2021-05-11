@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>源代码--站在巨人的肩膀上！</title>
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<p>Linux内核代码地址： /usr/src/kernels/版本号/</p>
+
+	<h3>第一章 字符串函数的实现</h3>
+	<p><b>重点：C语言字符串以0作为结尾</b></p>
+
+	<p id="strlen">字符串长度函数</p>
+	<pre>
+		size_t myStrlen(const char *s)		//const char* 代表常量字符串
+		{
+		    if (s == NULL)
+		        return -1;
+
+		    const char *p = s; 				//const char* 可以读取指针但是不能进行修改
+		    while (*p++ != '\0')            //先进行取值计算，再进行指针的++计算
+		        ;							//空语句
+
+		    return p-s-1;					//数组的指针算术计算
+		}
+	</pre>
+
+	<p id="strcpy">字符串复制函数</p>
+	<pre>
+		char* myStrcpy(char *dst,const char *src)
+		{
+		    //函数参数检查
+		    char *tmp = dst;
+
+		    while ((*tmp++ = *src++)!='\0')
+		        ;
+
+		    return tmp;
+		}
+	</pre>
+</body>
+</html>

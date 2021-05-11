@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PowerShell--Windwos脚本工具</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+<p>
+<a href="https://www.pstips.net/powershell-online-tutorials">在线教程</a><br>
+项目负责人：<a href="http://www.jsnover.com/index.html#Oct11_jps_1">Jeffery Snover</a>
+</p>
+
+<p>特点：以.Net Framework为平台，接收和返回.Net对象</p>
+
+<h2>命令汇总</h2>
+<table>
+	<caption>cmdlet-命令集</caption>
+	<tr>
+		<th>类别</th>
+		<th>命令</th>
+		<th>说明</th>
+	</tr>
+	<tr>
+		<td rowspan="6">常用命令</td>
+		<td>xcopy</td>
+		<td>
+			<ul>
+				<li>\? 命令帮助</li>
+				<li>/Y 确认覆盖目标文件</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>查找字符串</td>
+		<td>Select-String "文本"</td>
+	</tr>
+	<tr>
+		<td>清屏</td>
+		<td>cls(clear-host)</td>
+	</tr>
+	<tr>
+		<td>查看命令信息</td>
+		<td>Get-command 'cmd' | fl *</td>
+	</tr>
+	<tr>
+		<td>创建别名</td>
+		<td>Set-Alias -Name 新名称 -Value 旧名称，#退出程序时自动删除<br>
+		查看别名：ls alias:或者Get-Alias</td>
+	</tr>
+	<tr>
+		<td>关闭系统</td>
+		<td>shutdown /r-重启  /s 关机</td>
+	</tr>
+	<tr>
+		<td rowspan="2">帮助系统</td>
+		<td>升级帮助系统</td>
+		<td>update-help -force</td>
+	</tr>
+	<tr>
+		<td>查看帮助</td>
+		<td>
+		<ul>help
+			<li>-Detailed 详细信息</li>
+			<li>-Examples 查看示例</li>
+			<li>-Online 在线帮助</li>
+			<li>-ShowWindow 新窗口显示</li>
+		</ul>
+		</td>
+	</tr>
+
+	<tr>
+		<td rowspan="4">变量-对象</td>
+		<td>使用$进行声明和使用，#赋值运算等同于python<br>
+			在控制台中输出会自动转换为文本</td>
+		<td>
+			<ul>
+				<li>查看正在使用的变量： ls variable:[变量名称],	匹配通配符</li>
+				<li>删除变量：del 变量名称</li>
+				<li>运行结果输出到变量：-OutVariable var-name</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>数组的使用</td>
+		<td>
+			<ul>
+				<li>数组定义: $array=值列表,... 		#连续数字7..10</li>
+				<li></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>对象</td>
+		<td>$obj=New-Object object</td>
+	</tr>
+	<tr>
+		<td>函数</td>
+		<td>-split "分隔符"</td>
+	</tr>
+
+	<tr>
+		<td rowspan="2">文件系统</td>
+		<td>目录操作</td>
+		<td>
+			<ul>
+				<li>列出目录内容: get-childitem</li>
+				<li>创建目录：md [目录列表,...] #建立多个二级目录<br>
+				建立目录后进入到目录中：md DIR | cd <br>
+				建立多个目录：md $(1..12)	#目录名：1-12</li>
+				<li>.当前目录/..上级目录/$home 主目录</li>
+				<li>改变目录：set-location path</li>
+				<li>删除目录：remove-item/rm</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>文件操作</td>
+		<td>
+			<ul>
+			<li>新建文件或者目录：new-item 文件名称 -type file/dictory<br>
+			新建文件夹命令--md</li>
+			<li>复制文件夹或文件: Copy-Item/cp 源文件 目标文件</li>
+			<li>移动文件夹或文件: Copy-Item/mv 源文件 目标文件</li>
+			<li>文件改名：rename-item/mv old new</li>
+			<li>导出为CSV文件: export-csv -Path file-name</li>
+			<li>导出为文本文件: outfile -Path file-name</li>
+			<li>统计文件数量：measure</li>
+			<li>过滤器：-filter,支持通配符</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td rowspan="3">新的功能</td>
+		<td>图形</td>
+		<td>列表图形化输出：Out-GridView</td>
+	</tr>
+	<tr>
+		<td>远程处理</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>进程管理</td>
+		<td>
+			<ul>
+				<li>启动进程: Start-Process/start -FilePath <可执行文件的路径><br>
+					启动word--winword/启动execl--excel / 启动powerpoint--powerpnt<br>
+					#支持 .lnk 程序的快捷方式<br>
+				</li>
+				<li>获取服务列表： Get-Service(缩写gsv)</li>
+				<li>启动外部程序：&amp;+程序名称，(eg. 启动记事本 &amp;notepad, 启动计算器&amp;calc)</li>
+				<li>终止进程：Get-Process -Name notepad | Stop-Process</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<p>note:</p>
+<ol>
+	<li>程序添加到状态栏：找到运行的程序，右键选择-&gt;添加到状态栏</li>
+	<li>通过别名方式get-alias/gal，可以使用unix/windows的命令(其实只是cmdlet命令的别名)</li>
+	<li>CSV: comma-Sepatated Values,逗号分隔值 文件以纯文本方式存储数据</li>
+	<li>ISE: powershell 的集成脚本环境(直接运行ise启动)
+		<ul>
+			<li>Ctrl+j: 语法缩写片段</li>
+		</ul>
+	</li>
+	<li>| 管道操作符； &gt; 覆盖内容； &gt;&gt; 追加内容</li>
+</ol>
+
+<ul>小技巧:
+	<li>Alt+. : 命令行最后一个参数</li>
+	<li>可以进行计算，识别计算机容量单位(GB、MB、KB等)</li>
+	<li>ESC 清空当前命令行</li>
+	<li>Windows 10 快速打开开始菜单中的启动文件夹-- 运行里边输入shell:startup</li>
+</ul>
+
+<h2>脚本应用</h2>
+<p>脚本扩展名为：ps1<br>
+编辑器：PowerShell ISE(集成脚本环境)</p>
+
+<h3>循环语句</h3>
+<p>ForEach-Object{}, 其中$_ 代表当前的数据</p>
+<p>foreach($ele in $array)</p>
+
+<ul>系统变量
+	<li>$HOME: 家目录</li>
+	<li>$PID: 当前进程ID</li>
+	<li></li>
+</ul>
+
+<h4>域用户管理</h4>
+<h4>其他</h4>
+<img src="../../pic/it/os/田梦博.png" alt="">
+</body>
+</html>

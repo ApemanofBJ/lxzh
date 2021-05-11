@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Gnuplot --命令行的交互式绘图工具</title>
+
+	<style>
+		table {border: 1px dashed #000;
+			   border-collapse: collapse;}
+		caption {background-color: black; color: white; font-size: 18px;}
+		th {background-color: gray;}
+		td {border: 1px solid #000;}
+	</style>
+</head>
+
+<body>
+	<p><a href="http://www.gnuplot.info/">参考</a> / 
+		<a href="http://blog.sciencenet.cn/blog-373392-495870.html">教程</a>
+	</p>
+	<p>作者：Thomas Williams/Colin Kelley</p>
+
+	<h3>chapter1. 2D绘图</h3>
+	
+	<p>启动程序</p>
+	<img src="../../pic/it/software/gnuplot-start.png" alt="" width="400" height="220">
+
+	<ul>语法说明：
+		<li>变量定义： TITLE = "title" </li>
+		<li>#, 注释语句</li>
+		<li>数组的使用： array A[6]</li>
+		<li>显示历史命令： history</li>
+		<li>备注：还不支持中文输入</li>
+	</ul>
+	
+	<h4>step 1: 绘制函数图形</h4>
+	<p>命令: plot [-pi:pi] cos(x),sin(x),…… #函数列表<br>
+	用分号;分割多个命令</p>
+	<img src="../../pic/it/software/gnuplot-fun.png" alt="cos(x)函数图形" width="400" height="220">
+
+	<table>
+		<caption>设置</caption>
+		<tr>
+			<th>命令</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>set title "title"</td>
+			<td>设置图形名称</td>
+		</tr>
+		<tr>
+			<td>set xlabel(xl) "X"</td>
+			<td>设置x轴标签</td>
+		</tr>
+		<tr>
+			<td>set ylabel(yl) "Y"</td>
+			<td>设置y轴标签</td>
+		</tr>
+		<tr>
+			<td>set xrange [-pi:pi]</td>
+			<td>设置x轴的坐标范围</td>
+		</tr>
+		<tr>
+			<td>set xdata time</td>
+			<td>设置X轴为时间</td>
+		</tr>
+		<tr>
+			<td>set xtics min,step,max</td>
+			<td>设置主刻度</td>
+		</tr>
+		<tr>
+			<td>set mxtics number</td>
+			<td>设置分刻度</td>
+		</tr>		
+		<tr>
+			<td>set sample number</td>
+			<td>设置取样数目，默认是100个</td>
+		</tr>	
+		<tr>
+			<td>set term wxt background rgb "gray75"</td>
+			<td>设置背景颜色</td>
+		</tr>
+		<tr>
+			<td>set grid</td>
+			<td>显示虚线网格</td>
+		</tr>
+		<tr>
+			<td>set terminal png</td>
+			<td>设置输出图片为png格式</td>
+		</tr>
+		<tr>
+			<td>set output "output.png"</td>
+			<td>设置输出图片的文件名</td>
+		</tr>
+	</table>
+	
+	<h4>step 2: .dat数据文件绘图</h4>
+	<h3>&sect;2.1 点线图</h3>
+	<p>命令：plot "file.dat" title "图形名称"<br>
+	using 数据列(m:n)	#通过这种方式支持多数据绘图(列顺序通过：分开),缩写u</p>
+
+	<table>
+		<caption>with 参数</caption>
+		<tr>
+			<th>参数</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>linestyle--连线风格</td>
+			<td>set linestyle  1 1w 2c rgb "blue" pointtype 6	#线类型1--蓝色<br>
+			set linestyle 2 2w 2 lc rgb "forest-green" pointtype 8 #线类型2--绿色</td>
+		</tr>
+		<tr>
+			<td>linetype--连线种类</td>
+			<td>
+				<ul type="circle">
+					<li>0-black</li>
+					<li>1-red</li>
+					<li>2-green</li>
+					<li>3-blue</li>
+					<li>4-pink</li>
+					<li>6-yellow</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>linewidth--连线粗细</td>
+			<td>缩写lw, 值1-6</td>
+		</tr>
+		<tr>
+			<td>linecolor--连线颜色</td>
+			<td>缩写lc,</td>
+		</tr>
+		<tr>
+			<td>pointtype--点的种类</td>
+			<td>缩写pt,</td>
+		</tr>
+		<tr>
+			<td>pointsize--点的大小</td>
+			<td>缩写ps,</td>
+		</tr>
+	</table>
+
+
+<h4>&sect;2.2 柱状图</h4>
+<h4>&sect;2.3 几何图</h4>
+
+<h3>chapter2. 3D绘图</h3>
+
+
+<p>[ 附录 ]</p>
+<p>命令：test</p>
+<img src="../../pic/it/software/qt-test.png" alt="">
+
+<p>[ 其他 ]</p>
+<h4><a href="./gimp.html">GIMP</a></h4>
+<p><a href="https://blog.csdn.net/liyuanbhu/article/details/77842319">教程：快速入门</a></p>
+
+</body>
+</html>

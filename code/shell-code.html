@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Shell 代码库</title>
+	<style>
+		pre {border: 1px dashed #000;}
+	</style>
+</head>
+
+<body>
+
+<p id="batch-bdcloud">批量下载百度网盘文件</p>
+<pre>
+	pcs cd /计算机/linux/老男孩教育视频
+	cd /home/lxzh/视频/oldboy
+
+	for file in `cat ~/liang.txt`
+	do
+		pcd $file;
+	done
+</pre>
+
+<p id="batch-rar">批量解压rar文件</p>
+<pre>
+	for file in ./*.rar
+	do
+		rar x $file && rm $file
+	done
+</pre>
+
+<p id="myweb">上传网站压缩文件至百度网盘</p>
+<pre>
+	file=lxzh-web.tar.gz
+	tar czf $file www/
+
+	pcs cd /myweb
+	pcu $file
+</pre>
+
+<p id="2018cost-backup">MySQL中的lxzh数据库2018cost表进行备份</p>
+<pre>
+	MYHOME=/home/lxzh
+	mysqldump -uroot -p lxzh 2018cost | gzip > $MYHOME/2018cost.sql.gz
+
+	cd $MYHOME
+	pcs cd /others/private
+	pcu 2018cost.sql.gz
+</pre>
+
+<p id="sum">求1--100的累加和</p>
+<pre>
+	  sum=0
+      digit=1
+
+	  while [ ${digit} -le 100 ]
+	  do
+	    let sum+=digit++		#支持数学运算符
+	  done
+
+	  echo ${sum}
+</pre>
+
+<p id="info">系统信息显示</p>
+<pre>
+	#declare integer choise
+
+	while [ $choise -ne 0 ]
+	do
+		echo "******查看本机系统信息******"
+		echo "请进行选择："
+		echo "1--查看CPU信息"
+		echo "2--查看内存信息"
+		echo "3--查看硬盘信息"
+		echo "0--推出程序"
+
+		case $choise in
+		0)
+			let choise=0	
+			;;
+		1)
+			;;
+		2)
+			;;
+		3)
+			;;
+		*)
+			echo "选择错误，请重新选择"
+			;;
+
+		esac
+	done
+</pre>
+
+<p id="table">在HTML表格中插入序号列</p>
+<pre>
+		j=1
+		for i in {18..67..7}
+		do
+			sed -i "${i}a<td>${j}</td>" contacts.html
+			let j++
+		done
+</pre>
+</body>
+</html>

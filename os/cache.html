@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>缓存服务器</title>
+</head>
+<body>
+	<h3>varnish</h3>
+	<p>是一个开源的反向代理软件和http加速器</p>
+
+	<pre>
+		useradd -s /sbin/nologin varnish
+		mkdir /data/varnish/{cache,log}
+		chowr -R varnish:varnish /data/varnish/
+	</pre>
+
+	<h3>memcached</h3>
+
+	<h3>squid</h3>
+	<p>高性能的代理缓存服务器</p>
+</body>
+</html>

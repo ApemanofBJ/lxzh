@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>双机热备软件</title>
+</head>
+
+<body>
+	<p>参考：<a href="http://www.keepalived.org/">官网主页</a></p>
+	<p>作用是检测后端TCP服务的状态，如果有一台提供TCP服务的后端节点死机，或者工作出现故障，keepalived会及时检测到，并将有故障的节点从系统中剔除(三层系统宕机，四层端口无法访问，五层用户标准检测失效)，当提供TCP服务的节点恢复并且正常提供服务后keepalived会自动将TCP服务的节点加入到集群中。</p>
+
+	<h3>原理</h3>
+	<p>[VRRP]<br>
+	VirtualRouter Redundancy Protocol虚拟路由冗余协议--主从灾备协议<br>
+	将多台路由设备虚拟成一个设备，对外提供一个虚拟的路由ip地址<br>
+	同一时刻，只有一台设备拥有该虚拟ip地址，即主路由设备<br>
+	为每个路由设备订立虚拟路由id，以及设备优先级，所有主备路由设备的VRID必须一样
+	</p>
+
+	<h4>&sect; [安装]</h4>
+	<pre>
+		--with-kernel-dir #指定使用内核源码中的头文件,即include目录.只有使用LVS时才使用到此参数
+	</pre>
+
+	<p>配置文件 keepalived.conf #-f 指定配置文件的路径</p>
+	<pre>	
+		#全局定义部分
+		global_defs{
+			router_id				#局域网keepalived主机身份标识信息
+		}
+
+		#vrrp 实例定义部分
+		vrrp_instance VI_1 {
+			state MASTER/BACKUP		#指定角色，是主服务器还是备用服务器
+			interface eth0			#制定监测网络的网卡接口
+			virtual_router_id  60	#两台主机的VRID必须相同
+
+			virtual_ipaddress {ip}	# 设置虚拟ip地址,可以设置多个
+		}
+
+		#虚拟服务器定义部分
+		virtual_server ip port {
+			Real server ip			#指定真实服务器的ip地址和端口
+		}
+	</pre>
+
+	<hr>
+	<h3>Windows 双机热备软件</h3>
+	<h4>&sect; HA Mirror Pluswell</h4>
+
+	<img src="../../pic/it/net/HA/原理图.png" alt="">
+
+	<ol>操作步骤:
+		<li>创建心跳: 在primary上完成，slave主机自动识别.<br>
+			<img src="../../pic/it/net/HA/heart.png" alt=""></li>
+		<li>创建虚拟IP:<br>
+			<img src="../../pic/it/net/HA/virtualIP.png" alt=""></li>
+		<li>添加oracle的服务:<br>
+			热备服务有两个，一个主服务OracleService[全局数据库名];<br>
+			一个监听服务OracleOraDb11g_home1TnsListener</li>
+	</ol>
+
+	<table>
+		<tr>
+			<td>公司名称</td>
+			<td>联系电话</td>
+			<td>产品方案</td>
+		</tr>
+		<tr>
+			<td>北京微彩华创科技有限公司</td>
+			<td>小胡-15210157224</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>ROSE</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+</body>
+</html>

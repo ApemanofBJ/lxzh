@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数据分析(基于python)</title>
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<img src="../../pic/it/software/python数据分析.png" alt="" usemap="#map">
+	<map name="map">
+		<area shape="rect" coords="315,110,450,150" href="#csv" alt="">
+		<area shape="rect" coords="447,23,485,33" href="#pandas" alt="">		
+		<area shape="rect" coords="315,172,382,185" href="#excel" alt="">		
+	</map>
+
+	<ul>
+		<li>用户行为：点击网页，发表评论等等；</li>
+		<li>用户行为分析：基于用户行为数据进行分析和统计，产出各种各样的数据统计分析报表和结果，供网站的用户、管理人员来查看；</li>
+		<li>用户行为日志：收集的用户行为的数据；</li>
+	</ul>
+
+	<p>企业数据分析Enterprise Data Analytics（EDA）</p>
+
+	<ul>
+		<li>自动生成数据模型</li>
+		<li>一致的数据模型，防止出现不一致的查询</li>
+		<li>高级用户的 SQL 模式</li>
+		<li>数据可视化：</li>
+		<ul>
+				<li>标准图表（如柱状图、饼状图、线状图、树状图）</li>
+				<li>地图整合（如 geoJSON shapefile、纬度、经度）</li>
+				<li>电子邮件提醒，可通过关键绩效指标 （KPI） 来定义</li>
+		</ul>
+		<li>私人和公共信息控制，以启用私人和公共仪表板，你可以通过链接分享它。</li>
+		<li>数据缓存和程序刷新。</li>
+	</ul>
+
+
+	<h3>第一章	基础</h3>
+	<pre>
+		1. 数据引入：
+			t = (元素列表,……)		#定义只读数据
+			l = [元素列表,……] 		#定义可变数据
+
+			a. 获取列表长度 			len(l)
+			b. 列表求和 				sum(l)
+			c. 列表求平均数 			sum(l)/len(l)
+								def ave(t):
+									return sum(t)/len(t)
+			d. 求最大值、最小值 		max(l)/min(l)
+			e. 同比、环比、增量
+			f. 求元素位置			list.index(value)	#list为列表名称
+
+		2. 格式化输出
+			a. 百分比输出
+			b. 浮点数输出				'%.nf'  % float 	#n输出小数点位数(四舍五入)
+
+		技巧：
+			整型数转换为浮点数		number/1.0 	(或者number*1.0)
+	</pre>
+	
+	<h4 id="csv">CSV 文件</h4>
+	<p>excel 另存为csv 文件</p>
+	<pre><code>
+		import  csv		#导入csv模块
+
+		#第一种访问方式
+		csv_file = csv.reader(open('file_path','r'))	#文件的引用
+		for i in csv_file:
+			print i 	#输出文件内容
+
+		#第二种访问方式
+		with open("2.csv","r") as myfile:
+	    lines = csv.reader(myfile)
+	    for line in lines:
+	        print(line)
+
+		#单独某列数值计算
+		L = []
+		for x in csv_file:
+			L.append(int(x)) 	#x导入的内容是文本格式
+
+		sum(L) 				#计算代数和
+		sum(L)/len(L) 		#计算平均数
+		max/min(L) 			#计算最大、最小值
+	</code></pre>
+
+	<h4 id="pandas">Pandas库-熊猫</h4>
+	<p>安装：pip install pandas</p>
+
+	<pre><code>
+		import pandas as pd		#导入模块
+		#一维数组 Series , 同list不同的是存储相同类型
+		#二维数组 DataFrame
+	</code></pre>
+
+	<h4 id="excel">文件处理</h4>
+	<p>安装：pip install xlrd</p>
+
+	<p><b>[读取EXCEL文件]</b></p>
+	<pre><code>
+		import xlrd
+		ExcelFile = xlrd.open_workbook(r'file_path');
+		
+		#打印sheet名称
+		print ExcelFile.sheet_names()			#sheet_names()返回工作簿名称列表
+		sheet = ExcelFile.sheet_by_index(索引)		#根据索引
+		sheet = ExcelFile.sheet_by_name(名称)		#根据名称
+
+		#sheet操作
+		rows = sheet.nrows 		#获取行数
+		cols = sheet.ncols 		#获取列数
+	</code></pre>  
+	
+	<p><b>[写入EXCEL文件]</b></p>
+	<pre><code>
+		import  xlwt
+
+		Book = xlwt.Workbook(encoding = 'utf-8')
+
+		oaflow = ["信息工作汇报表","信息巡检表"]
+		sheet1 = Book.add_sheet("信息类流程")
+
+		for i in range(2):
+		    sheet1.write(0,i, label = oaflow[i])
+
+		Book.save('/home/lxzh/文档/xhlwl-oa.xlsx')
+	</code></pre>
+</body>
+</html>

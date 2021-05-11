@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>实现文件共享</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<h3>I.FTP--文传协议File Transfer Protocol</h3>
+	<ul>两种模式
+		<li>PORT 主动：(主动20)<br>
+			 客户端向服务器的FTP端口(21)发送请求，服务器接受连接，建立命令链路<br>
+			 传送数据时，客户端用PORT命令通知服务器--打开了XX端口<br>
+			 服务器从20端口向客户端的XX端口传送数据<br>
+		</li>
+		<li>PASV 被动：(防火墙模式-- 被动随机)      #随机端口(a,b)=a*256+b<br>
+			 客户端向服务器的FTP端口(21)发送请求，服务器接受连接，建立命令链路<br>
+			 传送数据时，客户端用PORT命令通知客户端--打开了XX端口<br>
+			 客户端向服务器的XX端口发送连接请求，进行传送数据<br>
+		</li>
+		<li>思考：<br>
+			 主动与被动是对于服务器而言<br>
+		</li>
+	</ul>
+
+	<h4>&sect;1.1 vsftp</h4>
+	<p>Very Secure FTP,在单机上支持4K以上的并发用户同时连接<br>
+	安装： yum install vsftpd<br>
+	启动： systemctl {start,stop,...} vsftpd@配置文件[.service] #自定义配置文件<br>
+	默认启动：systemctl  {start,stop,...} vsftpd[.service]</p>
+
+	<p>配置文件：vsftpd.conf, |&nbsp;帮助参阅 man vsftpd.conf</p>
+
+	<table>
+		<tr>
+			<th>设置</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>dirlist_enable=YES</td>
+			<td>显示目录列表，#NO 需要权限</td>
+		</tr>
+		<tr>
+			<td>download_enable=YES</td>
+			<td>可否下载</td>
+		</tr>
+		<tr>
+			<td>anonymous_enable=YES</td>
+			<td>允许匿名</td>
+		</tr>
+		<tr>
+			<td>local_umask=022</td>
+			<td>设置掩码</td>
+		</tr>
+		<tr>
+			<td>connect_from_port_20=YES</td>
+			<td>传输端口默认是20</td>
+		</tr>
+	</table>
+
+	<img src="../../pic/os/ftp-user.png" alt="">
+	<p>vsftp有三种登录方式，匿名，本地用户，虚拟用户<br>
+		<ul>
+			<li>匿名使用ftp或者anonymous登录，无密码</li>
+			<li>本地用户使用系统用户登录</li>
+			<li>虚拟用户是使用在vsftp内创建的一系列账户进行登录，vsftp通过db以及用户配置文件来对用户进行管理</li>
+		</ul>
+	</p>
+
+
+	<h3>II. NFS--网络文件系统Network file system</h3>
+	<p>通过远程过程调用（remote procedure call 简称RPC）协议/服务(第三人)来实现的</p>
+	<img src="../../pic/it/os/nfs.png" alt="">
+	<h4>[服务器端配置]</h4>
+	<p>配置文件：/etc/export<br>语法格式：共享目录 客户端ip(权限参数)</p>
+
+	<table>
+		<tr>
+			<th>参数</th>
+			<th>作用</th>
+		</tr>
+		<tr>
+			<td>ro</td>
+			<td>只读</td>
+		</tr>
+		<tr>
+			<td>rw</td>
+			<td>读写</td>
+		</tr>
+		<tr>
+			<td>root_squash</td>
+			<td>当NFS客户端以root管理员访问时，映射为NFS服务器的匿名用户</td>
+		</tr>
+		<tr>
+			<td>no_root_squash</td>
+			<td>当NFS客户端以root管理员访问时，映射为NFS服务器的root管理员</td>
+		</tr>
+		<tr>
+			<td>all_squash</td>
+			<td>无论NFS客户端使用什么账户访问，均映射为NFS服务器的匿名用户</td>
+		</tr>
+		<tr>
+			<td>sync</td>
+			<td>同时将数据写入到内存与硬盘中，保证不丢失数据</td>
+		</tr>
+		<tr>
+			<td>async</td>
+			<td>优先将数据保存到内存，然后再写入硬盘；这样效率更高，但可能会丢失数据</td>
+		</tr>
+	</table>
+
+	<p>启动服务: <br> systemctrl start rpcbind/nfs <br>
+	ubuntu: /etc/init.d/nfs-kernal-serive [option]</p>
+
+	<h4>[客户端配置]</h4>
+
+	<p>测试服务端共享情况: <br>mountshow -e nfs-server</p>
+	<p>进行挂载: sudo mount [-t nfs] nfs-server-ip:共享目录 本地挂载目录<br>
+		eg: mount -t cifs //windows-host/共享目录 本地挂载目录<br>
+		mount -t cifs //192.168.16.235/大数据软件 -o username="lzsj", password="lzsj1201" /mnt/share<br>
+		note: is write-protected, mounting read-only(无法挂载)<br>
+		解决方案： yum/apt install cifs-utils <br>
+	</p>
+
+	<p>see also: fstab(file-system table) </p>
+	<p>语法格式：挂载设备、挂载点、文件类型、挂载操作、dump、check</p>	
+
+	<table>
+		<tr>
+			<td>auto/noauto</td>
+			<td>是否自动挂载的选项。auto是默认选择的选项</td>
+		</tr>
+		<tr>
+			<td>user/nouseruser</td>
+			<td>选项允许普通用户也能挂载设备而nouser则只允许root用户挂载</td>
+		</tr>
+		<tr>
+			<td>ro</td>
+			<td>以只读来挂载文件系统</td>
+		</tr>
+		<tr>
+			<td>rw</td>
+			<td>以可读可写的属性来挂载系统</td>
+		</tr>
+		<tr>
+			<td>sync/async</td>
+			<td>同步完成\异步完成</td>
+		</tr>
+		<tr>
+			<td>default</td>
+			<td>包括rw\suid\dev\exec\auto\nouser\async</td>
+		</tr>
+	</table>
+
+	<ul>note:
+		<li><a href="https://blog.csdn.net/mindfloating/article/details/39473807">深入浅出 RPC - 浅出篇</a></li>
+		<li><a href="https://blog.csdn.net/mindfloating/article/details/39474123">深入浅出 RPC - 深入篇</a></li>
+	</ul>
+
+	<h3>III. Samba.<a href="https://www.samba.org/">主页</a></h3>
+	<p>介绍<br>
+	Samba是一套使用SMB(Server Message Block信息服务块)协议的应用程序, <br>
+	通过支持这个协议, 允许Linux服务器与Windows系统之间进行通信<br>
+	Windows 采用TCP/IP作为底层传输协议，发送NetBIOS请求，在NetBIOS上层使用SMB协议，新的CIFS(Common Internet File System-通用互联网文件系统)协议是一个增强版的SMB协议，使通过Internet 实现更大范围的网络资源共享<br>
+	即NetBIOS over TCP/IP协议
+	</p>
+
+	<p>
+	Samba服务器包括两个后台应用程序: Smbd 和 Nmbd。<br>
+	a.&gt; <mark>Smbd</mark>是Samba的核心, 主要负责建立 Linux Samba服务器与Samba客户机之间的对话, 验证用户身份并提供对文件和打印系统的访问; #端口139/445<br>
+	b.&gt; <mark>Nmbd</mark>主要负责对外发布Linux Samba服务器可以提供的NetBIOS名称和浏览服务,使Windows用户可以在“网上邻居”中浏览Linux Samba服务器中共享的资源。#端口137/138<br>
+	c.&gt; 另外Samba还包括一些管理工具, 如 <b><u>smb-client, smbmount, testparm, Smbpasswd</u></b>等程序
+	</p>
+
+	<ul>
+		<li>smbpasswd：用来设置Samba用户的帐号和密码。</li>
+		<li>smbclient：用来查看别的Linux主机的共享。也可以在自己的Samba主机上使用，用来查看设置是否成功。</li>
+		<li>smbmount：用来将Samba服务器共享的文档和目录挂载到自己的Linux主机上。</li>
+		<li>testparm：用来检查smb.conf是否有语法错误。</li>
+	</ul>
+
+	<pre>
+		useradd -d /home/admin -s /sbin/nologin admin		#创建系统用户
+		smbpasswd -a admin	#创建samba用户
+		chown admin.admin  shared/	#修改目录属主
+		chmod -R 777 shared/		#修改目录权限
+	</pre>
+
+	<p>安装：yum install samba samba-client samba-common<br>
+	查看版本号： smbd -V</p>
+
+	<h4>smb.conf 配置文件</h4>
+
+	<p><详细配置参考 smb.conf.example/p>
+
+	<table>
+		<tr>
+			<th>节部分</th>
+			<th>配置变量及值设置</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td rowspan="5">global 全局部分</td>
+			<td>workgroup</td>
+			<td>设置工作组名称</td>
+		</tr>
+		<tr>
+			<td>config file=/etc/samba/smb.conf.%m</td>
+			<td>配置文件</td>
+		</tr>
+		<tr>
+			<td>hosts allow允许/hosts deny禁止</td>
+			<td>192.168.2. 网段</td>
+		</tr>
+		<tr>
+			<td>interfaces=ip/24</td>
+			<td>设置IP及子网掩码</td>
+		</tr>
+		<tr>
+			<td>load printers = YES</td>
+			<td>加载打印机</td>
+		</tr>
+		<tr>
+			<td rowspan="8">homes 用户主目录部分</td>
+			<td>comment</td>
+			<td>注释，文件夹的提示</td>
+		</tr>
+		<tr>
+			<td>path</td>
+			<td>共享目录的路径</td>
+		</tr>
+		<tr>
+			<td>copy= 其他标签</td>
+			<td>拷贝其他标签内容</td>
+		</tr>
+		<tr>
+			<td>browseable</td>
+			<td>浏览权限</td>
+		</tr>
+		<tr>
+			<td>valid users=@group/admin users=admin</td>
+			<td>访问用户组/管理用户(invalid users --不可访问用户)</td>
+		</tr>
+		<tr>
+			<td>文件权限</td>
+			<td>create mask/directory mask</td>
+		</tr>
+		<tr>
+			<td>read only/writable</td>
+			<td>是否可读/是否可写</td>
+		</tr>
+		<tr>
+			<td>public=yes</td>
+			<td>允许匿名访问</td>
+		</tr>
+		<tr>
+			<td>priters 配置打印机部分</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<p><b>附注--变量</b></p>
+	<img src="../../pic/it/os/samba-varA.png" alt="">
+	<img src="../../pic/it/os/samba-varB.png" alt="">
+	
+	<p><b>配置实例</b></p>
+	<pre>
+	[smbshare]
+	comment        = smbshare home directory
+	path           = /home/lxzh/backup
+	browseable     = yes
+	public         = no
+	writeable      = yes
+	#valid users    = admin,admin1,@admin
+	valid users    = @admin
+	create mask    = 0664
+	directory mask = 0775
+	force user     = admin
+	force group    = admin
+	available      = yes
+	unix charset   = UTF-8
+	dos charset    = cp936
+
+	[个人文件夹]
+	path        = %H
+	browseable  = yes
+	#valid users = %u
+	valid users = 胡智勇
+	writeable   = yes
+
+	[常用软件]
+	path       = /home/lxzh/backup/软件/Windows/
+	#允许匿名访问
+	public     = yes
+	browseable = yes
+	writeable  = no
+	hosts allow = 10.2.
+	</pre>	
+
+	<h4>工具</h4>
+	<h5>pdbedit</h5>
+	<p>Samba共享用户的账户数据库文件默认位于/etc/samba/passdb.tdb，<br>是一个经过加密的文件，使用pdbedit工具可以对共享用户进行管理。</p>
+
+	<ul>
+		<li>-a, 添加用户</li>
+		<li>-u, 指定用户名称（也可以省略“-u”选项直接指定用户名）</li>
+		<li>-L：列出所有的samba共享用户</li>
+		<li>-v：结合L选项可以查看某一个用户的更详细的内容，可以指定用户名称作为参数</li>
+		<li>-x：删除samba共享用户，指定用户名作为参数</li>
+	</ul>
+	
+	<h3>IV. 磁盘配额 quota</h3>
+	<p>设置fstab</p>
+
+	<h3>owncloud 私有云</h3>
+	<p>OwnCloud基于PHP构建，通常可通过Web界面进行访问</p>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		#sub_menu1,#sub_menu2,#sub_menu3,#sub_menu4,#sub_html-css,#sub_tools 
+			{ display:block; }
+		ul li:hover { cursor: pointer; }
+	</style>
+	<base target="content" \>
+</head>
+
+<body>
+	<ul>
+		<li onclick = "showcontent('sub_menu1')">操作系统运维
+			<ul id="sub_menu1">
+				<li>常用组件
+					<ul>
+						<li><a href="./os/os.html">操作系统基础</a></li>
+						<li><a href="./os/basic.html">服务器基本设置</a></li>
+						<li><a href="./os/dns.html">DNS</a></li>
+						<li><a href="./os/share.html">文件共享</a></li>
+						<li><a href="./os/ssh.html">SSH</a></li>
+					</ul>
+				</li>
+				<li><a href="./os/shell.html"  onfocus="this.blur" >Bash/Shell 脚本</a></li>
+				<li>Web服务器：<a href="./os/apache.html"  onfocus="this.blur">Apache</a> / <a href="./os/nginx.html"  onfocus="this.blur" >Nginx</a> / <a href="./os/tomcat.html">Tomcat</a></li>
+				<li><a href="./tools/monitor.html">监控软件：</a><a href="./os/nagios.html"  onfocus="this.blur">nagios</a> / <a href="./os/cacti.html"  onfocus="this.blur" >cacti</a> / <a href="./os/zabbix.html">zabbix</a></li>
+				<li>运维工具:<a href="./os/ansible.html"  onfocus="this.blur">Ansible</a> / <a href="./os/salt.html">Saltstack</a> / <a href="./os/cobbler.html">Cobbler</a></li>
+				<li>虚拟机：<a href="./os/kvm.html">KVM</a> / <a href="./os/docker.html">docker</a></li>
+				<li>防火墙：<a href="./os/iptables.html">iptables</a></li>
+				<li>高级应用
+					<ul>
+						<li><a href="./os/lvs.html">LVS集群</a> / <a href="./os/HA.html">HA集群</a> / <a href="./os/keepalived.html">KeepAlived</a></li>   
+						<li><a href="./os/openstack.html">OpenStack</a>/ <a href="./os/hadoop.html">Hadoop</a>/ <a href="./os/cache.html">缓存服务器</a></li>
+						<li><a href="./os/cloud.html">云计算</a></li>
+						<li><a href="./os/problem.html">问题汇总</a></li>
+					</ul>
+				</li>
+				<li>扩展应用
+					<ul>
+						<li><a href="./os/raspberry-pi.html">树莓派</a></li>
+						<li><a href="./os/rabbit.html">RabbitMQ</a></li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+		<li onclick = "showcontent('sub_menu2')">程序语言开发.<a href="./dev/software.html">软件项目</a>
+			<ul id="sub_menu2">
+				<li><a href="./dev/compile.html">编译原理</a></li>
+				<li><a href="./dev/c.html">C语言</a> / <a href="./dev/cplus.html">C++</a> / <a href="./dev/vcplus.html">VC++</a></li>
+				<li><a href="./dev/data-struct.html">数据结构 . 算法</a></li>
+				<li><a href="./dev/vim-manual.html"  onfocus="this.blur">vim 手册</a></li>
+				<li><a href="./dev/regexp.html"  onfocus="this.blur">正则表达式</a></li>
+				<li><a href="./dev/git.html"  onfocus="this.blur">Git 版本控制系统</a> / <a href="./dev/jenkins.html">Jenkens</a></li>
+				<li><a href="./dev/java.html">Java</a></li>
+				<li><a href="./dev/js.html"  onfocus="this.blur">JavaScript</a>
+					<ul>
+						<li><a href="./dev/jquery.html">JQuery</a></li>
+						<li><a href="./dev/nodejs.html">Node.js</a></li>
+					</ul>
+				</li>
+				<li><a href="./dev/python.html">Python</a> &nbsp;&nbsp;&gt;&gt; <a href="./dev/数据分析.html">数据分析</a> | <a href="./dev/visulization.html" >数据可视化 </a></li>
+				<li onclick="showcontent('sub_html-css')"><a href="./dev/html-css.html"  onfocus="this.blur">HTML/CSS</a> | <a href="./dev/frame.html">框架</a>
+					<ul id="sub_html-css">
+						<li><a href="./dev/bootstrap.html"  onfocus="this.blur" >Bootstrap</a></li>
+						<li><a href="">less</a></li>
+						<li><a href="./dev/cms.html">CMS</a></li>
+						<li><a href="./dev/search.html">搜索引擎</a></li>
+					</ul>
+				</li>
+				<li><a href="./dev/php.html"  onfocus="this.blur">PHP</a></li>
+				<li><a href=".dev/Android.html" onfocus="this.blur">Android</a></li>
+			</ul>
+		</li>
+		<li onclick="showcontent('sub_menu3')">计算机网络
+			<ul id="sub_menu3">
+				<li><a href="./network/concept.html">计算机网络概念</a></li>
+				<li><a href="./network/practice.html">网络搭建实战</a></li>
+				<li><a href="./network/topology.html">网络拓扑</a></li>
+				<li><a href="./network/wifi.html">无线网络和移动网络</a></li>
+				<li><a href="./network/safe.html">计算机安全范畴</a></li>
+				<li><a href="./network/simulator.html">模拟器</a></li>
+				<li><a href="./network/blockchain.html">区块链技术</a></li>
+				<li><a href="./network/hacker.html">黑客技术</a></li>
+			</ul>
+		</li>
+		<li onclick="showcontent('sub_menu4')">数据库
+			<ul id="sub_menu4">
+				<li><a href="./db/summary.html">概论</a></li>
+				<li><a href="./db/mysql/mysql.html"  onfocus="this.blur" >MySQL</a></li>
+				<li><a href="./db/postgresql.html">PostgreSQL</a></li>
+				<li><a href="./db/redis.html">Redis</a></li>
+				<li><a href="./db/mongodb.html">MongoDB</a></li>
+				<li><a href="./db/mycat.html">Mycat数据库中间件</a></li>
+				<li><a href="./db/oracle.html">Oracle</a></li>
+				<li><a href="./db/数据库示例.html">数据库示例</a></li>
+				<li><a href="./db/graphicdb.html">图数据库</a></li>
+			</ul>
+		</li>
+
+		<li onclick="showcontent('sub_tools')">工具箱
+			<ul id="sub_tools">
+				<li><a href="./tools/system.html">Linux日常工具</a></li>
+				<li><a href="./tools/sublime.html"  onfocus="this.blur" >Sublime</a> | <a href="./dev/pycharm.html">Pycharm</a></li>
+				<li><a href="./tools/gnuplot.html">gnuplot绘图</a></li>
+				<li><a href="./code/index.html">代码大全</a></li>
+				<li><a href="./tools/architecture.html">常用系统架构</a></li>
+				<li><a href="./tools/monitor.html">系统监测</a></li>
+				<li><a href="./tools/report.html">报表工具</a></li>
+				<li><a href="./tools/image.html">图片工具</a></li>
+				<li><a href="./tools/video.html">视频工具</a></li>
+				<li><a href="./tools/browser.html">浏览器</a></li>
+			</ul>
+		</li>
+		
+		<li onclick="showcontent('sub_windows')">windows
+			<ul id="sub_windows">
+				<li><a href="./windows/mytools.html">工具软件</a></li>
+				<li><a href="./windows/trouble.html" onfocus="this.blur">故障处理</a></li>
+				<li><a href="./windows/application.html" onfocus="this.blur">实际应用</a></li>
+				<li><a href="./windows/ps.html">PowerShell</a></li>
+				<li><a href="./windows/server.html">服务器软件</a></li>
+			</ul>
+		</li>
+	</ul>
+
+	<script type="text/javascript">
+	/*  */
+
+	function showcontent(str){
+		var sub_menu = document.getElementById(str);
+		var dis_v = sub_menu.style.display;
+
+		if (dis_v == "block")
+			sub_menu.style.display = "none";
+		else 
+			sub_menu.style.display = "block";		
+	}
+
+	</script>
+</body>
+</html>

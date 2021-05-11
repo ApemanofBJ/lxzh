@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Redis</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p>是一个开源的支持网络、可基于内存亦可持久化的日志型、KV数据库</p>
+
+	<h3>安装</h3>
+	<pre>
+		wget http://download.redis.io/releases/redis-5.0.5.tar.gz
+		make 错误： 执行 make install CFLAGS="-march=i686"
+		启动：执行src下面的redis-server  配置文件
+		客户端连接：redis-cli -h 主机ip -p 端口
+		停止服务器：redis-shutdown
+		note: yum 安装后(使用rpm -ql redis 查看安装文件)
+	</pre>
+
+	<ol>[服务注册]
+		<li>复制redis init脚本到/etc/rc.d/init.d目录必须将其复制到/etc/rc.d/init.d的目录下，同时易名为redis： <br>
+		cp /usr/software/redis/ redis-2.8.12/utils/redis_init_script /etc/rc.d/init.d/redis</li>
+		<li>将redis配置文件拷贝到/etc/redis/目录下：<br>
+		mkdir /etc/redis cp /usr/software/redis/ redis-2.8.12 /redis.conf /etc/redis/6379.conf </li>
+		<li>修改redis服务脚本 vi /etc/rc.d/init.d/redis </li>
+		<pre>
+		REDISPORT=6379 //监听端口(63=7*9)
+		EXEC=/usr/software/redis/ redis-2.8.12/src/redis-server //redis安装目录服务器地址
+		CLIEXEC=/usr/software/redis/ redis-2.8.12/src/redis-cli //redis 安装目录客户端地址
+		PIDFILE=/var/run/redis.pid
+		CONF=”/etc/redis/6379.conf” //指定conf文件路径
+		</pre>
+	</ol>
+
+	<h3>配置文件 redis.conf</h3>
+	<pre>
+		port 	节点的端口号
+		bind 	192.168.119.131（绑定当前机器 IP）
+		dir		数据文件存放位置
+		cluster-enabled yes（启动集群模式）
+		cluster-config-file nodes9001.conf（9001和port要对应）
+	</pre>
+
+	<h3>持久化</h3>
+	<p>.rdb -- redis database<br>
+	安全性高，但对效率有影响</p>
+	<p>.aof -- append only file<br>
+	保存操作命令的频率可配置，效率高</p>
+
+	<ol>value-数据类型
+		<li>字符串string, #键最大存储512M<br>
+			SET NAME "bob" GET NAME -->返回bob</li>
+		<li>列表list</li>
+		<li>无序集合Set</li>
+		<li>有序字符串集合zset</li>
+		<li>哈希hash, #key-value集合<br>
+			HMSET myhash field1 "hello" field2 "world"<br>
+			HGET myhash field1 -->得到"hello"</li>
+	</ol>
+
+	<table>
+		<tr>
+			<th>操作命令</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>info</td>
+			<td>有关服务器的所有统计信息和信息</td>
+		</tr>
+		<tr>
+			<td>save</td>
+			<td>将数据集同步保存到磁盘</td>
+		</tr>
+		<tr>
+			<td>bgsave</td>
+			<td>将数据集异步保存到磁盘</td>
+		</tr>
+	</table>
+
+	<h3>集群搭建</h3>
+	复制执行脚本
+	复制实例
+	安装集群软件: yum install ruby rubygems /gem install redis
+	创建集群
+</body>
+</html>

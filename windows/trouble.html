@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>故障处理</title>
+	<style>
+		table   {border: 1px dashed #00ff00;}
+		td 		{border: 1px dashed #000;}
+		caption {font-size: 18px; color: white; background-color: green;}
+		th 		{background-color: gray;}
+	</style>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td><a href="https://social.technet.microsoft.com/Forums/zh-CN/62e5d7f5-3639-43d2-8555-7339b6abf4a8/windows-server-2012-r2?forum=winserver8zhcn">
+			忘记windows server 2012 R2登录密码</a></td>
+		</tr>
+		<tr>
+			<td><a href="./raid.html">
+			RAID 磁盘故障问题解决(DELL服务器)</a></td>
+		</tr>
+		<tr>
+			<td><a href="https://blog.csdn.net/h8178/article/details/78354248">
+			Windows Server 2016远程桌面服务配置和授权激活</a></td>
+		</tr>
+	</table>
+	<br>
+	
+	<table>
+			<caption>系统命令</caption>
+			<tr>
+				<th>命令</th>
+				<th>说明</th>
+			</tr>
+			<tr>
+				<td>AD目录：打开用户和计算机</td>
+				<td>dsa.msc, domain show all</td>
+			</tr>
+			<tr>
+				<td>本地组策略编辑器</td>
+				<td>gpedit, group police edit</td>
+			</tr>
+			<tr>
+				<td>连接远程桌面</td>
+				<td>mstsc, ms terminal server connection</td>
+			</tr>
+			<tr>
+				<td>服务器管理器</td>
+				<td>ServerManager</td>
+			</tr>
+			<tr>
+				<td>打开计划任务界面</td>
+				<td>Taskschd.msc</td>
+			</tr>
+			<tr>
+				<td>打开控制面板</td>
+				<td>control</td>
+			</tr>
+	</table>
+	
+	<ol>note:
+		<li>连接共享打印机的时候，客户端是64bit系统/共享主机是32bit,系统无法匹配驱动程序造成无法安装</li>
+		<li>远程主机要访问本机的虚拟机，需要把虚拟机网络改为“桥接”模式，使用独立的IP</li>
+		<li>剪切文件的时候，最好使用拷贝，如果复制结果出现问题还有一份备份</li>
+		<li>广告弹窗问题：flash-help-service.exe:<br>
+		原因：Adobe官网下载Flash Player将会跳转到Adobe flash中文官网flash.cn，中国用户将会被安装一个特供版软件，用户协议明确规定了可以搜集用户上网隐私。<br>
+		国内特供版是跟重庆一家名为<span bgcolor="#ff00ff">重橙网络科技有限公司</span>合作的，国内特供版安装后，电脑会常驻FlashHelperService服务，且常驻系统，不可关闭.<br>
+
+		由于频频传出安全漏洞问题，Adobe宣布2020年起不再支持Flash.<br>
+		2019年5月份，Office 365已经封锁Adobe Flash</li>
+	</ol>
+
+	<table>
+		<tr>
+			<th>类别</th>
+			<th>问题</th>
+			<th>解决方案</th>
+		</tr>
+		<tr>
+			<td rowspan="3">开关机问题</td>
+			<td>关机后自动重启</td>
+			<td>"高级系统设置"--&gt;"自动重新启动"</td>
+		</tr>
+		<tr>
+			<td>开机启动项</td>
+			<td>"任务管理器"--&gt;"启动"</td>
+		</tr>
+		<tr>
+			<td>开机取消PIN码登录</td>
+			<td>
+				<ol>
+					<li>运行：netplwiz</li>
+					<li>取消勾选：“需要密码选项”</li>
+					<li>输入确认的PIN密码</li>
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="2">浏览器问题</td>
+			<td>Firefox 不支持H5视频播放</td>
+			<td>
+				<ol>
+					<li>安装插件：User Agent Switcher：<br>
+					Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.137 Safari/537.36</li>
+					<li>生效：打开网页，摁一下Alt 键，选择工具，选择所添加的那个即可</li>
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td>360浏览器设置内核</td>
+			<td>
+				<ol>
+					<li>选择设置-&glt;高级设置-&glt;内核设置</li>
+					<li>选择OA访问方式:webkit内核方式</li>
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td>苹果电脑问题</td>
+			<td>蓝牙鼠标开机不识别</td>
+			<td>
+				<ol>
+					<li>手机连接蓝牙鼠标，确定鼠标是否好坏</li>
+					<li>进入电脑系统，选择蓝牙设备，删除鼠标"Magic Mouse 2"，重新建立配对连接</li>
+				</ol>
+			</td>
+		</tr>
+		<tr>
+			<td>打印机问题</td>
+			<td>Win10系统正常安装后，无法打印</td>
+			<td>
+				<ol>
+					<li>在管理中检查printspool服务是否启动</li>
+					<li>安装驱动精灵程序，检查本地打印服务</li>
+					<li>在system32/spool/driver文件夹下删除相关驱动后重新安装即可</li>
+					<li></li>
+				</ol>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL-数据表操作</title>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>建立数据库：</td>
+			<td>create  database  数据库名称；</td>
+		</tr>
+		<tr>
+			<td>删除数据库：</td>
+			<td>drop database 数据库名称;	#无法恢复</td>
+		</tr>
+		<tr>
+			<td>显示数据库信息：</td>
+			<td>show create database 数据库名称\G;</td>
+		</tr>
+		<tr>
+			<td>显示数据库：</td>
+			<td>show databases</td>
+		</tr>
+		<tr>
+			<td>切换数据库：</td>
+			<td>use 数据库名称；</td>
+		</tr>
+	</table>
+
+	<p>建立表 格式： 字段名称 字段类型 [条件][默认值]<br>
+		<a href="javascript:show_content('mktab','createtab');" id="createtab">展开内容+</a></p>
+	
+	<div id="mktab" style="display: block;">
+	<pre>
+		a.)create table [IF NOT EXSIT]lxzh.mystock(	#字段名称 类型
+			ID       int unsigned auto_increment not null primary key,
+			操作日期  date,
+			股票名称  char(8),
+			数量     int(5) unsigned,
+			价格     decimal(8,2),
+			总额     decimal(8,2) as ('数量' * '价格'),
+			操作    enum('buy','sell')	#默认从1开始
+			);
+		b.) create table stock(select ID,股票名称,股票代码 from finance.负面快报)
+
+			自增编号	 	id INT UNSIGNED NOT NULL AUTO_INCREMENT
+			计算列		field as (expression) [VIRTUAL |STORED] #数据是否写入磁盘
+			定义主键	 	primary key(数据唯一，不为空)	
+					 	alter table 表 add primary key(字段列表)  #明确指定主键
+					 	或者，最后表内容加入 primary key(字段列表……) #使用联合主键
+					 	alter table 表 add primary key	#删除主键
+			定义外键	 	CONSTRAINT <外键名> FOREIGN KEY 字段列表 REFERENCES 主表 主键列
+			非空约束	 	NOT NULL
+			唯一性约束	UNIQUE
+			默认值		DEFAULT
+
+			create table lxzh.mystock(
+				ID       int unsigned auto_increment not null primary key,
+				操作日期  date,
+				股票名称  char(8),
+				数量     int(5) unsigned,
+				价格     decimal(8,2),
+				总额     decimal(8,2) as ('数量' * '价格'),
+				操作    enum('buy','sell')
+					);
+		c.) 删除表	DROP TABLE 表名称
+		d.) 建立新表(复制某表结构)
+			CREATE TABLE new-table SELECT * FROM old-table WHERE 1=2
+		备注：
+			默认使用utf8字符集  default character set 'utf8'
+	</pre>
+	</div>
+
+	修改表
+<table>
+	<tr>
+		<td>修改表名称</td>
+		<td>ALTER TABLE #旧名# RENAME #新名#</td>
+	</tr>
+	<tr>
+		<td>修改字段名称</td>
+		<td>alter table 表名称  change #旧字段名# #新字段名# #类型#</td>
+	</tr>
+	<tr>
+		<td>修改字段类型</td>
+		<td>alter table 表名称　modify field type(size)#不支持多字段修改</td>
+	</tr>
+	<tr>
+		<td>删除字段</td>
+		<td>alter table 表名称  drop 列名;</td>
+	</tr>
+	<tr>
+		<td>添加字段</td>
+		<td>alter table 表名称  add column #新字段名##类型# FIRST#AFTER [已存在字段名]</td>
+	</tr>
+	<tr>
+		<td>修改字段位置</td>
+		<td>alter table 表名称  modify #字段名称##类型# first#after [已存在字段名]</td>
+	</tr>
+	<tr>
+		<td>修改field值</td>
+		<td>update table-name set field=newvalue where field=oldvalue<br>
+		多表：update table_1 t1,table_2 t2 set t1.column = t2.column where t1.id = t2.pid;</td>
+	</tr>
+	<tr>
+		<td>设置默认值</td>
+		<td>ALTER TABLE 表名称 MODIFY 交易所 ENUM("上海SH","深圳SZ") DEFAULT "上海SH"</td>
+	</tr>
+	<tr>
+		<td>查看表结构</td>
+		<td>descrip  表名称</td>
+	</tr>
+	<tr>
+		<td>显示详细信息</td>
+		<td>SHOW CREATE TABLE 表名称</td>
+	</tr>
+	<tr>
+		<td>删除数据	</td>
+		<td>delete from table [where field=value];	#无条件情况下，清空表数据</td>
+	</tr>
+	<tr>
+		<td>插入行数据</td>
+		<td>insert into table-name[(field,...)] values (values),(...)</td>
+	</tr>
+	<tr>
+		<td>批量更新数据</td>
+		<td>replace into 表(字段列表) values(值列表,...)</td>
+	</tr>
+	<tr>
+		<td>表支持中文</td>
+		<td>alter table 表 convert to character set utf8</td>
+	</tr>
+</table>
+		\G	#使显示更直观
+		数据库状态查询	 status;
+		"修改字段altermo, 更改数据update"
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Windows SDK开发</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<p>参考：<a href="https://msdn.microsoft.com/en-us/library/fw5abdx6.aspx">
+	微软C语言技术参考</a></p>
+	
+	<h3>第一章 Windows数据类型</h3>
+	<table>
+		<tr>
+			<tr>类别</tr>
+			<th>数据类型</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td rowspan="6">整型</td>
+			<td>BYTE</td>
+			<td>8 bit</td>
+		</tr>
+		<tr>
+			<td>WORD</td>
+			<td>16 bit</td>
+		</tr>
+		<tr>
+			<td>DWORD</td>
+			<td>32 bit</td>
+		</tr>
+		<tr>
+			<td>ULONG</td>
+			<td>32 bit unsigned</td>
+		</tr>
+		<tr>
+			<td>INT32</td>
+			<td>32 bit</td>
+		</tr>
+		<tr>
+			<td>UINT64</td>
+			<td>64 bit</td>
+		</tr>
+		<tr>
+			<td>结构体</td>
+			<td>坐标</td>
+			<td> COORD {short x;short y;}</td>
+		</tr>
+		<tr>
+			<td>字符型</td>
+			<td>TCHAR</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3>第二章 窗口window</h3>
+
+	<h4>&sect;2.1 handle 句柄</h4>
+	<p>数据类型：HANDLE, 作为内核对象的标识. INVALID_HANDLE_VALUE(只有调用CreateFile时) 不可用句柄，值为-1<br>
+	句柄需要与进程相关,内核对象的生命周期可能长于创建它的进程。(每个内核对象是由内核分配的一块内存--包含该对象的信息，只能由内核访问)<br>
+	每个内核对象都有一个使用计数器，当计数为0时，内核释放该对象</p>
+
+	<p>创建内核对象的函数都需要SECURITY_ATTRIBUTES结构作为安全属性参数<br>
+	缺省情况下，管理员和创建者对它有完全的访问权限。#<u>用户对象则没有该参数</u></p>
+
+	<p><b>关闭内核对象</b><br>
+	语法格式：BOOL CloseHandle(HANDLE hObject)，#错误将返回ERROR_INVALID_HANDLE</p>
+
+	<h5>&sect;2.1.1 进程实例句柄 HINSTANCE</h5>
+	<p>在32位以上的系统中，HMODLE 与 HINSTANCE完全等同</p>
+
+	<h4>&sect;2.2 窗口和窗口处理函数</h4>
+
+	<h5>&sect;2.2.1 窗口</h5>
+	<p>主函数 WINAPI WinMain(HINSTANCE hInst,HINSTANCE, LPSTR lcCmd, int nShow)<br>
+		窗体属性结构：WNDCLASS &wc<br></p>
+
+	<p>消息循环：</p>
+	<pre>
+		MSG 	msg;
+		while ( GetMessage(&msg,NULL,0,0))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+	</pre>	
+
+	<h5>&sect;2.2.2 窗口处理函数</h5>
+	<p>主函数 WndProc(HWND hWnd, UNIT uMsg,WPARAM wPram, LPARAM lParam)</p>
+
+	<h3>第三章 GDI 图形设备接口</h3>
+	<p>Graphics Device Interface</p>
+	<h4>&sect; 3.1 GDI</h4>
+
+	<ul>图像对象
+		<li>直线和曲线</li>
+		<li>区域</li>
+		<li>位图</li>
+		<li>文字</li>
+		<li>映像模式</li>
+		<li>路径与剪裁</li>
+		<li>调色盘</li>
+		<li>打印</li>
+	</ul>
+
+	<h5>&sect; 3.1.1 DC</h5>
+	<p>DC -Device Context设备环境</p>
+
+	<h4>&sect; 3.2 DirectX</h4>
+	<h4>&sect; 3.3 OpenGL</h4>
+	
+</body>
+</html

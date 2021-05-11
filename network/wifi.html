@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>无线及移动网络</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<h2>一、无线网络</h2>
+
+	<h3>&sect;1.1 Wifi</h3>
+	<p>802.11 wifi --wireless fidelity 无线局域网协议/是半双工的技术<br>
+	真实速率是接入速率的40%，半双工为一半，还有一部分管理帧、控制帧</p>
+
+	<p>2018 年 10 月 Wi-Fi 联盟已经发布了新的 Wi-Fi 技术标准，也就是 Wi-Fi 6<br>
+	随着4G跨入5G，Wi-Fi从802.11ac转向802.11ax(Wi-Fi 6)标准</p>
+
+	<h4>&sect;1.1.1 集中式网络架构</h4>
+	<p>又称为瘦接入点（FIT AP）架构。在该架构下，通过AC集中管理和控制多个AP</p>
+	<img src="../../pic/it/net/mobile/WiFi集中式架构.png" alt="">
+
+	<p>在集中式架构下，所有无线接入功能由AP和AC共同完成：<br>
+
+	(a.) AC集中处理所有的安全、控制和管理功能，例如移动管理、身份验证、VLAN划分、射频资源管理和数据包转发等。<br>
+	(b.) FIT AP完成无线射频接入功能，例如无线信号发射与探测响应、数据加密解密、数据传输确认等。<br>
+	(c.) A P和AC之间采用CAPWAP协议进行通讯，AP与AC间可以跨越二层网络或三层网络。集中式架构便于管理员的集中管理和维护<br>
+	</p>
+
+	<p></p>
+	<table>
+		<tr>
+			<td>服务集识别码SSID（Service Set IDentifier）</td>
+			<td>WIFI账号就是SSID,通过接入点广播出来<br>
+			建议SSID数量不超过4个，每增加一个AP，都会发送基于SSID的管理和控制，只会增加无线频段的浪费</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+
+	<p>WiFi覆盖不给力 用无线中继或者电力猫</p>
+
+	<ul>认证方式
+		<li>MAC认证：只允许经过认证的MAC地址接入无线网络，防止非法设备接入</li>
+		<li>Portal认证：支持本地Portal和远程Post两种认证页面推送方式<br>
+			A.本地Portal认证：采用内置Portal认证推送页面模板，用户通过账号+静态密码方式进行认证，部署简单，适合小型无线环境。<br>
+			B.远程Post认证：采用外部WEB服务器，自定义Portal认证推送页面和认证成功跳转页面，搭配外部认证服务器、短信服务器，可以实现静态密码、短信动态密码等多种认证方式，并可实现广告推送等业务</li>
+		<li>微信连Wi-Fi：顾客无需输入复杂密码，通过微信客户端即可实现一键联网</li>
+	</ul>
+
+	<ul>胖AP和瘦AP的区别
+		<li>瘦AP作为无线局域网的一个部件，是不能独立工作的，必须配合AC的管理才能成为一个完整的系统</li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<p><a href="https://blog.51cto.com/ciscolulu/2062801">无线网络部署与规划要点及案例分享</a></p>
+
+	<p>AP-Group实现：同一个SSID会使用不同的VLAN和IP子网</p>
+
+	<h2>二、移动网络</h2>
+	
+	<table>
+		<tr>
+			<th>通讯技术</th>
+			<th></th>
+			<th></th>
+		</tr>
+	</table>
+
+	<h2>三、安全问题及防范技术</h2>
+
+	<h2>四、附录</h2>
+	<h3>名词解释</h3>
+
+	<table>
+		<tr>
+			<th>专用名词</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>AP</td>
+			<td>Access Point, 无线接入点，俗称“热点”</td>
+		</tr>
+		<tr>
+			<td>AC</td>
+			<td>无线接入控制服务器:负责把来自不同AP的数据进行汇聚并接入Internet，<br>同时完成AP设备的配置管理、无线用户的认证、管理及宽带访问、安全等控制功能<br>
+			AC管控各相邻AP间漫游阈值，并读取连网设备信号强度，让连网设备在相邻AP间实现无缝漫游</td>
+		</tr>
+		<tr>
+			<td>GE combo</td>
+			<td>既支持GE 网络接口（电口），也支持光纤接入（光口）</td>
+		</tr>
+		<tr>
+			<td>SFP+光纤模块</td>
+			<td>10 Gigabit Small Form Factor Pluggable,</td>
+		</tr>
+	</table>
+</body>
+</html>

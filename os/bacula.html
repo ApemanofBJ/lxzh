@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Bacula--网络备份系统</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p><a href="http://blog.bacula.org/"></a>参考</p>
+
+	<ol>由下面5个部分组成:
+　　<li>Director Daemon：负责监听所有的备份、恢复、验证、存档事务，以及定制备份和恢复文件计划等，并将整个系统运行状况记录在一个数据库文件中。其配置文件为bacula-dir.conf。</li>
+　　<li>Storage Daemon（SD）：主要负责将数据备份到存储介质上，而在数据恢复时，负责将数据从存储介质中传送出去。其配置文件为bacula-sd.conf。</li>
+　　<li>File Daemon（FD）：安装在需要备份数据的机器上的守护进程，在备份数据时，它负责把文件传出，在恢复数据时负责接收数据并执行恢复操作。配置文件为bacula-fd.conf。</li>
+　　<li>Console：管理控制台。可以通过这个控制台连接到Director Daemon进行管理备份与恢复操作。</li>
+　　<li>Monitor：进程监控端。</li>
+	</ol>
+
+　　<ul type="square">工作流程：
+　　<li>通过console连接到Director端，备份恢复操作开始。</li>
+　　<li>Director端从自己的数据库中调出记录信息，对存储端SD与客户端FD的任务进行协调。</li>
+　　<li>客户端FD负责验证Director的操作许可，如果验证通过，则允许连接到存储端SD</li>
+　　<li>客户端FD根据Director发出的请求去连接SD，将FD端的数据备份到存SD指定的存储介质上，或者将SD端存储介质中的数据传回到客户端FD指定的位置上，完成备份恢复过程</li>
+	</ul>
+	
+</body>
+</html>

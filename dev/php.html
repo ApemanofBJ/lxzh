@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PHP--</title>
+</head>
+<body>
+	
+PHP -- Hypertext Preprocesser
+Zend Engine 分为两个阶段：
+	将PHP代码转换为Zend opcode 的二进制格式，存于内存中；
+	再使用Zend Engine 执行
+加速器：
+	APC--Alternative PHP Cache
+	eAccelerator(优化和动态内容缓存，使得PHP脚本在编译的状态下，对服务器的开销几乎完全消除)
+	XCache(应用于生产环境)
+
+目录结构：
+	build	源码编辑相关文件
+	ext	扩展目录
+	zend	引擎目录
+	pear	扩展与应用仓库
+	sapi	服务器抽象层代码
+	TSRM	线程安全
+	tests	测试脚本
+
+实例
+	<!DOCTYPE html>{{{
+	<html>
+		<body>
+			<?php
+				php.info();
+			?>
+		</body>
+	</html>}}}
+编辑器： Zend Studio
+	快捷键：
+		Ctrl +/		注释
+		Ctrl +D		删除行
+		Ctrl +U/L	大、小写转换
+		
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<h2>第一部分	语言基础</h2>
+
+<h3>第一章	变量类型</h3>
+<h4>1.1 标记风格</h4>
+	XML 风格
+		<?php
+		?>
+	脚本风格
+		<script language="php">
+		</script>
+	简短风格
+		<? echo ;?>
+	ASP风格
+		<%
+		%>
+<h4>1.2 数据类型</h4>
+变量：$var
+	布尔型		boolean		#逻辑：true/false
+	字符串型	string		''强引用/""弱引用
+	整型		interger
+	浮点型		float
+	备注：{$var} --变量引用
+
+数组
+	$array = ('val1',...)
+	$array[key] = 'val'
+	$array = array(key1=>val1,...)
+
+类型测试
+	is_bool($var)	
+
+常量
+	定义：define(string const,mixed val,case sensitive=true)
+	
+	预定义常量
+		_FILE_		程序文件名
+		_LINE_		程序行数
+
+<h4>1.3 函数</h4>
+	定义：function fun($var,...){
+		return	}
+	
+	参数：
+		按值传递	$
+		按引用传递	&
+	
+输出：echo
+	
+[内置函数]
+	bool phpinfo()		#检查配置设置和预定义变量
+
+<h4>1.4 流程控制</h4>
+	i.) if (condition) {
+	    }else{
+	    }
+		
+<h4>1.5 字符串</h4>
+
+备注：
+	a.) php程序需要WEB服务器的支持，即需要启动WEB服务器，且程序要在WEB文档目录下
+	b.) 每行代码都需要以;作为结尾
+	c.) #作为注释
+	d.) null 是空值
+
+<h3>第二章  类</h3>
+<h4>1.1 构造/析构函数</h4>
+	构造函数：__construct()
+	析构函数：void __destruct(void)
+	
+	子类中的显示调用： parent::__construct()
+
+PDO -- PHP Data Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<h2>第二部分	核心技术应用</h2>
+
+数据库
+	a.) 连接数据库
+		$mysql_host = '192.168.0.101';
+		$mysql_user = 'root';
+		$mysql_pw   = 'jingrun@2017';
+		$mysql_db   = 'jingrun';
+
+		mysql_connect('hostname','username','pwd');	#省略端口号，默认是3306
+	b.) 选择数据库文件
+		mysql_select_db(string db_name,resource link_id);
+			如果没有指定link_id,则使用上一个打开的
+			如果没有打开的，则尝试打开一个数据库并使用
+	c.) 执行SQL语句
+		mysql_query(string sql,return link_id);
+			sql执行成功返回true,否则返回false
+			sql语句不以;作为结尾
+			结果返回的是资源数据指针
+	d.) 获取结果信息
+		array	mysql_fetch_array(resource result)
+
+[代码]
+		$mysql_host = '192.168.0.101';
+		$mysql_user = 'root';
+		$mysql_pw   = 'jingrun@2017';
+		$mysql_db   = 'jingrun';
+
+		$conn = mysql_connect($mysql_host,$mysql_user,$mysql_pw) or die("connecting error");
+		
+		if $conn
+			echo "connected successful!";
+
+		mysql_select_db($mysql_db);
+
+		$result = mysql_query("select * from 通讯录");
+		
+		do { 
+			echo	<tr align="left" bgcolor="#ffffff">;
+			echo		<td height="20" align="center"> </td>;
+			echo	</tr>;
+		}
+		while ($row = mysql_fetch_array($result));
+
+		mysql_close();
+</body>
+
+</html>

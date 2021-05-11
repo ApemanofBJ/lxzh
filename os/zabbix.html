@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Zabbix--企业级监控平台</title>
+	<style>
+		table {border: 1px dashed #000;}
+	</style>
+</head>
+<body>
+	<p>参考：<a href="https://www.zabbix.com/">官方主页</a></p>
+	<table>
+		<tr>
+			<td><a href="#setup">安装</a> / </td>
+			<td><a href="#monitor">监控</a> / </td>
+			<td><a href="#snmp">SNMP</a> / </td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h3>第一部分 部署</h3>
+	<p>
+		客户端-进行数据采集/服务器端-数据存储、分析、告警、展示<br>
+		架构--小型企业:c/s; 大型企业:c/proxy/s(加入代理，做到分布式)
+	</p>
+	
+	<p>
+		特点：单个服务器支持上万台设备，每秒1.5万请求<br>
+		支持多协议的数据采集-Agent/SSH/telnet/SNMP
+	</p>
+
+	<img src="../../pic/it/os/监控项.png" alt="">
+
+	<p id="setup">【安装】</p>
+	<pre>
+		a.) PHP模块
+			apt-get install php7.0-bcmath php7.0-xml php7.0-mbstring
+		b.) 软件包
+			wget http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z
+			/zabbix-release/zabbix-release_3.2-1+xenial_all.deb
+			dpkg -i zabbix-release_3.2-1+xenial_all.deb
+			apt-get update
+		c.) 安装服务器及代理
+			apt-get install zabbix-server-mysql  zabbix-fronted-php
+			apt-get install zabbix-agent
+	配置数据库
+		create database zabbix character set utf8 collate utf8_bin;
+		grant all privileges on zabbix.* to zabbix@localhost  identified by 'zabbix2017'
+	导入初始表和数据
+		zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -uzabbix -p zabbix
+		输入在mysql 中创建的用户名和密码
+	创建用户和组
+		sudo useradd -M zabbix
+		d.) 浏览器完成安装工作
+			http://localhost/zabbix
+			用户名：Admin
+			密码：  zabbix
+		#备注：服务器端口10051/客户端端口10050(默认)
+	</pre>
+
+	<h3 id="monitor">第二部分 监控</h3>
+	<h4>监控网络设备</h4>
+	<pre>
+	[交换机配置]
+		建立snmp团体，名称为public，权限为只读
+			(config)#snmp-server community public ro
+	    允许路由器将所有类型SNMP Trap发送出去
+			(config)#snmp-server enable traps
+	    设置主机10.10.10.101接受交换机所发送过来的SNMP Trap 信息
+			(config)#snmp-server host 10.10.10.101 version 2c public
+	    使用loopback0接口的IP地址作为SNMP Traps发送源地址，也可用fastEthernet地址。
+			(config)#snmp-server trap-source loopback0
+	[监控交换机]
+		需要获取交换机 SNMP 对应的OID
+		[root@zabbix ~]# snmpwalk -v 2c -c test 10.0.0.254 1.3.6.1.2.1.2.2.1.10.10105
+		备注： 存在计数器溢出问题
+	</pre>
+
+	<h4>监控服务器硬件 --IPMI</h4>
+	<pre>
+		首先开启硬件的IPMI功能(Dell的iDRAC)
+		备注：ipmi监控基本是基于dell的设备，因为dell设备具有此模块，其它设备无法监控
+	</pre>
+	
+	<h4>监控方式</h4>
+	<ul>
+		<li>Agent:有主动和被动两种方式</li>
+		<li>SNMP: 使用UDP协议</li>
+		<li>JMX：JAVA管理扩展</li>
+		<li>IPMI：智能平台管理接口，独立于BIOS、OS外可独立运行</li>
+	</ul>
+	<p id="snmp">安装SNMP<br>
+		yum install net-snmp<br>
+		配置文件: /etc/snmpd/snmpd.conf--<br>
+		com2sec mynetwork 192.168.0.240 public_monitor<br>
+		com2sec mynetwork 127.0.0.1 public<br>
+	</p>
+
+	<p>Zabbix-Get<br>
+	语法：zabbix-get [-h远程] -s 主机 -p 端口 -I 网卡(对应多网卡) -k 监控项</p>
+	<img src="../../pic/it/os/告警级别.png" alt="">
+
+	<h3>第三部分 高级应用</h3>
+	<h4>3.1 自动化功能</h4>
+	<h5>3.1.1 网络发现</h5>
+	<p>流程：dicovery,action</p>
+	<ul>
+		<li>IP地址段</li>
+		<li>常规服务</li>
+		<li>Agent/SNMP收到消息</li>
+	</ul>
+
+	<h3>附录</h3>
+	<ul>
+		<li><a href="../../it/db/数据库示例.html">zabbix数据库</a></li>
+	</ul>
+</body>
+</html>

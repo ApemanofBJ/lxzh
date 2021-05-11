@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>SSH-Secure Shell (安全外壳协议)</title>
+</head>
+
+<body>
+	<p><a href="https://www.ssh.com/ssh/">参考文档</a>，作者：芬兰学者Tatu Ylonen</p>
+	<ol>过程：
+		<li>远程主机收到用户的登录请求，把自己的公钥发给用户</li>
+		<li>用户使用这个公钥，将登录密码加密后，发送回来</li>
+		<li>远程主机用自己的私钥，解密登录密码，如果密码正确，就同意用户登录</li>
+	</ol>
+	
+	<p>应用软件: <a href="http://www.openssh.com">OpenSSH</a></p>
+	<p>基本用法：ssh -p port user@host<br>
+		安全验证：<br>
+		第一种级别（基于口令的安全验证）<br>
+		第二种级别（基于密匙的安全验证）<br>
+	</p>
+
+	<ul>协议组成部分
+		<li>传输层协议 [SSH-TRANS]</li>
+		<li>用户认证协议 [SSH-USERAUTH]</li>
+		<li>连接协议 [SSH-CONNECT]</li>
+	</ul>
+
+	<h3>公钥登录</h3>
+	<p>用户把自己的公钥存储在远程主机上。</p>
+	
+	<ul>建立密钥：ssh-keygen [-t rsa 指定加密方法]
+		<li>密钥在$HOME/.ssh/目录下</li>
+		<li>id_rsa.pub 公钥、id_rsa 私钥</li>
+		<li>参数-f 指定密码文件名称</li>
+		<li>参数-p 指定密码，一般为空</li>
+		<li>远程主机变更：-f ~/.ssh/known_hosts -R host</li>
+	</ul>
+
+	<ul>传送公钥：ssh-copy-id user@host
+		<li>.ssh/authorize_keys 追加保存</li>
+		<li>-i 指定复制的公钥文件</li>
+	</ul>
+
+	<h3>GnuPG 加密/解密工具</h3>	
+	
+</body>
+</html>

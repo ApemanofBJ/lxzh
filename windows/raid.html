@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>磁盘阵列</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p><a href="http://www.jb51.net/hardware/zonghe/269020.html">参考：R710做RAID5磁盘阵列的图文方法</a></p>
+	<ul>PD Mgmt
+		<li>online: 在线-正常</li>
+		<li>missing: 磁盘未找到</li>
+		<li>foreign: 外来的</li>
+		<li>failed: 失败，因硬盘原因无法与其他硬盘进行数据同步</li>
+	</ul>
+	<ul>
+		<li>Disk Group: 磁盘组，相对于阵列</li>
+		<li>Virtusl Disk: 虚拟磁盘，相对于逻辑分区</li>
+		<li>Physical Disk: 物理磁盘</li>
+		<li>Hot Spare: 热备</li>
+	</ul>
+
+	<img src="../../pic/it/hardware/RAID.jpg" alt="RAID级别">
+
+	<table>
+		<tr>
+			<th>级别</th>
+			<th>特点说明</th>
+		</tr>
+		<tr>
+			<td>0:不含校验与冗余的条带存储</td>
+			<td>
+			数据被分割并分别存储在每块硬盘中<br>
+			把连续的数据分散到多个磁盘上读取，每个磁盘并行读取数据。存储性能最高
+			</td>
+		</tr>
+		<tr>
+			<td>1：不含校验的磁盘镜像</td>
+			<td>数据互备，但是单位成本最高，且写入效率低下</td>
+		</tr>
+		<tr>
+			<td>5：数据块级别的分布式校验条带存储</td>
+			<td>数据以块为单位分布到各个硬盘上。奇偶校验信息和对应的数据分别存储在不同的磁盘上。一个磁盘损坏可以进行恢复</td>
+		</tr>
+		<tr>
+			<td>6</td>
+			<td>要求至少4块硬盘,在RAID-5基础上把校验信息由一位增加到两位, 容忍2块硬盘离线</td>
+		</tr>
+	</table>
+
+	<pre>
+		命令：	mdadm	选项	 &lt;Raid设备&gt;
+		选项：	-C	创建软RAID
+				-l	指定RAID级别
+				-n	指定磁盘个数
+				-x	指定备用设备个数
+	</pre>
+
+	<ul>存储
+		<li>DAS--Direct-Attached Storage开放系统的直连式存储</li>
+		<li>NAS--Network Attached Storage网络附属存储</li>
+		<li>SAN--Storage Area Network存储区域网络</li>
+	</ul>
+
+	<p><b>IBM 存储</b></p>
+	<p>FRU--Field Replacement Unit（现场可更换单元）--维修备件号</p>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Git--世界上最先进的分布式版本控制系统</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<h2>git</h2>
+	<p>原理：基于版本快照工作，保证数据完整性(所有数据在存储前都计算校验和，然后以校验和来引用)<br>
+		管理文件夹分为三个区域：工作区、暂存区、分支区。
+	</p>
+
+	<h3>git -基本操作</h3>
+	<table>
+		<tr>
+			<td>初始化命令：</td>
+			<td>git init, 会在当前目录建立一个.git目录进行记录,用来跟踪管理版本库</td>
+		</tr>
+		<tr>
+			<td>设置</td>
+			<td>用户名：git config --global suer.name “设置的名字”<br>
+			邮箱：git config --global user.email “邮箱地址”<br>
+			查看配置信息：git config --list
+			</td>
+		</tr>
+		<tr>
+			<td>添加文件快照：</td>
+			<td>git add 目录或文件名称,#添加所有文件: git add -A/--all</td>
+		</tr>
+		<tr>
+			<td>状态查看：</td>
+			<td>git status</td> 
+		</tr>
+		<tr>
+			<td>查看文件修改记录：</td>
+			<td>git log -p filename</td>
+		</tr>
+	</table>
+
+	<h2>GitHub--是世界上最大的代码托管平台</h2>
+	<p><a href="../windows/application.html#gitpw">备注：查询登录信息</a></p>
+
+	<h3>加入SSH-key</h3>
+	<ol>
+		<li>生成key-pair: ssh-keygen -t rsa -b 4096 -C "name@github.com" <br> 默认文件名称：/home/lxzh/.ssh/id_rsa、id_rsa.pub</li>
+		<li>ssh-agent: eval "ssh-agent -s"; ssh-add ~/.ssh/id_rsa</li>
+		<li>Add account: apt install xclip; xclip -sel clip < ~/.ssh/id_rsa.pub</li>
+		<li>连接：ssh -T git@github.com</li>
+	</ol>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数据库概述</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+<body>
+	<p>
+	[局部性原理]<br>
+	时间上的局部性：<br>
+		对于访问过的数据再次访问的频率较大；<br>
+	空间上的局部性<br>
+		对于访问过的数据附件数据再次访问的几率较大；<br>
+	</p>
+
+	<ul style="list-style-type:square;">数据库系统
+		<li>数据库：		用于存储数据的地方</li>
+		<li>数据库管理系统：	管理数据库的软件</li>
+		<li>数据库应用程序：	对数据库管理的更高要求</li>
+	</ul>
+	<ul style="list-style-type:circle;">SQL语言：
+		<li>数据定义语言 DDL:		DROP/CREATE/ALTER</li>
+		<li>数据操作语言 DML:		INSERT/UPDATE/DELETE</li>
+		<li>数据查询语言 DQL:		SELECT</li>
+		<li>数据控制语言 DCL:		GRANT/REVOKE/COMMIT/RELLBACK</li>
+	</ul>
+	<ul>数据库访问技术
+		<li>ODBC</li>
+		<li>JDBC</li>
+		<li>ADO.net</li>
+		<li>PDO</li>
+	</ul>
+	
+	<h4>锁机制</h4>
+	<p>是为了处理并发问题</p>
+	<ul>锁的分类
+		<li>行级锁是一种排他锁，防止其他事务修改此行</li>
+		<li>悲观锁：认为读数据的时候别人会进行修改，处理完成解锁</li>
+		<li>排他锁-写锁/共享锁-读锁</li>
+		<li></li>
+	</ul>
+
+	<hr>
+	<table>
+		<tr>
+			<th>数据库名称</th>
+			<th>版本</th>
+			<th>新增加的功能</th>
+			<th>操作说明</th>
+		</tr>
+		<tr>
+			<td rowspan="2">MySQL</td>
+			<td>5.5</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>5.7</td>
+			<td>常规操作</td>
+			<td>
+				<ul>
+					<li>在MySQL 5.6以前，在客户端CTRL+C后会直接退出MySQL客户端，在5.7以后不会退出客户端而是终端当前的操作</li>
+					<li></li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<p>DTCC -- Database Technology Conference China 中国数据库大会<br>
+		<a href="http://dtcc.it168.com/index.html">2019--第十届</a><br>
+		2016--第七届：数据定义未来<br>
+	</p>
+	
+	<p>去IOE:低成本、线性可控、去中心化（分布式）：去IBM，PC Sever替代小型机；去Oracle，用MySQL替代；去EMC，用中低端存储</p>
+</body>
+</html>

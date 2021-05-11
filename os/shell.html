@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Linux Shell 脚本</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<ul><b>news</b>
+		<li>2019年1月30日：Bash 发布5.0版本(查看版本-bash -version), 引入新的变量<br>
+		下载地址：http://ftp.gnu.org/gnu/bash/
+		</li>
+		<li>shellcheck：shell脚本静态检查工具，能够识别语法错误以及不规范的写法</li>
+	</ul>
+	<hr>
+
+	<p>格式：
+		#! /bin/bash，(The Bourne-Again Shell)<br>
+		# 注释<br>
+	</p>
+
+	<h2>第一部分	语法说明</h2>
+	<h3>&sect; 1.1 变量的使用</h3>
+
+	<p>
+		定义变量	var=value	#等号两边没有空格，变量值有空格时需要使用引号<br>
+		引用变量	${var} 		#""-弱引用，''-强引用<br>
+	</p>
+
+	<table>
+		<tr>
+			<th>变量运算符</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>${var:-word}</td>
+			<td>若var存在且非空，则返回var; 否则返回word</td>
+		</tr>
+	</table>
+
+	<ul type="circle">特殊变量引用$
+		<li>0	代表当前脚本名称</li>
+		<li>n	脚本参数，从1开始最多9个</li>
+		<li>#	脚本参数个数</li>
+		<li>?	返回值</li>
+		<li>$   当前脚本运行的ID号</li>
+	</ul>
+
+	<p>数组<br>
+		定义：	array_name=(value 列表)		#使用空格作为分隔符<br>
+		读取	${array_name[index]}<br>
+		读取所有元素	${array_name[*|@]}<br>
+	</p>
+		
+	<h3>&sect; 1.2 控制语句</h3>
+	<p>[] 作为条件测试语句</p>
+
+	<h4>&sect 1.2.1 条件语句</h4>
+	<p>
+		if [条件]; then <br>	
+			echo 语句;	#输出 <br>	
+		fi <br>	
+	</p>
+
+	<table>
+		<tr>
+			<td>字符串比较</td>
+			<td>
+			<ul>
+				<li>=/!=相等或不等</li>
+				<li>-s	不为空</li>
+				<li>-n	为空</li>
+				<li>-z	长度为0#</li>
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>文件操作符</td>
+			<td>
+			<ul>
+				<li>-d	是否目录</li>
+				<li>-f	是否文件</li>
+				<li>-r/x/w是否权限</li>
+				<li>-e	是否存在</li>
+				<li>-nt/ot文件比较#new than/old than</li>
+			</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>整数比较<br>(1--true/0--false)</td>
+			<td>
+			<ul>
+				<li>-eq	==</li>
+				<li>-ne	!=</li>
+				<li>-ge	&gt;=</li>
+				<li>-le	<=</li>
+				<li>-gt	&gt;</li>
+				<li>-lt	</li>
+			</ul>
+			</td>
+		</tr>
+	</table>
+
+	<h4>&sect;1.2.2 for 循环</h4>
+	<pre>
+		for x in {1..100..1}	#或者 for ((初值;终值;步长))
+		do
+			语句;
+		done
+		或者
+		for x in $(seq 1 100)
+	</pre>
+
+	<h4>&sect; 1.2.3 case 多选</h4>
+	<pre>
+		case 值 in
+		模式1|模式2)			#可以匹配多个条件
+			语句
+			;;			#表示break
+		*)
+			默认语句
+			;;			
+		esac
+	</pre>
+
+	<h4>&sect;1.2.4 while 循环</h4>
+	<pre>
+		while [ 条件] ；
+		do
+
+		done
+	</pre>
+
+	<h3>函数调用</h3>
+	函数
+		定义	[function] fun ()
+		{
+			语句;
+			返回值	return 整型值;
+		}
+
+	********************************************************************************
+	<h2>第二部分 常用命令</h2>
+
+	<table>
+		<tr>
+			<th>命令</th>
+			<th>参数即说明</th>
+		</tr>
+		<tr>
+			<td>chkconfig<br> 配置启动项(检查配置)</td>
+			<td>
+				<ul>
+					<li>--add 增加系统服务</li>
+					<li>--del 删除系统服务</li>
+					<li>--level <等级代号> on/off 启动级别 </li>
+					<li>与service区别：chkconfig 重启系统生效，service即时生效</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>find<br>(查找文件)</td>
+			<td>
+				<ul>
+					<li>-iname   #文件名不区分大小写</li>
+					<li>-regex   #正则表达式匹配查找</li>
+					<li>-type    #按照文件类型 f/b</li>
+					<li>-perm    #按照文件权限 /555 或者 -g+w 进行匹配</li>
+					<li>-user    #根据属主进行查找(-nouser,没有属主的)</li>
+					<li>-size    #[+|-]k/M/G</li>
+					<li>-amin/atime  +-n  #访问时间 -&gt;对文件读操作</li>
+					<li>-mmin/mtime  +-n  #修改时间 -&gt;对文件写操作</li>
+					<li>-cmin/ctime  +-n  #改变属性 -&gt; 元数据改变</li>
+					<li>复合条件： -a/-o/-not</li>
+					<li>-exec	[command] '{}' \;	#'{}' 被匹配规则的文件名代替,类似于一个变量<br>
+					可以用-ok 替代, 会进行操作确认</li>
+					<li>备注：时间上min代表分钟；time代表天；+在以上;-在以内;没有限制代表在时间点上</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>systemctl--systemd服务<br>(取代SystemV\service\chkconfig)</td>
+			<td>
+				<ul>
+					<li>start/stop/restart/reload/status</li>
+					<li>开机启动或者禁用 enanble/disable</li>
+					<li>列出所有单元 list-unit-files</li>
+					<li>参数：<br>
+					-type(service 服务器/mount 挂载点)</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>文件及目录操作命令</td>
+			<td>
+				<ul>
+					<li>file 文件名称，#查看文件类型</li>
+					<li>stat 文件名称，#显示文件详细信息</li>
+					<li>diff 文件1 文件2，#比较文件的不同</li>
+					<li>pwd -p, #显示链接的真实路径</li>
+					<li>ls 显示目录与文件信息，#-l 长格式显示</li>
+					<li></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>tar--文件归档</td>
+			<td>
+				<ul>
+					<li>-c 创建文件</li>
+					<li>-f 指定归档文件名</li>
+					<li>-z 压缩文档gzip/-J 压缩文档xz</li>
+					<li>-t 显示归档文件内容</li>
+					<li>-x 提取归档文件内容</li>
+					<li>-delete 删除归档文件中的文件</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<p>新的命令:<br>
+	bat --&gt; cat <br>
+	prettyping --&gt; ping <br>
+	fd --&gt; find <br>
+	ncdu --&gt; du <br>
+	tldr --&gt; man <br>
+	ack/jq --&gt; grep <br>
+	</p>
+
+	<ul>命令行快捷键
+		<li>终端拷贝: Ctrl+Shift+c</li>
+		<li>终端粘贴: Ctrl+Shift+v</li>
+		<li>跳到行首：Ctrl+a(ahead)</li>
+		<li>跳到行尾：Ctrl+e(end)</li>
+		<li>删除前文字：Ctrl+u</li>
+		<li>删除后文字：Ctrl+k</li>
+		<li>使用上条命令的最后一个参数：Alt+.</li>
+		<li>删除单词：Ctrl+w (光标置后)</li>
+	</ul>
+
+	<ul>【应用】
+		<li>查找指定目录path 下修改的文件(类型.html)<br>
+		命令：find path -name "*.html" -a mtime -1(24小时内) &gt;&gt; log.txt <br>
+		查找空目录：find path -type d -empty</li>
+		<li>查找包含指定内容的文件，并输出文件名称<br>
+		grep -ir '文本' ./ | awk '{ print $1}' | uniq -u (不重复)</li>
+
+	</ul>
+
+	<hr>
+	<p><a href="sh-manual.html">命令详解手册</a></p>
+
+</body>
+</html>

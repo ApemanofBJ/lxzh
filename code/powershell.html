@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>PowerShell 脚本应用</title>
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<p id="dir"><b>建立文件夹</b></p>
+	<pre>
+		md 商管公司 | cd 
+		$company="总部","上海公司","银川公司","西宁公司","长春公司"
+		md $company
+
+		$it="梁新征","万黎君","马建贵","吴振宇","赵洪川"
+		$dept="信息部"
+
+		for ($i = 0; $i -lt 5 ; $i++)
+		{
+		    cd $company[$i]
+		    md $dept | cd
+		    md $it[$i]
+		    cd ../..    
+		}
+	</pre>
+
+	<p id="start"><b>启动程序</b></p>	
+	<pre>
+		$list ="./微信.lnk","./钉钉.lnk","./腾讯QQ.lnk","./企业微信.lnk"
+
+		foreach ($ele in $list)
+		{
+		    start $ele
+		}
+	</pre>
+</body>
+</html>

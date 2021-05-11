@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MySQL-函数</title>
+</head>
+
+<body>
+	<pre>
+	a.> 通用函数
+		a. 数学函数
+		b. 字符串函数
+			substring_index(字符串,分隔符,分隔符索引值) 	#字符串截取
+			左子串left/右子串right(s,n)
+			concat(字段，字符串) 	
+			#在字段字符串后增加内容
+			replace('内容','被替换文本','替换文本') 		#文本替换函数
+		c. 日期和时间函数
+			month('2018-12-01')=12 /monthname() 返回月份全名
+			curdate()	#返回当前日期，前一天curdate()-1/每月1日时使用会报错
+			curtime()	#返回当前时间
+			dayname/dayofweek	#星期
+			week() 		#一年中的第几周
+			adddate()/addtime() 	#添加日期、时间
+	b.> 聚合函数
+		avg	平均值
+		count	数量
+		max	最大值
+		min	最小值
+		sum	求和
+	c.> 自定义函数
+		建立函数：
+			create function fun_name(parameter...)
+			returns {string |int |real}
+			函数语句
+		删除函数
+			drop function fun_name
+		调用函数：
+			select fun_name(parameter...)
+	d.> 语句
+		&lt;i&gt;	if exist /if not exist '数据库/表名称'
+		&lt;ii&gt;	set @var=value		#定义变量
+			select @zone:=substring_index(`所属板块`,'/',1),count(*) from stock group by substring_index(`所属板块`,'/',1);
+
+	e.> 过程
+		定义:
+			create procedure pro_name(in|out parameter type)	#in 输入参数、out输出参数
+			begin
+				过程语句;
+			end
+
+			delimiter // 	设置结束符为//，因为系统默认是;(避免冲突)
+		调用:	call pro_name(参数)
+</pre>
+
+</body>
+</html>

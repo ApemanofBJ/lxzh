@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>编辑器之神！</title>
+	<style>
+		body  { background-image: url('../../pic/wallpaper01.png');}
+		table { border-collapse: collapse;}
+		td    { border: 1px solid #000;}
+
+		.content { float: left; line-height: 50px;}
+	</style>
+	<script src="../../JS/jquery-3.3.1.js"></script>
+</head>
+
+<body>
+
+<p><b>[ 老子 《道德经》]</b><br>
+	<u>合抱之木，生于毫末; 九层之台，起于累土; 千里之行，始于足下。</u>
+</p>
+
+<ul type="square" >目录
+	<li class="content"><a href="#basic">基础</a></li>
+	<li class="content"><a href="#pos">位置移动</a></li>
+	<li class="content"><a href="#register">寄存器</a></li>
+	<li class="content"><a href="#substitute">文本替换</a></li>
+	<li><a href="#multi">多文件编辑</a></li>
+	<li><a href="#window">窗口拆分</a></li>
+	<li><a href="#plugin">插件</a></li>
+	<li><a href="#script">脚本</a></li>
+</ul>
+<hr>
+
+<p><a href="vimcdoc.sourceforge.net/doc/usr_toc.html">参考手册</a>&nbsp;|&nbsp;
+<a href="https://blog.csdn.net/jisuanji198509/article/details/86690617">操作汇总</a></p>
+<p>命令行教程： vimtutor</p>
+
+<button type="button" id="hide-online" onclick="">隐藏在线信息</button>
+<p>
+	主页：	http:www.vim.org/<br>
+	FAQ：	http:vimdoc.sf.net/<br>
+	作者：	Bram Moolenaar	布雷姆.穆乐那<br>
+	7.2用户手册翻译：ZhaoRuFei<slimzhao@hotmail.com><br>
+
+	系统配置文件： /etc/vimrc<br>
+	个性化配置文件： ~/.vimrc
+</p>
+
+
+<script>
+	$(document).ready(function()){
+		$("hide-online").click(function()){
+			$(this).hide()；
+		})；
+	});
+</script>
+
+<p>显示版本：vim --version</p>
+<ul type="circle">模式：
+	<li>普通模式:   normal(Ctrl+[从编辑模式切换)</li>
+	<li>可视模式:   visula</li>
+	<li>选择模式:   select</li>
+	<li>插入模式:   insert</li>
+	<li>命令行模式: command-line</li>
+	<li>Ex模式:	Ex</li>
+</ul>
+
+<p>	显示模式：	set showmode</p>
+<p>**********************************************************</p>
+
+<h2 id="basic">第一章	基础</h2>
+<table >
+	<tr>
+		<td rowspan="3">光标的移动</td>
+		<td>方向键</td>
+		<td>
+			<ul>
+				<li>h--head 左</li>
+				<li>l--last 右</li>
+				<li>k--korea 上</li>
+				<li>j--japan 下</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>行首、尾部</td>
+		<td>
+			<ul>
+				<li>^ 行首字符(或者 0-行首)/$ 行尾字符</li>
+			</ul>			
+		</td>
+	</tr>
+	<tr>
+		<td>单词移动</td>
+		<td>
+			<ul>
+				<li>w	单词，包含符号和标点(word)</li>
+				<li>W	单词，不包含符号和标点</li>
+				<li>e	词尾(end)</li>
+				<li>E	词组尾部</li>
+				<li>b	单词回退(back )</li>
+				<li>word--以非空白符分割的单词/WORD--以空白符分割的单词</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td rowspan="2">更改</td>
+		<td>单词更改</td>
+		<td>
+			<ul>
+				<li>cw	向后更改单词</li>
+				<li>cb	向前更改单词</li>
+				<li>c$	更改到行尾</li>
+				<li>c0	更改到行首</li>
+				<li>cc	更改整行(或者C)</li>
+				<li>r	更改单个字符</li>
+				<li>R	连续更改字符</li>
+				<li>c#h/l	向前/后修改#个字符</li>
+				<li>s	替换并进入插入模式</li>
+				<li>文本对象：单词w/句子s/段落p</li>
+				<li>i(/i&lt;/i{--操作括号内容</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>大小写更改</td>
+		<td>
+			<ul>
+				<li>~	单个字符更改大小写</li>
+				<li>guw	单词转换大小写	#U 代表大写</li>
+				<li>guu	至行尾转换小写	#gUU	转换未大写</li>
+				<li>guG	至文件尾部转换大小写</li>
+				<li>gu#	行转换大小写</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>删除</td>
+		<td>删除内容(保存到寄存器)</td>
+		<td>
+			<ul>
+				<li>dd	删除整行</li>
+				<li>D	删除至行尾</li>
+				<li>x	删除字符</li>
+				<li>xp	字符对调</li>
+				<li>u	恢复 #U 恢复整行操作</li>
+				<li>Ctrl+h 删除上一个字符/Ctrl+w 删除上一个单词/Ctrl+u 删除整行</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>复制</td>
+		<td>复制内容-yanking</td>
+		<td>
+			<ul>
+				<li>yy	复制整行</li>
+				<li>yw	复制单词</li>
+				<li>p	向下粘贴</li>
+				<li>P	向上粘贴</li>
+				<li>y$  复制到行尾</li>
+				<li>y0  复制到行首</li>
+				<li>#yh/l	复制连续字符</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>插入</td>
+		<td>插入文本</td>
+		<td>
+			<ul>
+				<li>A	行尾插入</li>
+				<li>I	行首插入</li>
+				<li>o	下行插入</li>
+				<li>O	上行插入</li>
+				<li>S	删除整行替换文本</li>
+				<li>s	删除字符替换文本</li>
+				<li>i--insert/a--append/o--open a line below</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<ol>备注：
+	<li>位于单词中间时删除单词：daw	#delete a word</li>
+	<li>修改句子：cis #change inner sentence</li>
+	<li>.	重复命令</li>
+</ol>
+
+<h2>第二章 位置移动</h2>
+
+<table id="pos">
+	<tr>
+		<td>滚屏</td>
+		<td>
+			<ul>
+				<li>^f	前滚一屏,forward</li>
+				<li>^b	后滚一屏,back</li>
+				<li>^d	下滚半屏,down</li>
+				<li>^u	上滚半屏,uli</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>调整</td>
+		<td>
+			<ul>
+				<li>z	滚屏并置顶</li>
+				<li>z.	滚屏并置中</li>
+				<li>z-	滚屏并置底</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>移动</td>
+		<td>
+			<ul>
+				<li>H	置顶</li>
+				<li>M	置中</li>
+				<li>L	置底</li>
+				<li>#%	全文件的%</li>
+				<li>-	上移置行首(当前行-，向上)</li>
+				<li>+	下移置行首(当前行+，向下)</li>
+				<li>J	合并行	#不需要光标在最后一个字符<br>
+				ggVJ 	把所有行合并成一行</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>文字版块移动</td>
+		<td>
+			<ul>
+				<li>(	句子开头</li>
+				<li>)	句子结尾</li>
+				<li>	段落开头</li>
+				<li>	段落结尾</li>
+				<li>[[	当前节开头</li>
+				<li>]]	下一节开头</li>
+				<li>%	括号匹配</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>文本搜索</td>
+		<td>
+			<ul>
+				<li>/	搜索文本</li>
+				<li>n	下一个</li>
+				<li>N	上一个</li>
+				<li>f	本行搜索，下一位置</li>
+				<li>t	本行搜索，位置在字符前</li>
+				<li>F	本行搜索，上一位置</li>
+				<li>；	重复，下一个</li>
+				<li>，	重复，上一个</li>
+			</ul>
+		</td>
+	</tr>
+</table>
+
+<h3>&sect;2.1 命令行编辑</h3>
+<ul>命令行窗口
+	<li>Shift + right	右移动一个单词</li>
+	<li>Shift + left	左移动一个单词</li>
+	<li>Ctrl  + B	行首</li>
+	<li>Ctrl  + E	行尾</li>
+</ul>
+
+<p>可以使用方向键来选择</p>
+
+<h2>第三章 扩展应用</h2>
+
+<h3>&sect;3.1 打开文件位置</h3>
+
+<p>	vim +n		在第n行打开<br>
+	vim +		在最后一行打开<br>
+	vim +/文本/	第一文本处打开<br>
+	vim -R		只读文件	#或者view +file<br>
+	edit .		打开当前目录(可以选择文件，按s对文件进行排序)<br>
+</p>
+
+<h3 id="register">&sect;3.2 <a href="../os/os.html#register">寄存器</a></h3>
+
+<ul>	分类
+	<li>无名寄存器:	缓存最后一次操作的内容</li>
+	<li>数字寄存器:	0~9.	0 缓存最后一次复制的内容/1-9缓存删除的内容</li>
+	<li>具名寄存器:</li>
+	<li>只读寄存器:</li>
+	<li>表达式寄存器:</li>
+	<li>选择寄存器:</li>
+	<li>黑洞寄存器:</li>
+	<li>模式 寄存器:</li>
+	<li>+ 代表系统剪贴板，可应用于整个系统，而非vim环境</li>
+	<li>"% --当前文件名称/ ". 上次插入的文本</li>
+	<li>"0 表示复制寄存器(echo has'clipboard',结果为1表示支持)<br>
+	若不支持，需安装：udo apt-get install vim vim-scripts vim-gtk vim-gnome；vim --version | grep clipboard</li>
+</ul>
+
+<p>
+   备注：命令<b>dis/reg</b>(ister) 查看寄存器内容<br>
+   选择粘贴内容，使用命令:"寄存器代号+p 
+</p>
+
+<p>	命名缓冲区 a-z</p>
+<p>	"缓冲区(即通过"调用寄存器)		eg: "dyy	将当前行复制到缓冲区d(调用寄存器+操作命令)</p>
+
+<p>	宏macro录制	normal模式下，输入qa进行录制，q结束录制; @a 执行操作</p>
+<p>		#@a	重复执行#次(注意回到初始位置)</p>
+<p>		@@	重复执行上次的命令</p>
+
+<h3>&sect;3.2 标记	#类似于书签</h3>
+<ul>
+	<li>m字符		将当前位置标记为任意字符mark a--z 共26个标记,不显示</li>
+	<li>'单引号		移动到标记行首</li>
+	<li>`反引号		移动到标记</li>
+	<li>``双反引号	</li>
+</ul>
+
+<p>	note:<br>
+	gi跳转到最后编辑的地方，并且进入到插入模式<br>
+	Ctrl +0	跳到较老的地方/Ctrl +I	跳到较新的地方<br>
+	marks 查看标记列表<br>
+</p>
+
+<h2>第四章	ex命令</h2>
+
+<h3>&sect;4.1 命令</h3>
+<p>	d	删除行<br>
+	m	移动行<br>
+	t	复制行	#或者co<br>
+		多命令组合
+</p>
+
+<h3>&sect;4.2 行地址</h3>
+<p>	起始行,结束行<br>
+	.	当前行<br>
+	$	最后一行<br>
+	+/=	计算	#当前行默认为起始位置<br>
+	;	相对行：用;代表,做分割<br>
+	tip:<br>
+	自动行地址输入		#输入行数，按":"则自动出现行范围
+</p>
+
+<h3>&sect;4.3 可视模式</h3>
+<p>	命令：v(可视化行模式)/V--选择整行/Ctrl + v(块模式)</p>
+<p>多行输入/编辑：块模式下，选择输入位置，A/I 输入文字，按2下ESC完成</p>
+
+<h2 id="substitute">第五章 全局替换</h2>
+<p>格式： s/old/new/	#substitute<br>
+即[range]s[ubstitute]/{pattern}/{string}/[flags]<br>
+flags:g	全部替换/c	替换确认/n 报告匹配的次数而不进行替换(用来查询匹配次数)</p>
+
+<p>设置查找单词：	*	'#'反向查找</p>
+
+<h3>&sect;5.1 搜索替换</h3>
+<p>	g/搜索文本/s/old/new/	对于搜索到的行进行文本的替换</p>
+
+<ul type="square">备注
+	<li>/	原义</li>
+	<li>\(文本\)	使用\1-9替代	#即反向引用</li>
+	<li>/<\>	开头\结尾</li>
+	<li>~		匹配上次正则表达式</li>
+	<li>&amp;	替换字符串</li>
+	<li>\u		替换大小写</li>
+	<li>/l		小写字母</li>
+</ul>
+
+<p>	搜索选项<br>
+set ic		忽略大小写<br>
+set noic	分辨大小写
+</p>
+
+<p>example:</p>
+<ul type="a">
+	<li> 清除尾部空格	ss/+$//</li>
+	<li> 加入tab		s/^t/</li>
+	<li> 删除前#个字符	s/^./#/</li>
+	<li> 替换英文		s/[a-zA-Z]/+/&字符串/</li>
+	<li> 匹配汉字		[/u4e00-u9fa5]</li>
+	<li> 匹配重复的第#项	!sed 's/匹配文本/替换文本/#'</li>
+	<li> 单词首字母大写 	s/\s\w/\U&/</li>
+	<li> 删除空行 		g/^$/d </li>
+	<li> 清除HTML标签	s/<\/\?p>//g</li>	
+	<li> 原意替换		[]|</li>
+	<li> 统计当前行文本次数	%s/pattern//gn</li>
+</ul>
+
+<h3>&sect;5.2 global 命令</h3>
+<p>	格式：[range]g/pattern/command</p>
+<p>	说明：range 默认是整个文件/未匹配进行操作--global!或者vglobal</p>
+
+<p>	example: 加入数字列</p>
+<p>		let i = 0</p>
+<p>		行数g/^/ si.' '  let i=i+1</p>
+
+<h2>第六章 高级编辑</h2>
+<p>数字加1		Ctrl + A</p>
+<p>数字减1		Ctrl + X </p>
+<p>文档加密	:X	#或者set key=	设置为一个空字符串</p>
+
+<h3>&sect;6.1 .exrc文件</h3>
+<p>设置：</p>
+<p>	set ignorecase		忽略大小写	</p>
+<p>	set hlsearch		高亮显示(high light)</p>
+<p>	set incsearch		即可搜索(未输入完的情况下)</p>
+<p>	set ts=#		#设置tab键的空格数量，ts=tabstop</p>
+<p>		对于已保存的文件，设置：set expandtab, %retab!	</p>
+<p>	set showmode		#显示模式</p>
+<p>主题：</p>
+<p>	colo 颜色选项		#colorscheme 按Tab切换，default/evening</p>
+<p>	Tomorrow	Bundle 'chriskempson/vim-tommow-theme'</p>
+<p>	molokai		Bundle 'tomasr/molikai'</p>
+
+<h3>&sect;6.2 执行命令 !</h3>
+<p>	r !date		read读入日期信息</p>
+
+<h3>&sect;6.3 缩写 与补全</h3>
+<p>	格式：	ab  缩写文本	源文本		#取消定义 unab</p>
+<p>	备注：	源文本不能包含缩写文本 </p>
+
+<ul>补全类型
+		<li>补全文件名     插入状态下输入字符'/'	按键Ctrl + x/Ctrl +f </li>
+        <li>补全单词		Ctrl+n/Ctrl+p</li>
+        <li>全年补全	Ctrl+x/Ctrl+o</li>
+</ul>
+
+<h3>&sect;6.4 map 映射</h3>
+<p>	
+格式：  map new old<br>
+模式：	nmap/vmap/imap #命令、列操作、插入<br>
+note:   nore--no recurse 无递归<br>
+</p>
+
+<ul>快捷键：
+	<li>&lt;ESC&gt;		代表Escape键</li>
+	<li>&lt;CR&gt;		Enter键</li>
+	<li>&lt;C-ESC&gt;	代表Ctrl + ESC</li>
+	<li>&lt;S-F1&gt;	表示Shift + F1</li>
+	<li>&lt;A-key&gt;	表示Alt  + key</li>
+	<li>&lt;FX&gt;		表示FN功能键</li>
+	<li>&lt;LEFT&gt;	表示方向键</li>
+</ul>
+
+<ul>ex:
+        <li>:map &lt;F5&gt; i&lt;Esc&gt;ea&lt;Esc&gt;	#F5键映射为给word加上</li>
+        <li>:map /p   i&lt;Esc&gt;ea&lt;Esc&gt;	#/p键映射为给word加上</li>
+        <li>:map <space> : 映射空格</li>
+		<li>imap <C-k> <Esc>A 在插入模式下，光标到最后</li>
+</ul>
+
+<p>	备注：<br>
+:map 	#列出所有映射<br>
+:unmap &lt;F10&gt;	#取消映射<br>
+</p>
+
+<h3 id="multi">&sect;6.5 多文件编辑</h3>
+<p>	vim  file1 file2</p>
+<p>		切换文件	Ctrl + ^</p>
+<p>		第一个文件	first</p>
+<p>		最后一个文件	last		#缩写la</p>
+<p>		向前文件	previous	#可以加入数字，eg. prev 2	向前2个文件</p>
+<p>		向后文件	next		#缩写n, 保存向后	wnext</p>
+<p>		文件列表	args</p>
+
+<p>:ls 查看缓冲区/b 跳转缓冲区--bpre\bnext\bfirst\blast</p>
+
+<h3 id="window">&sect;6.6 分割窗口</h3>
+<ul>
+		<li>	新建窗口及文件		new		#vnew 垂直新建窗口</li>
+		<li>	水平分割窗口并打开文件	slilit file(sli)</li>
+		<li>	垂直分割窗口并打开文件	vslilit file(vs)</li>
+		<li>	扩大窗口		Ctrl + w+</li>
+		<li>	缩小窗口		Ctrl + w-</li>
+		<li>	窗口跳转		Ctrl + w/h、j、k、l</li>
+</ul>
+
+<p>	文件差异	vimdiff</p>
+
+<p>	标签页		tabedit	file	#缩写tabe/tabnew 新建标签页</p>
+<p>	关闭标签页	tabclose	#缩写tabc</p>
+<p>	切换标签页	tabn/tabp</p>
+<p>	移动标签页	tabm(ove) N	#0代表第一个，没有参数默认是最后一个</p>
+
+<h3>&sect;6.7 折叠窗口</h3>
+<p>	创建折叠	fo<br>
+	打开折叠	zo<br>
+	关闭折叠	zc<br>
+	删除折叠	zd<br>
+</p>
+
+<h3>&sect;6.8 语法高亮</h3>
+<p>	查看现有定义	syntax</p>
+<p>	清除旧定义	syntax clear</p>
+<p>	大小写匹配	syntax case match	#忽略	syntax case ignore</p>
+
+<h2 id="script">第七章 vim-script</h2>
+<p>文档：:help vim-script-intro</p>
+<p>      :help functions</p>
+<p>      :help function-list	#内置函数列表</p>
+
+<p>说明：<br>
+	a.) 语句以换行符结尾<br>
+	b.) /作为续行符号，放置在行首<br>
+	c.)  作为语句分隔符<br>
+	d.) "作为注释<br>
+</p>
+
+<p>编辑script.vim 脚本，命令行下：source 脚本文件</p>
+
+<p>	变量声明：let var=val		#删除变量 unlet var</p>
+
+<p>
+变量前缀：<br>
+	g:	全局变量<br>
+	s:	当前脚本<br>
+	w:	窗当前编辑器口<br>
+	t:	当前编辑器选项卡<br>
+	b:	当前编辑器缓冲区<br>
+	l:	当前函数<br>
+	a:	当前函数的一个参数<br>
+	v:	预定义变量
+</p >
+<p>	逻辑值：  0 代表 false/ 1 代表 true</p>
+
+<p>	"." 可以把两个字符串连接起来</p>
+<p>	=~	字符串匹配</p>
+<p>	!~	字符串不匹配</p>
+
+<h3>&sect;7.1 内置函数</h3>
+
+<p>	line	返回行号<br>
+line('.')	当前行行号<br>
+插入当前行行号：	s/=line('.')/<br>
+</p>
+
+<p>	设置光标：<br>
+pos =[0,行,列,0]<br>
+call setpos('.',pos)
+</p>
+
+<p>排序： [行范围选自]sort </p>
+
+<p>	调用函数	call</p>
+<h3>&sect;7.2 流程控制</h3>
+<p>	a.) while 循环</p>
+<p>		while (条件)</p>
+<p>			语句</p>
+<p>		endwhile</p>
+<p>	b.) for 循环</p>
+<p>		for (条件)</p>
+<p>			语句</p>
+<p>		endfor</p>
+<p>	c.) if 选择</p>
+<p>		if (条件)</p>
+<p>		else</p>
+<p>		endif</p>
+
+<h2 id="plugin">第八章	插件</h2>
+
+<h3>&sect;8.1 Vundle --豌豆</h3>
+<p>安装： git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim</p>
+
+<p>配置：.vimrc<br>
+	<br>
+	set nocompatible 	"required <br>
+	filetype	off	"required!<br>
+	<br>
+	set rtp+=~/.vim/bundle/vundle/<br>
+	call vundle#begin()<br>
+		Plugin ''
+	call vundle#end() <br>
+	filetype plugin indent on " required<br>
+
+	Bundle 'gmarik/vundle'<br>
+</p>
+
+<ul>	指定插件来源：
+	<li>	a. 指定Github中vim-script仓库中的插件，直接指定名称即可</li>
+	<li>	b. 指定Github中其他用户仓库插件，指定方式：用户名/插件名称</li>
+	<li>	c. 指定非Github中的git仓库的插件，需要用git地址</li>
+	<li>	d. 本地git中的插件</li>
+</ul>
+
+<p>	安装插件：PluninInstall<br>
+	卸载插件：PluginClean, #在文档中删除插件行，保存退出后再运行此命令<br>
+	搜索插件：PluginSearch 插件名称<br>
+</p>
+
+
+<h3>&sect;8.2 常用插件集合</h3>
+<table>
+	<tr>
+		<th>插件名称</th>
+		<th>功能</th>
+		<th>安装</th>
+		<th>使用</th>
+	</tr>
+	<tr>
+		<td>vim-airline</td>
+		<td>状态栏增强</td>
+		<td>安装：	https:github.com/vim-airline/vim-airline</td>
+		<td>其他：Lokaltog/vim-powerline</td>
+	</tr>
+	<tr>
+		<td>vim-align</td>
+		<td>对齐插件</td>
+		<td>安装： https:github.com/junegunn/vim-easy-align</td>
+		<td>
+			<ul>
+				<li>命令格式： 行范围EasyAlign分隔符</li>
+				<li>分隔符：/s 空格; =  等于号 </li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>NERDTree	-- file navigation</td>
+		<td>文件导航栏</td>
+		<td>git clone https:github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree<br>
+			run:	:helptags ~/.vim/bundle/nerdtree/doc/<br>
+			check:  :help NERDTree.txt
+		</td>
+		<td>
+			<ul>
+				<li>输入: 	NERDTree</li>
+				<li>切换：  Ctrl + w h/l</li>
+				<li>关闭：  q</li>
+				<li>快捷键:<br>
+				o	打开/关闭文件、目录<br>
+				t	标签页打开<br>
+				p	上层目录	#u 打开上传目录<br>
+				P	根目录<br>
+				K	第一个节点<br>
+				J	最后一个节点<br>
+				m	文件系统菜单</li>
+				<li></li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>auto-pairs</td>
+		<td>括号自动匹配</td>
+		<td>Plugin 'jiangmiao/auto-pairs'</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>vim-surround</td>
+		<td>插入符号</td>
+		<td>Bundle 'tpope/vim-surround'</td>
+		<td>
+			<ul>
+				<li>ds"		#删除符号--delete surround 符号</li>
+				<li>cs"'	#更改符合--change surround old new</li>
+				<li>ysiw)	#插入符合--you surround 动作 位置 符号</li>
+				<li>yss/yS	#整行符</li>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td>YouCompleteMe</td>
+		<td>自动补齐</td>
+		<td>git clone https://github.com/Valloric/YouCompleteMe.git ~/.vim/bundle/YouCompleteMe<br>
+		或者--'Valloric/YouCompleteMe'<br>
+		安装：cd ~/.vim/bundle/YouCompleteMe，执行python install.py(需要cmake)</td>
+		<td></td>
+	</tr>
+</table>
+
+<p>	b.&gt; NERD_commenter	注释插件</p>
+<p>××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××××</p>
+<p>备注：</p>
+<p>1. 帮助命令 h(help)</p>
+<p>	help subject		帮助主体</p>
+<p>	x			命令</p>
+<p>	index			所有命令的索引</p>
+<p>	CTRL-A			控制字符</p>
+<p>	i_CTRL-H		模式前缀</p>
+<p>	-t			参数</p>
+<p>   查询man手册：在单词上输入'K'命令</p>
+<p>2. 算术计算</p>
+<p>	插入状态下(Ctrl + r), 再输入"=表达式"</p>
+<p>3. 文件跳转：文件路径(gf), 返回文件 Ctrl + o</p>
+<p>4. 粘贴代码缩进错乱：设置了autoindent<br>
+通过使用set paste/set nopaste解决</p>
+
+<h2>第九章 其他</h2>
+
+<h3>&sect;9.1 模板文件</h3>
+<ul>
+	<li>在.vim/template下填加对应语言目录(如python、html)</li>
+	<li>在对应该目录放入自己的模板文件(如pythonconfig.py、 htmlconfig.html)</li>
+	<li>在vim的.vimrc配置中加入对应该的模板文件引用，如下：<br>
+	   autocmd BufNewFile *.py 0r ~/.vim/template/python/pythonconfig.python</li>
+</ul>
+<h3>vimplus</h3>
+<p>https://github.com/chxuan/vimplus</p>
+
+</body>
+</html>

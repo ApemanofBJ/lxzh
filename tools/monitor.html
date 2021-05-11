@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>系统监测</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<ul>监控软件
+		<li><a href="https://oss.oetiker.ch/mrtg/">MRTG</a>-监控网络链路流量负载<br>
+		Multi Router Traffic Grapher.<br>通过snmp协议得到设备的流量信息，并将流量负载以包含PNG格式的图形的HTML 文档方式显示给用户</li>
+		<li><a href="../os/cacti.html" >cacti</a></li>
+		<li><a href="../os/nagios.html">nagios</a></li>
+		<li><a href="../os/zabbix.html">zabbix</a></li>
+		<li></li>
+	</ul>
+	<table>
+		<tr>
+			<th>监测类别</th>
+			<th>命令</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>CPU</td>
+			<td>uptime</td>
+			<td>load average(平均负载):<br>
+1分钟,5分钟,15分钟(运行的进程数)</td>
+		</tr>
+		<tr>
+			<td>CPU利用率</td>
+			<td>top</td>
+			<td>us-用户使用率,sy-系统使用率，id-空闲时间,wa-IO等待时间</td>
+		</tr>
+		<tr>
+			<td>内存</td>
+			<td>free</td>
+			<td>物理内存：total+used+free<br>
+交换分区:total+free</td>
+		</tr>
+		<tr>
+			<td>磁盘IO</td>
+			<td>iostat</td>
+			<td>吞吐量tps,读速率-r/s,写速率-w/s,读流量read,写流量wrt</td>
+		</tr>
+		<tr>
+			<td>网卡</td>
+			<td>iftop -i 网络接口</td>
+			<td>TX/RX发送接收流量,peak峰值 rate速率 total</td>
+		</tr>
+		<tr>
+			<td>TCP连接数</td>
+			<td>ss-socket stat</td>
+			<td>-s 统计信息</td>
+		</tr>
+		<tr>
+			<td>网络延迟</td>
+			<td>ping</td>
+			<td>min/max/ave 30-50一下良好;50-100普通；100以上有问题</td>
+		</tr>
+	</table>
+
+	<h3>应用--开源自动化运维平台 BigOps</h3>
+	
+	<ul>
+		<li>项目首页： http://www.bigops.com/ </li>
+		<li>项目文档： http://docs.bigops.com/ </li>
+		<li>开源地址： https://github.com/yunweibang </li>
+	</ul>
+
+</body>
+</html>

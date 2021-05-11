@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JavaScript</title>
+	<style>
+		pre {background-color: black; color: white;}
+	</style>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<th>应用</th>
+			<th>代码</th>
+		</tr>
+		<tr>
+			<td>在新窗口打开链接</td>
+			<td>
+				<pre>使用a链接的 target="blank"</pre>
+			</td>
+		</tr>
+		<tr>
+			<td>更改链接颜色(body 属性)</td>
+			<td>
+				<ul>
+					<li>link --未打开链接颜色</li>
+					<li>alink -正在打开链接颜色</li>
+					<li>vlink -已打开的链接颜色</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<p id="hide"><b>代码块隐藏</b></p>
+	<pre>
+		function showcontent(str){
+			var sub_menu = document.getElementById(str);
+			var dis_v = sub_menu.style.display;
+
+			if (dis_v == "block")
+				sub_menu.style.display = "none";
+			else 
+				sub_menu.style.display = "block";		
+		}
+
+		function show_content()  //显示内容
+		{
+			document.getElementById("id").style.display="block";
+			document.getElementById("id").innerHTML="收起-"；
+			document.getElementById("id").href="javascript:hide_content()";
+		}
+
+		function hide_content() //隐藏内容
+		{
+			document.getElementById("id").style.display="none";
+			document.getElementById("id").innerHTML="更多选项-"；
+			document.getElementById("id").href="javascript:show_content()";
+		}	
+	</pre>
+
+	<p id="hotspot"><b>图像热点</b></p>
+	<pre>
+		&lt;img src="img/1.jpg" border="0" usemap="#map" /&gt;    	
+		&lt;map name="map"&gt;	        
+			&lt;area shape="rect(矩形)" coords="20,20,40,40" href="" /&gt;	        
+			&lt;area shape="circle(圆形)" coords="80,70,20" href="" /&gt;	        
+			&lt;area shape="poly(多边形)" coords="280,323,323,435,100,300,287,45,34,344" href="" /&gt;    	
+		&lt;/map&gt;	
+	</pre>
+
+	<p id="changeimg"><b>更换图像-实现开灯/关灯</b></p>
+	<pre>
+		&lt;p&gt;在本例中，JavaScript 改变了图像的 src 属性值。&lt;/p&gt;
+
+		&lt;button onclick="document.getElementById('myImage').src='/i/eg_bulbon.gif'"&gt;开灯&lt;/button&gt;
+
+		&lt;img id="myImage" border="0" src="/i/eg_bulboff.gif" style="text-align:center;"&gt;
+
+		&lt;button onclick="document.getElementById('myImage').src='/i/eg_bulboff.gif'"&gt;关灯&lt;/button&gt;
+	</pre>
+
+	<p id="valid"><b>数据验证</b></p>
+	<pre>
+		&lt;p&gt;请输入 1 与 10 之间的数：&lt;/p&gt;
+
+		&lt;input id="numb"&gt;
+
+		&lt;button type="button" onclick="myFunction()"&gt;提交&lt;/button&gt;
+
+		&lt;p id="demo"&gt;&lt;/p&gt;
+
+		&lt;script&gt;
+		function myFunction() {
+		  var x, text;
+
+		  // 获取 id="numb" 的输入字段的值
+		  x = document.getElementById("numb").value;
+
+		  // 如果 x 不是数字或小于 1 或大于 10
+		  if (isNaN(x) || x &lt; 1 || x &gt; 10) {
+		    text = "输入无效";
+		  } else {
+		    text = "输入有效";
+		  }
+		  document.getElementById("demo").innerHTML = text;
+		}
+		&lt;/script&gt;
+	</pre>
+
+	<p id="change-color"><b>更改文本颜色</b></p>
+	<pre>
+		function mOver(obj)	{
+			obj.style.color="lightgreen"
+		}
+
+		function mOut(obj)	{
+			obj.style.color="red"
+		}
+		onmouseover="mOver(this)" onmouseout="mOut(this)"
+	</pre>
+
+	<p id="bgc"><b>body添加背景图片</b></p>
+	<pre>
+		body {
+			-webkit-background-size: 100% 100%;
+			background-size: 100% 100%;
+			background-image: url('./pic/wallpaper01.jpg');
+			background-repeat: no-repeat;
+		}
+	</pre>
+
+	<p id="navigator"><b>下拉框选项跳转网页</b></p>
+	<pre>
+		<!--
+		<select name="navigator" id="" onchange="javascript:window.location.href=navigator.value;">
+		-->
+		<select name="navigator" id="" onchange="javascript:window.open(this.options[this.selectedIndex].value);">
+			<option value="">常用网站</option>
+			<option value="https://finance.sina.com.cn/">新浪财经</option>
+		</select>
+		
+	</pre>
+</body>
+</html>

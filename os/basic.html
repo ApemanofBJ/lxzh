@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+	<style>
+		p {border: 1px dashed green;}
+	</style>
+</head>
+
+<body>
+	<h3>A. 网络设置</h3>
+	<p>修改网络配置文件(路径：/etc/sysconfig/network-scripts/</p>
+	<div style="width:350px;height:20px; background-color:yellow; ">
+		<p>
+			[记忆方法]4项-DING：网、码、关、由
+		</p>
+	</div>
+	
+	<img src="../../pic/it/os/network-scripts.png" alt="" width="450" height="350">
+	<ul>ip 命令
+		<li>查看网卡配置：ip addr show</li>
+		<li>添加网络IP：</li>
+	</ul>
+	<p>系统工具--nmtui(Network manager text UI)</p>
+	<img src="../../pic/it/os/nmtui.png" alt="">
+	<p>添加路由：<br>
+	route add 192.168.x.x dev if:#</p>
+
+	<h3>B. Shell 设置</h3>
+	<h4>B-1> sudoers(as root)</h4>
+	<p>使用命令: visudo, 即编辑/etc/sudoers </p>
+
+	<table>
+		<tr>
+			<th>语法</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>语法格式：user host=command</td>
+			<td>root ALL=(ALL)</td>
+		</tr>
+		<tr>
+			<td>屏蔽密码</td>
+			<td>admin ALL=(ALL) NOPASSWD: ALL</td>
+		</tr>
+		<tr>
+			<td>设置别名</td>
+			<td>
+				<ul>
+					<li>主机别名：Host_Alias</li>
+					<li>用户别名: User_Alias</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+
+	<h4>B.2> 在线安装工具: yum & apt-get</h4>
+	<ul><b>软件源</b>
+		<li>Ubuntu: /etc/apt/sources.list;<br>
+		格式：软件包类型(deb,deb-src) URI(地址) 软件版本(stable、unstable、testing) 软件仓库类型(main、contrib、non-free、non-us)</li>
+		<li></li>
+		
+	</ul>
+	<p>Linux 有三种软件安装方式：包管理器、源代码安装与可执行文件(脚本)安装</p>
+
+	<ul>安装源
+		<li>显示安装源-- yum repolis</li>
+		<li>安装epel源-- yum install epel-release</li>
+	</ul>
+
+	<ul>yum-Yellow dog Updater, Modified黄狗升级修改
+		<li>安装软件 install</li>
+		<li>删除软件 remove/erase</li>
+		<li>升级软件 update</li>
+		<li>搜索软件 search</li>
+		<li>软件列表 list all</li>
+		<li>显示软件包依赖关系 deplist</li>
+		<li>显示信息  info</li>
+	</ul>
+
+	<p>PPA: personal package archive--个人软件包存档</p>
+	
+	<h4>B.3> 计划任务:cron</h4>
+	<p>服务名称：crond,分为用户任务与系统任务两种<br/>
+	系统任务路径: /etc/crontab</p>
+
+	<ul>crontab 参数：
+		<li>-u user指定用户，默认为当前用户</li>
+		<li>-l list查看计划任务</li>
+		<li>-r remove删除计划任务</li>
+		<li>-e edit编辑计划任务</li>
+	</ul>
+
+	<p>计划任务格式：分、时、日、月、周 命令  #用6段</p>
+	<ul style="list-style-type:circle;">说明：
+		<li>- 表示连续时间段</li>
+		<li>，表示不连续的时间</li>
+		<li>* 表示所有时间</li>
+		<li>/ 表示间隔时间段</li>
+	</ul>
+	
+	<h3>C. 日志系统 -- <a href="./elk.html">ELK</a>实时日志分析</h3>
+	日志文件：系统日志、 用户日志、程序日志
+	<table>
+          <tr>
+          	<td>/var/log/messages       </td>
+          	<td>内核消息及应用程序的公共日志信息</td>
+          </tr>
+          <tr>
+          	<td>/var/log/dmesg          </td>
+          	<td>系统引导中的事件信息</td>
+          </tr>
+          <tr>
+          	<td>/var/log/secure         </td>
+          	<td>认证、安全</td>
+          </tr>
+          <tr>
+          	<td>/var/log/lastlog        </td>
+          	<td>最近的登录情况</td>
+          </tr>
+          <tr>
+          	<td>/var/run/utmp           </td>
+          	<td>当前登录的每个用户的详细信息</td>
+          </tr>
+	 </table>
+
+	<p>日志文件的命名规则：<br>
+         配置文件有“dateext”参数，日志会用日期作为日志文件的后缀(指定日志的个数，会删除多余的日志文件)<br>
+         配置文件没有"dateext"参数，自动加后缀.n,重复更新；<br>
+    </p>
+ 
+ 	<p>
+    logrotate 日志轮替<br>
+         rotate n        #保留的日志文件个数，0指没有备份<br>
+         compress        #压缩旧的日志<br>
+         notifempty      #日志为空，不进行轮替<br>
+         格式：日志文件的绝对路径 { 参数列表}<br>
+                 logrotate -v/-f   /etc/logrotate.conf  #详细信息/强制替换<br>
+    </p>
+
+	<h3>D. 用户管理</h3>
+	<table>
+		<tr>
+			<th>操作</th>
+			<th>命令</th>
+			<th>参数说明</th>
+		</tr>
+		<tr>
+			<td>添加用户</td>
+			<td>useradd</td>
+			<td>
+				<ul>
+					<li>-u uid: 指定用户ID，默认现在最大值+1</li>
+					<li>-g gid/-G otherGroup: 指定用户组 本组-其他组</li>
+					<li>-d home: 指定家目录</li>
+					<li>-s shell: 指定登录使用的shell,# /sbin/nologin 没有登录界面</li>
+					<li>-m 创建用户主目录</li>
+					<li>-k 初始化文件的目录</li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td>删除用户</td>
+			<td>userdel -r [用户名]</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>更改文件的用户权限</td>
+			<td>chmod</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>更改文件属主</td>
+			<td>chown</td>
+			<td>user.group(或者user:group)</td>
+		</tr>
+		<tr>
+			<td>创建组</td>
+			<td>groupadd</td>
+			<td>删除用户组 groupdel [用户组]</td>
+		</tr>
+		<tr>
+			<td>修改用户</td>
+			<td>usermod</td>
+			<td>-l new-user old-user<br>
+			修改用户组 groupmod</td>
+		</tr>
+		<tr>
+			<td>查看用户信息</td>
+			<td>id 用户名/finger 用户名</td>
+			<td>用户组 groups</td>
+		</tr>
+	</table>
+
+	<p>note:<br>
+		1. /etc/passwd 文件项，使用vipw编辑<br>
+		username:pw:uid:gid:comment:home:shell #up-ug-chs<br>
+		2. /etc/shadow 密码文件<br>
+		3. 用户组文件：/etc/group(vigr编辑), 组密码文件 /etc/gshadow<br>
+		4. 用户配置文件：/etc/login.defs, /etc/default/useradd<br>
+		5. 新用户信息文件：/etc/skel<br>
+		6. 登录信息： /etc/motd
+	</p>
+
+	<p>超级用户root UID=0,普通用户 UID=500~60000，系统用户 UID=1~499,伪用户-和程序相关(不需要登录，没有宿主用户)</p>
+
+	<h3>E. 磁盘管理</h3>
+	<table>
+		<tr>
+			<th>操作</th>
+			<th>命令</th>
+			<th>参数说明</th>
+		</tr>
+		<tr>
+			<td>查看磁盘分区</td>
+			<td>df</td>
+			<td>显示分区名称和挂载点，tmpfs表示临时文件/dev的是文件系统</td>
+		</tr>
+		<tr>
+			<td>查看目录大小</td>
+			<td>du</td>
+			<td>-s 显示总共的大小</td>
+		</tr>
+		<tr>
+			<td>磁盘分区命令</td>
+			<td>fdisk</td>
+			<td>-l 显示分区表信息</td>
+		</tr>
+		<tr>
+			<td>磁盘挂载命令</td>
+			<td>mount /umount卸载</td>
+			<td></td>
+		</tr>
+	</table>
+	
+<hr>
+	<h4><a href="https://cockpit-project.org/">cockpit</a> 鸡圈/驾驶舱</h4>
+	<p>启动程序：_ systemctl start cockpit<br>
+	浏览器： https://host-ip:9090/<br>
+	要使sudo权限有效，需要确保用户位于 /etc/group文件中的 wheel(RHEL)或 adm(Debian)组中<br>
+	</p>
+
+
+	<hr color="red">
+	<div>
+		<p><a href="./os.html">前一章 操作系统基础</a></p>
+	</div>
+</body>
+
+</html>

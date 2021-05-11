@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>操作系统基础及原理</title>
+	<link rel="stylesheet" href="../../CSS/global.css">
+</head>
+
+<body>
+	<p>
+		程序=数据结构+算法(所谓算法,即计算方法)<br>
+		基础算法包括：顺序、分支、循环<br>
+	</p>
+
+	<h2>一、操作系统基础</h2>
+	<p>计算机操作系统，一般可分为：内核（Kernel--系统态）和外壳（Shell--用户态）两部分。</p>
+
+	<h3>A. -历史背景</h3>
+	<h4>A.1 -CP/M</h4>
+	<p>Control Program/Monitor 控制程序/监控程序</p>
+	
+	<h3>&sect; 1.1 逻辑电路</h3>
+	
+	<p><b>冯.诺伊曼模型</b></p>
+	<img src="../../pic/it/os/neumann.png" alt="">
+
+	<h3>&sect; 1.2 CPU</h3>
+	<img src="../../pic/it/os/intel-cpu.png" alt="">
+	<ul>组成部分
+		<li>总线BUS</li>
+		<li>算术逻辑单元ALU(Arithmetic Logic Unit) </li>
+		<li>寄存器组 RS(Register Set或Registers) </li>
+		<li>控制单元(Control Unit) </li>
+	</ul>
+
+	<p>CISC(复杂指令集)<br>
+	RISC(精简指令集)</p>
+	<img src="../../pic/it/os/CPU指令集.png" alt="">
+
+	<ul><b>厂商</b>
+		<li><a href="https://www.intel.cn/content/www/cn/zh/homepage.html">Intel-英特尔</a> </li>
+		<li><a href="https://www.amd.com/zh-hans">AMD-超微</a></li>
+		<li><a href="https://www.armchina.com/">ARM</a></li>
+	</ul>
+
+	<ul><b>资讯</b>
+		<li>2019年9月25日: 含光800(平头哥)性能达到78563 IPS，能效比500 IPS/W</li>
+		<li>2019年11月28日：十代酷睿-i9-10900X采用了14nm工艺，10核心20线程，主频3.70 GHz，睿频4.50 GHz，睿频加速3.0可达4.7GHz<br>
+		搭载48条PCIe通道，支持DDR4 2933内存，19.25 MB英特尔智能缓存</li>
+		<li><a href="https://new.qq.com/omn/20210305/20210305A0CM1400.html">2021年中国芯片产业链全景及区域格局分析</a></li>
+		<li></li>
+		<li></li>
+	</ul>
+
+	<h4 id="register">&sect; 1.2.1 寄存器</h4>
+	<p>ax为16位寄存器，eax为32位寄存器。/ah 代表高位字节，al代表低位字节(16位由2个字节组成)</p>
+
+	<table>
+		<tr>
+			<th>类别</th>
+			<th>符号</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td rowspan="4">一般寄存器</td>
+			<td>AX</td>
+			<td>累加寄存器</td>
+		</tr>
+		<tr>
+			<td>BX</td>
+			<td>基址寄存器</td>
+		</tr>
+		<tr>
+			<td>CX</td>
+			<td>计数寄存器</td>
+		</tr>
+		<tr>
+			<td>DX</td>
+			<td>数据寄存器</td>
+		</tr>
+		<tr>
+			<td rowspan="2">索引寄存器</td>
+			<td>SI</td>
+			<td>来源索引寄存器</td>
+		</tr>
+		<tr>
+			<td>DI</td>
+			<td>目的索引寄存器</td>
+		</tr>
+		<tr>
+			<td rowspan="2">地址寄存器</td>
+			<td>SP</td>
+			<td>堆栈寄存器</td>
+		</tr>
+		<tr>
+			<td>BP</td>
+			<td>基址寄存器</td>
+		</tr>
+		<tr>
+			<td>程序位置寄存器</td>
+			<td>IP</td>
+			<td>程序执行位置</td>
+		</tr>
+		<tr>
+			<td rowspan="6">段寄存器</td>
+			<td>CS</td>
+			<td>代码段</td>
+		</tr>
+		<tr>
+			<td>DS</td>
+			<td>数据段</td>
+		</tr>
+		<tr>
+			<td>ES</td>
+			<td>附加段</td>
+		</tr>
+		<tr>
+			<td>SS</td>
+			<td>堆栈段</td>
+		</tr>
+		<tr>
+			<td>FS</td>
+			<td>新增段</td>
+		</tr>
+		<tr>
+			<td>GS</td>
+			<td>新增段</td>
+		</tr>
+		<tr>
+			<td>标志寄存器</td>
+			<td>FLAG</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h4>&sect; 1.2.2 进程 process</h4>
+	<p>进程是以异步方式运行的</p>
+	<p><b>进程同步</b><br>
+	(1)进程互斥方式：对临界资源进行访问时，需采取互斥方式;<br>
+	(2)同步方式：由同步机构对执行次序加以协调;</p>
+	<p><b>进程通信</b><br>
+	进程间的信息交换，即由源进程发送命令直接将消息发送到目标进程的消息队列上,<br>
+	由目标进程用接收命令从队列中取出消息</p>
+
+	<p>每一个进程都有唯一的标识号：PID及父进程号 PPID.<br>
+	对应的Owner ID称为 UID，权限使用ID 是EUID，通常意义上二者是一样的。(同理，有GID和EGID)</p>
+
+	<p>在 Linux 内核内，进程是由相当大的一个称为 task_struct 的结构表示的。此结构包含所有表示此进程所必需的数据.<br>
+		进程都是动态创建并由一个动态分配的 task_struct 表示。一个例外是init 进程本身，它总是存在并由一个静态分配的task_struct表示.<br>
+	Linux 内所有进程的分配有两种方式。第一种方式是通过一个哈希表，由PID 值进行哈希计算得到；第二种方式是通过双链循环表.</p>
+
+	<p><b>进程管理</b><br>
+		（1). 创建进程--在用户空间，fork调用会导致创建一个子进程，而exec调用则会用新程序代替当前进程上下文。<br>
+	一个新进程的诞生还可以分别通过vfork()和clone()。</p>
+
+	<h3>1.3 内存</h3>
+	<ul type="square">内存管理的功能包括:
+		<li>内存空间的分配与回收</li>
+		<li>地址转换：把逻辑地址转换成相应的物理地址</li>
+		<li>内存空间的扩充: 利用虚拟存储技术或自动覆盖技术，从逻辑上扩充内存</li>
+		<li>存储保护：保证各道作业在各自的存储空间内运行，互不干扰</li>
+	</ul>
+
+	<h3>&sect; 1.4 文件系统 & I/O设备</h3>
+	<p>UNIX把所有I/O设备作为特殊文件，对I/O设备操作模仿为对普通文件的存取</p>
+	<h4>&sect; 1.4.1 文件的逻辑结构和物理结构</h4>
+	<ul type="square">SSD芯片颗粒
+		<li>SLC=Single-Level Cell(单级)，1bit/cell, #速度快、寿命长、价格贵</li>
+		<li>MLC=Multi-Level Cell(多级), 2bit/cell</li>
+		<li>TLC=Trinary-Level Cell, 3bit/cell, #速度慢、寿命短、价格低</li>
+	</ul>
+
+	<h4>&sect; 1.4.2 显卡 Video/Graphics</h4>
+	<p>GPU--Graphics Processing Unit 图形处理器</p>
+
+	<ul>主流厂商
+		<li>ATI--Radeon</li>
+		<li>nVIDIA--GeForce</li>
+		<li></li>
+	</ul>
+
+	<p>计算机色彩表示方法：RGB 模式与 CMYK模式<br>
+		显示屏色彩：使用"三原色"，取值范围0--255；<br>
+		印刷色彩：C代表青色（Cyan），M代表洋红色（Magenta），Y代表黄色（Yellow），K代表黑色（Black）
+	</p>
+
+	<p>显示屏，主要包括液晶（LCD）、有机发光二极管（OLED）、电子纸（Eink/EPD）等几种技术类型</p>
+
+	<h2>二、各操作系统介绍</h2>
+	<h3>&sect; 2.1 Windos操作系统</h3>
+
+	<h3>&sect; 2.2 Linux操作系统</h3>
+	<p>多用户多任务的操作系统</p>
+
+	<p>NTP pool成立于2003年，是一个由志愿者组织起来的，由联网计算机的动态虚拟群集组成，可向全球数百万个系统提供高度准确的时间同步服务。它是大多数主要Linux发行版和许多联网设备的默认时间服务器。</p>
+
+	<img src="../../pic/it/os/Linux内核系统调用.jpg" alt="">
+
+	<table>
+		<tr>
+			<th>功能</th>
+			<th>软件</th>
+			<th>说明</th>
+		</tr>
+		<tr>
+			<td>文本编辑</td>
+			<td>vim(配置相关插件)/Emacs/Nano</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>终端窗口</td>
+			<td>tmux/terminator</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>远程连接</td>
+			<td>sshd/ssh	远程文件拷贝scp</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>数据同步</td>
+			<td>rsync</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>办公软件</td>
+			<td>openoffice/wps</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>WEB服务器</td>
+			<td>apache/nginx</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>数据库</td>
+			<td>mysql(MongoDB)/redis</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>局域网共享</td>
+			<td>samba/nfs/vsftp#proftpd</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>设备监控</td>
+			<td>nagios/zabbix/cacti</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>下载文件</td>
+			<td>wget/ftp; qBittorent/Transmission</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>版本控制</td>
+			<td>git/github/svn(subversion)</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>邮箱客户端</td>
+			<td>thunderbird/Evolution</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>邮件服务器</td>
+			<td>postfix</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>编译器</td>
+			<td>gcc/gcc-c++</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>桌面shell</td>
+			<td>zsh/oh-my-zsh</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>网络存储</td>
+			<td>百度网盘命令行</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>开发工具</td>
+			<td>python-Pycharm/sublime-text</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>基础工具</td>
+			<td>正则表达式/数据结构</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>虚拟机</td>
+			<td>kvm/vmware</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>DNS服务器</td>
+			<td>bind</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>绘图工具</td>
+			<td>gnuplot/</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>防火墙</td>
+			<td>iptables/firewall/</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>数据保护</td>
+			<td>Timeshift</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>财务软件</td>
+			<td>GnuCash/KMyMoney</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>开发工具</td>
+			<td>Eclipse/Netbeans/Visual Studio</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>防病毒工具</td>
+			<td>ClamAV/ClamTk</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>视频编辑器</td>
+			<td>OpenShot</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>录屏工具</td>
+			<td>SimpleScreenRecorder</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>备忘录软件</td>
+			<td>Evernote</td>
+			<td></td>
+		</tr>
+	</table>
+
+	<h4>&sect; 2.2.1 RedHat(红帽子)系统</h4>
+
+	<p><b>【fedora】</b><br>
+		<a href="https://www.fdzh.org/">中文社区</a><br>
+		2019年4月16日，发布30 Beta版本<br>
+	</p>
+
+	<pre>系统升级
+		dnf update --refresh
+		dnf install dnf-plugin-system-upgrade
+
+		dnf system-upgrade download --realeasever=24 --alowerasing/--best
+		dnf system-upgrade reboot
+	</pre>
+
+	<h4>&sect; 2.2.2 Ubuntu(乌邦图)系统</h4>
+	<p>基于Debian,支持x86,amd64(x64)，使用GNOME桌面环境</p>
+	<ul>常用网络资源
+		<li><a href="http://forum.ubuntu.org.cn/">Ubuntu中文论坛</a></li>
+		<li><a href="https://cn.ubuntu.com/">Ubuntu中国官网</a></li>
+	</ul>
+
+	<p><b>最新版本18.04</b>于2018年4月发布，由于它是一个长期支持(LTS)版本，它将一直支持到2023年<br>
+		1. 更新内核版本到 Linux kernel 4.15;<br>
+		2. 更新 LibreOffice 6.0<br>
+		3. 桌面更换到全新的 GNOME 3 (3.28)<br>
+		4. 默认不再安装 Python 2<br>
+	</p>
+
+	<p>备注：FreeBSD 衍生于UNIX，是一整套OS和软件的组合</p>
+
+	<h2>三、虚拟化 Virtualization</h2>
+
+	<ul>实现技术
+		<li>全虚拟化:<br>
+		一般采用优先级压缩技术（Ring Compression）和二进制代码翻译技术（BinaryTranslation）</li>
+		<li>半虚拟化:<br>
+			采用Hypercall技术。Guest OS的部分代码被改变，从而使Guest OS会将和特权指令相关的操作都转换为发给VMM的Hypercall（超级调用），由VMM继续进行处理
+		</li>
+		<li>硬件辅助的虚拟化
+			CPU支持--<br>
+			Intel Virtualization Technology(Intel VT）虚拟化技术<br>
+			AMD Virtualization Technology(AMD VT）虚拟化技术<br>
+		</li>
+	</ul>
+
+	<h3>&sect; 3.1 主机虚拟化</h3>
+	<img src="../../pic/it/os/architecture/虚拟化架构.png" alt="">
+
+	<h3>&sect; 3.2 存储虚拟化</h3>
+	<h3>&sect; 3.3 网络虚拟化</h3>
+</body>
+</html>

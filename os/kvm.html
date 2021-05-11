@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>KVM--Kernel-based virtual machine</title>
+</head>
+
+<body>
+	<p>介绍：是一个 Linux 的一个内核模块，该内核模块使得 Linux 变成了一个 Hypervisor。<br>是基于虚拟化扩展（Intel VT 或者 AMD-V）的 X86 硬件的开源的Linux原生的全虚拟化解决方案</p>
+	<p>检查CPU支持:<br>
+	grep -o -E 'svm|vmx' /proc/cpuinfo<br>
+	加载模块:<br>
+	modprobe kvm(kvm_intel/kvm_amd), lsmod|grep kvm</p>
+	<p>虚拟化简史：</p>
+	<img src="../../pic/it/os/virt.png" alt="">
+	<h3>安装</h3>
+	<img src="../../pic/it/os/kvm-group.png" alt="">
+	<h3>libvirsh 架构</h3>
+	<h3>qemu-kvm 架构</h3>
+	<h4>step.1 创建虚拟机(vhost)</h4>
+</body>
