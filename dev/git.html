@@ -20,14 +20,19 @@
 		</tr>
 		<tr>
 			<td>设置</td>
-			<td>用户名：git config --global suer.name “设置的名字”<br>
-			邮箱：git config --global user.email “邮箱地址”<br>
-			查看配置信息：git config --list
+			<td>
+				用户名：git config --global suer.name “设置的名字”<br>
+				邮箱：	git config --global user.email “邮箱地址”<br>
+				查看配置信息：git config --list
 			</td>
 		</tr>
 		<tr>
-			<td>添加文件快照：</td>
+			<td>添加文件快照：(跟踪文件)</td>
 			<td>git add 目录或文件名称,#添加所有文件: git add -A/--all</td>
+		</tr>
+		<tr>
+			<td>提交暂存区的文件</td>
+			<td>git commit -m</td>
 		</tr>
 		<tr>
 			<td>状态查看：</td>
@@ -49,6 +54,21 @@
 		<li>Add account: apt install xclip; xclip -sel clip < ~/.ssh/id_rsa.pub</li>
 		<li>连接：ssh -T git@github.com</li>
 	</ol>
-
+	
+	<table>
+		<tr>
+			<th>功能</th>
+			<th>命令</th>
+		</tr>
+		<tr>
+			<td>查看远程仓库</td>
+			<td>git remote -v</td>
+		</tr>
+		<tr>
+			<td>内容推送到远程仓库</td>
+			<td>git push origen master<br>
+			强行推送：git push -u origen +master</td>
+		</tr>
+	</table>
 </body>
 </html>
